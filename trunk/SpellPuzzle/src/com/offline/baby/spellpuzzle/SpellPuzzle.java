@@ -1,12 +1,16 @@
 package com.offline.baby.spellpuzzle;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.offline.baby.spellpuzzle.config.Settings;
+import com.offline.baby.spellpuzzle.data.DBManager;
 
 public class SpellPuzzle extends Game {
+	
+	private DBManager db;
+	
+	public SpellPuzzle(DBManager db){
+		this.db = db;
+	}
 
 	@Override
 	public void create() {
