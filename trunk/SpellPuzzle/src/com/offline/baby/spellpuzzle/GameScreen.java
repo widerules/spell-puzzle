@@ -265,7 +265,7 @@ public class GameScreen extends BaseScreen<Game> {
 
 		cutline.x = stage.centerX() - cutline.originX;
 		cutline.y = stage.centerY() + 50;
-		if (Settings.CHINESE_DISPLAY_ENABLED) {
+		if (Settings.CUTLINE_SOUND_ENABLED) {
 			cutline.clickListener = new ClickListener() {
 				@Override
 				public void clicked(Button button) {
