@@ -36,6 +36,7 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 	private boolean inCollision = false;
 	private boolean isFilled = false;
 	private boolean isRead = false;
+	private boolean canPlay = true;
 
 	private Rectangle rect;
 
@@ -49,7 +50,9 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 
 		if (touchable) {
 			if (flag) {
-				play();
+				if (canPlay) {
+					play();
+				}
 
 				if (onTouchDown != null) {
 					onTouchDown.touchDown(this);
@@ -108,7 +111,20 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 		return letterList;
 	}
 
+	public static List<Letter> emptyFrom(String word) {
+		List<Letter> letterList = new ArrayList<Letter>();
+		if (word != null && word.length() > 0) {
+			for (int i = 0; i < word.length(); i++) {
+				letterList.add(new Letter("Letter_"
+						+ String.valueOf(word.charAt(i)).toUpperCase(), String
+						.valueOf(word.charAt(i)).toLowerCase(), Assets.EPT));
+			}
+		}
+		return letterList;
+	}
+
 	public static Letter valueOf(char c, boolean empty) {
+
 		switch (c) {
 		case 65:
 		case 97:
@@ -251,6 +267,14 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 
 	public void setFilled(boolean isFilled) {
 		this.isFilled = isFilled;
+	}
+
+	public boolean canPlay() {
+		return canPlay;
+	}
+
+	public void setCanPlay(boolean canPlay) {
+		this.canPlay = canPlay;
 	}
 
 	@Override

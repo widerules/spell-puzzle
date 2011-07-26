@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 import com.badlogic.gdx.scenes.scene2d.actors.Button;
 import com.badlogic.gdx.scenes.scene2d.actors.Button.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
+import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.data.CardInfo;
 import com.offline.baby.spellpuzzle.data.DBManager;
 import com.offline.baby.spellpuzzle.widget.Letter;
@@ -128,55 +129,95 @@ public class GameScreen extends BaseScreen<Game> {
 			}
 		});
 
-		font = new Image("chinese", new TextureRegion(Assets.loadTexture(
-				card.getChinese(), true), 0, 0, 200, 77));
-		font.x = stage.centerX() - font.originX;
-		font.y = Gdx.graphics.getHeight() * 0.2f;
-		font.action(FadeIn.$(0.5f).setCompletionListener(
-				new OnActionCompleted() {
+		if (Settings.CHINESE_DISPLAY_ENABLED) {
+			font = new Image("chinese", new TextureRegion(Assets.loadTexture(
+					card.getChinese(), true), 0, 0, 200, 77));
+			font.x = stage.centerX() - font.originX;
+			font.y = Gdx.graphics.getHeight() * 0.2f;
+			font.action(FadeIn.$(0.5f).setCompletionListener(
+					new OnActionCompleted() {
 
-					@Override
-					public void completed(Action action) {
-						currentIndex += 1;
+						@Override
+						public void completed(Action action) {
+							currentIndex += 1;
 
-						float offsetDuration = 0;
+							float offsetDuration = 0;
 
-						for (int i = 0; i < letterList.size(); i++) {
-							final Letter ltr = letterList.get(i);
-							ltr.action(Delay
-									.$(Sequence.$(ScaleTo.$(1.2f, 1.2f, 0.05f),
-											Read.$(), ScaleTo.$(1f, 1f, 0.05f)),
-											offsetDuration)
+							for (int i = 0; i < letterList.size(); i++) {
+								final Letter ltr = letterList.get(i);
+								ltr.action(Delay.$(
+										Sequence.$(
+												ScaleTo.$(1.2f, 1.2f, 0.05f),
+												Read.$(),
+												ScaleTo.$(1f, 1f, 0.05f)),
+										offsetDuration).setCompletionListener(
+										new OnActionCompleted() {
+
+											@Override
+											public void completed(Action action) {
+												makeLetterTop(ltr);
+											}
+										}));
+
+								offsetDuration += Read.$().getDuration();
+							}
+
+							word.action(Delay.$(Read.$(2f), offsetDuration)
 									.setCompletionListener(
 											new OnActionCompleted() {
 
 												@Override
 												public void completed(
 														Action action) {
-													makeLetterTop(ltr);
+													// for (Letter ltr :
+													// letterList) {
+													// ltr.action(Sequence.$(ScaleTo.$(
+													// 1.2f, 1.2f, 0.05f),
+													// Delay.$(ScaleTo.$(1f, 1f,
+													// 0.05f), 1f)));
+													// }
 												}
 											}));
-
-							offsetDuration += Read.$().getDuration();
 						}
+					}));
 
-						word.action(Delay.$(Read.$(2f), offsetDuration)
-								.setCompletionListener(new OnActionCompleted() {
+			addFunctionActor(font);
+		} else {
+			currentIndex += 1;
 
-									@Override
-									public void completed(Action action) {
-										// for (Letter ltr : letterList) {
-										// ltr.action(Sequence.$(ScaleTo.$(
-										// 1.2f, 1.2f, 0.05f),
-										// Delay.$(ScaleTo.$(1f, 1f,
-										// 0.05f), 1f)));
-										// }
-									}
-								}));
-					}
-				}));
+			float offsetDuration = 0;
 
-		addFunctionActor(font);
+			for (int i = 0; i < letterList.size(); i++) {
+				final Letter ltr = letterList.get(i);
+				ltr.action(Delay.$(
+						Sequence.$(ScaleTo.$(1.2f, 1.2f, 0.05f), Read.$(),
+								ScaleTo.$(1f, 1f, 0.05f)), offsetDuration)
+						.setCompletionListener(new OnActionCompleted() {
+
+							@Override
+							public void completed(Action action) {
+								makeLetterTop(ltr);
+							}
+						}));
+
+				offsetDuration += Read.$().getDuration();
+			}
+
+			word.action(Delay.$(Read.$(2f), offsetDuration)
+					.setCompletionListener(new OnActionCompleted() {
+
+						@Override
+						public void completed(Action action) {
+							// for (Letter ltr :
+							// letterList) {
+							// ltr.action(Sequence.$(ScaleTo.$(
+							// 1.2f, 1.2f, 0.05f),
+							// Delay.$(ScaleTo.$(1f, 1f,
+							// 0.05f), 1f)));
+							// }
+						}
+					}));
+		}
 		state = State.WAITING_SPELL;
 	}
 
@@ -203,7 +244,9 @@ public class GameScreen extends BaseScreen<Game> {
 		for (Letter ltr : letterList) {
 			ltr.action(FadeOut.$(0.5f));
 		}
-		font.action(FadeOut.$(0.5f));
+		if (Settings.CHINESE_DISPLAY_ENABLED) {
+			font.action(FadeOut.$(0.5f));
+		}
 	}
 
 	private void updateNext() {
@@ -222,12 +265,14 @@ public class GameScreen extends BaseScreen<Game> {
 
 		cutline.x = stage.centerX() - cutline.originX;
 		cutline.y = stage.centerY() + 50;
-		cutline.clickListener = new ClickListener() {
-			@Override
-			public void clicked(Button button) {
-				word.play();
-			}
-		};
+		if (Settings.CHINESE_DISPLAY_ENABLED) {
+			cutline.clickListener = new ClickListener() {
+				@Override
+				public void clicked(Button button) {
+					word.play();
+				}
+			};
+		}
 		cutline.action(FadeIn.$(0.5f));
 		setAboveBackground(cutline);
 
@@ -235,29 +280,34 @@ public class GameScreen extends BaseScreen<Game> {
 		word = new Word("word", card);
 		word.x = stage.centerX() - word.originX;
 		word.y = stage.centerY() - word.originY - 40;
-		word.setLetterClickListener(new LetterClickListener() {
+		if (Settings.WORD_SHAKE_ENABLED) {
+			word.setLetterClickListener(new LetterClickListener() {
 
-			@Override
-			public void clicked(Letter clickedLetter) {
-				for (Letter ltr : letterList) {
-					if (!ltr.locked
-							&& ltr.touchable
-							&& ltr.getLetter()
-									.equals(clickedLetter.getLetter())) {
-						ltr.action(Sequence.$(RotateTo.$(10f, 0.02f),
-								RotateTo.$(-10f, 0.02f),
-								RotateTo.$(10f, 0.02f),
-								RotateTo.$(-10f, 0.02f),
-								RotateTo.$(10f, 0.02f),
-								RotateTo.$(-10f, 0.02f), RotateTo.$(0f, 0.02f)));
+				@Override
+				public void clicked(Letter clickedLetter) {
+					for (Letter ltr : letterList) {
+						if (!ltr.locked
+								&& ltr.touchable
+								&& ltr.getLetter().equals(
+										clickedLetter.getLetter())) {
+							ltr.action(Sequence.$(RotateTo.$(10f, 0.02f),
+									RotateTo.$(-10f, 0.02f),
+									RotateTo.$(10f, 0.02f),
+									RotateTo.$(-10f, 0.02f),
+									RotateTo.$(10f, 0.02f),
+									RotateTo.$(-10f, 0.02f),
+									RotateTo.$(0f, 0.02f)));
+						}
 					}
 				}
-			}
-		});
+			});
+		}
+
 		word.action(FadeIn.$(0.5f));
 
 		List<Letter> wordLetters = word.getLetterList();
 		for (Letter ltr : wordLetters) {
+			ltr.setCanPlay(Settings.WORD_SOUNDS_ENABLED);
 			addFunctionActor(ltr);
 		}
 
