@@ -6,14 +6,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.data.CardInfo;
 
 public class Word extends Actor implements IPlay {
 
-	public interface LetterClickListener{
+	public interface LetterClickListener {
 		void clicked(Letter clickedLetter);
 	}
-	
+
 	private String word;
 	private List<Letter> letterList;
 	private Sound sound;
@@ -23,7 +24,11 @@ public class Word extends Actor implements IPlay {
 	public Word(String name, CardInfo card) {
 		super(name);
 		this.word = card.getLetters();
-		letterList = Letter.emptyWordFrom(this.word);
+		if (Settings.WORD_LETTER_ENABLED) {
+			letterList = Letter.emptyWordFrom(this.word);
+		} else {
+			letterList = Letter.emptyFrom(this.word);
+		}
 
 		for (Letter ltr : letterList) {
 			ltr.canScale = false;
@@ -62,13 +67,14 @@ public class Word extends Actor implements IPlay {
 	protected boolean touchDown(float x, float y, int pointer) {
 		// 首先判断是否点中自己
 		boolean result = x > 0 && y > 0 && x < width && y < height;
-		
+
 		if (result) {
 			int index = (int) x / Letter.LETTER_WIDTH;
 			Letter ltr = letterList.get(index);
 			if (ltr.touchable) {
-				ltr.play();
-				if (letterClickListener != null){
+				ltr.touchDown(x - Letter.LETTER_WIDTH * index, y, pointer);
+
+				if (letterClickListener != null) {
 					letterClickListener.clicked(ltr);
 				}
 			}
@@ -79,6 +85,13 @@ public class Word extends Actor implements IPlay {
 	@Override
 	protected boolean touchUp(float x, float y, int pointer) {
 		boolean result = x > 0 && y > 0 && x < width && y < height;
+		if (result) {
+			int index = (int) x / Letter.LETTER_WIDTH;
+			Letter ltr = letterList.get(index);
+			if (ltr.touchable) {
+				ltr.touchUp(x - Letter.LETTER_WIDTH * index, y, pointer);
+			}
+		}
 		return result;
 	}
 
