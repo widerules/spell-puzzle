@@ -256,13 +256,14 @@ public class GameScreen extends BaseScreen<Game> {
 	private void updateNext() {
 		state = State.WAITING_ACTION;
 
-		// 清空原有功能对象，即只更新功能
-		clearFunctionActor();
 
 		if (currentIndex == cardList.size()) {
 			state = State.INIT;
 			return;
 		}
+		
+		// 清空原有功能对象，即只更新功能
+		clearFunctionActor();
 
 		card = cardList.get(currentIndex);
 
