@@ -10,16 +10,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.RotateTo;
 import com.badlogic.gdx.scenes.scene2d.actors.Button;
-import com.badlogic.gdx.scenes.scene2d.actors.Button.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.actors.Label;
 import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.widget.AccordionLayer;
-import com.offline.baby.spellpuzzle.widget.AccordionLayer.Direction;
 import com.offline.baby.spellpuzzle.widget.SwitchButton;
-import com.offline.baby.spellpuzzle.widget.actions.FoldIn;
-import com.offline.baby.spellpuzzle.widget.actions.FoldOut;
 
 public abstract class BaseScreen<G extends Game> implements Screen {
 
@@ -95,13 +90,25 @@ public abstract class BaseScreen<G extends Game> implements Screen {
 	protected void setAboveBackground(Actor actor) {
 		backGroup.addActorAt(1, actor);
 	}
+	
+	protected void clearBackground() {
+		backGroup.clear();
+	}
 
 	protected void addOverflowActor(Actor actor) {
 		overflowGroup.addActor(actor);
 	}
+	
+	protected void clearOverflow() {
+		overflowGroup.clear();
+	}
 
 	protected void addFunctionActor(Actor actor) {
 		middleGroup.addActor(actor);
+	}
+	
+	protected void clearFunctionActor() {
+		middleGroup.clear();
 	}
 
 	@Override
@@ -140,7 +147,6 @@ public abstract class BaseScreen<G extends Game> implements Screen {
 	}
 
 	public void draw(float delta) {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		if (Settings.SHOW_FRAME) {
