@@ -22,13 +22,10 @@ public class DBManagerAndroid extends DBManager {
 	private DBHelper helper;
 
 	private static final int VERSION = 1;
-	private static final String PATH = "/data/data/com.eric.babygame.studycards/databases";
-	// private static final String PATH = "com/eric/babygame/studycards/data";
 	private static final String PATH_SD = "/sdcard/offlinegames/spellpuzzle";
 	private static final String DB_FILE = "/root.db";
 	private static final String ASS_FILE = "data/root.db";
 
-	private SQLiteDatabase database;
 	private Context context;
 
 	public DBManagerAndroid(Context context) throws IOException {
@@ -67,7 +64,7 @@ public class DBManagerAndroid extends DBManager {
 								+ " AND card_voice_info.type=" + voiceType,
 						null);
 		CardInfo ci = null;
-		if (c.moveToNext()) {
+		while (c.moveToNext()) {
 			ci = new CardInfo();
 			ci.setId(c.getInt(0));
 			ci.setCardType(c.getInt(1));
