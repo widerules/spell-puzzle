@@ -1,6 +1,7 @@
 package com.offline.baby.spellpuzzle;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.data.DBManager;
 
@@ -16,15 +17,15 @@ public class SpellPuzzle extends Game {
 	public void create() {
 		// Gdx.input.setCatchBackKey(true);
 
-		// setScreen(new Logo(this, new TextureRegion(Assets.loadTexture(
-		// "data/splash.png", true))));
+		setScreen(new Logo(this, new TextureRegion(Assets.loadTexture(
+				"data/splash.png", true))));
 
 		Assets.load();
 		Settings.load();
 
 		Settings.SHOW_FRAME = true;
 
-		setScreen(new MainScreen(this));
+		// setScreen(new MainScreen(this));
 	}
 
 	@SuppressWarnings("unchecked")
