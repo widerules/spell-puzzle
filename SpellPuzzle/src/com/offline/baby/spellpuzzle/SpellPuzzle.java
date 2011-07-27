@@ -5,10 +5,10 @@ import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.data.DBManager;
 
 public class SpellPuzzle extends Game {
-	
+
 	private DBManager db;
-	
-	public SpellPuzzle(DBManager db){
+
+	public SpellPuzzle(DBManager db) {
 		this.db = db;
 	}
 
@@ -37,4 +37,7 @@ public class SpellPuzzle extends Game {
 		((BaseScreen<Game>) getScreen()).showMenu();
 	}
 
+	public DBManager getDb() {
+		return db;
+	}
 }

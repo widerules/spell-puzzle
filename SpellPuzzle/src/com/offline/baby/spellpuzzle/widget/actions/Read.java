@@ -37,12 +37,12 @@ public class Read extends Action {
 			((IPlay) target).play();
 			played = true;
 		}
-		taken += delta;
+		this.taken += delta;
 	}
 
 	@Override
 	public boolean isDone() {
-		if (taken > duration) {
+		if (this.taken > duration) {
 			pool.free(this);
 			if (target instanceof IPlay) {
 				((IPlay) target).setRead(true);
@@ -55,18 +55,22 @@ public class Read extends Action {
 
 		return false;
 	}
-
+	
+	@Override
+	public void finish(){
+		super.finish();
+	}
+	
 	@Override
 	public Action copy() {
-		Read read = new Read();
-		read.duration = this.duration;
-		return read;
+		return $(duration);
 	}
 
 	@Override
 	public void setTarget(Actor actor) {
 		this.target = actor;
-		taken = 0;
+		played = false;
+		taken = 0f;
 	}
 
 	public float getDuration() {
@@ -79,6 +83,5 @@ public class Read extends Action {
 		duration = 1f;
 		played = false;
 		taken = 0f;
-		target = null;
 	}
 }

@@ -1,121 +1,21 @@
 package com.offline.baby.spellpuzzle.data;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DBManager {
+public abstract class DBManager {
 
-	private static final int VERSION = 1;
-	private static final String PATH = "/data/data/com.eric.babygame.studycards/databases";
+	// private static final int VERSION = 1;
+	// private static final String PATH =
+	// "/data/data/com.eric.babygame.studycards/databases";
 	// private static final String PATH = "com/eric/babygame/studycards/data";
-	private static final String PATH_SD = "/sdcard/EricGames/studycards";
-	private static final String DB_FILE = "/studycard.db";
-	private static final String ASS_FILE = "database/studycard.db";
+	// private static final String PATH_SD = "/sdcard/EricGames/studycards";
+	// private static final String DB_FILE = "/studycard.db";
+	// private static final String ASS_FILE = "database/studycard.db";
 
 	// private DBHelper helper;
 	// private Context context;
 
-	public DBManager() throws IOException {
-		// this.context = contex;
-
-		// TODO 数据库换名
-		// File dbold = new File(PATH+"data.db");
-		// if(dbold.exists()){
-		// dbold.delete();
-		// }
-		//
-		File dbfile = new File(PATH_SD + DB_FILE);
-
-		// //删除rom上的文件
-		// //更新数据库文件时才使用到
-		if (dbfile.exists()) {
-			// dbfile.delete();
-
-			// try {
-			// String rom_md5 = Security.getHash(PATH_SD+DB_FILE);
-			// String ass_md5 =
-			// Security.getHash(context.getAssets().open(ASS_FILE));
-			// Log.d(Contains.DEBUG_TAG, "a:"+ass_md5);
-			// Log.d(Contains.DEBUG_TAG, "r:"+rom_md5);
-			// Log.d(Contains.DEBUG_TAG,
-			// "DB is the newest ?："+rom_md5.equals(ass_md5));
-			//
-			// if(!rom_md5.equals(ass_md5)){
-			// dbfile.delete();
-			// }
-			//
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// }
-		}
-		if (!dbfile.exists()) {
-			// 数据库不存
-			// File dir = new File(PATH_SD);
-			// if(!dir.exists()){
-			// dir.mkdirs();
-			// }
-			// Log.d(Contains.DEBUG_TAG, "Copy db to SD");
-			// // copy文件到rom和sd卡
-			// InputStream is = context.getAssets().open(ASS_FILE);
-			// OutputStream os = new FileOutputStream(PATH_SD+DB_FILE, true);
-			// byte[] buffer = new byte[1024];
-			// int length;
-			// while ((length = is.read(buffer)) > 0) {
-			// os.write(buffer, 0, length);
-			// }
-			// os.flush();
-			// os.close();
-			// is.close();
-		}
-
-		// helper = new DBHelper(this.context, PATH_SD + DB_FILE, null,
-		// VERSION);
-
-	}
-
-	public static class CardResultSet {
-		public static List<CardInfo> getCardInfo() {
-			List<CardInfo> list = new ArrayList<CardInfo>();
-
-			CardInfo ci = new CardInfo();
-			ci.setId(1);
-			ci.setCardType(1);
-			ci.setCardTypeName("Animal");
-			ci.setDescription("Test");
-			ci.setFilePath("data/animal/ant.png");
-			ci.setChinese("data/animal/fonts/font_ant.png");
-			ci.setLength(3);
-			ci.setLetters("ant");
-			ci.setName("ant");
-			ci.setTips("Tips");
-			ci.setVoiceDescription("chinese");
-			ci.setVoiceFilePath("data/animal/sounds/ant_e.ogg");
-			ci.setVoiceType(1);
-			ci.setVoiceTypeName("chinese");
-			list.add(ci);
-
-			ci = new CardInfo();
-			ci.setId(1);
-			ci.setCardType(1);
-			ci.setCardTypeName("Animal");
-			ci.setDescription("Test");
-			ci.setFilePath("data/animal/bee.png");
-			ci.setChinese("data/animal/fonts/font_ant.png");
-			ci.setLength(3);
-			ci.setLetters("bee");
-			ci.setName("bee");
-			ci.setTips("Tips");
-			ci.setVoiceDescription("chinese");
-			ci.setVoiceFilePath("data/animal/sounds/ant_e.ogg");
-			ci.setVoiceType(1);
-			ci.setVoiceTypeName("chinese");
-
-			list.add(ci);
-			return list;
-		}
-	}
+	public abstract List<CardInfo> getCardInfoList(int cardType, int voiceType);
 
 	// public class CardTypeResultSet{
 	// private int index = 0;

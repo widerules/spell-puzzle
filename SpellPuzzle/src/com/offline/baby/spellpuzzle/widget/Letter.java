@@ -3,9 +3,11 @@ package com.offline.baby.spellpuzzle.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.offline.baby.spellpuzzle.Assets;
 import com.offline.baby.spellpuzzle.widget.collision.CollisionUtils;
 import com.offline.baby.spellpuzzle.widget.collision.RectCollider;
@@ -435,5 +437,29 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 		return super.toString() + " \n locked: " + locked + "\n touchable: "
 				+ touchable;
 	}
+	
+	public String printActions(){
+		actions.iter();
+		Action action;
 
+		String str = "Letter :" + letter + "\t";
+		while ((action = actions.next()) != null) {
+			str += action.toString() + "\n";
+		}
+		return str;
+	}
+
+	@Override
+	protected void act (float delta) {
+		actions.iter();
+		Action action;
+
+		while ((action = actions.next()) != null) {
+			action.act(delta);
+			if (action.isDone()) {
+				action.finish();
+				actions.remove();
+			}
+		}
+	}
 }

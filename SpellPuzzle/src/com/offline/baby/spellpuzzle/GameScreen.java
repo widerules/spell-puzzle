@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.actors.Button.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.data.CardInfo;
-import com.offline.baby.spellpuzzle.data.DBManager;
 import com.offline.baby.spellpuzzle.widget.Letter;
 import com.offline.baby.spellpuzzle.widget.Letter.OnTouchDown;
 import com.offline.baby.spellpuzzle.widget.ListedGroup;
@@ -56,12 +55,12 @@ public class GameScreen extends BaseScreen<Game> {
 
 	private Image font;
 
-	public GameScreen(Game game) {
+	public GameScreen(SpellPuzzle game) {
 		super(game);
 		bg = new Image("bg", Assets.GAME_BG);
 		setBackground(bg);
 
-		cardList = DBManager.CardResultSet.getCardInfo();
+		cardList = game.getDb().getCardInfoList(1, 1);
 		letterGroup = new ListedGroup("LETTER_GROUP");
 	}
 
@@ -145,6 +144,7 @@ public class GameScreen extends BaseScreen<Game> {
 
 							for (int i = 0; i < letterList.size(); i++) {
 								final Letter ltr = letterList.get(i);
+								ltr.clearActions();
 								ltr.action(Delay.$(
 										Sequence.$(
 												ScaleTo.$(1.2f, 1.2f, 0.05f),
@@ -159,7 +159,7 @@ public class GameScreen extends BaseScreen<Game> {
 											}
 										}));
 
-								offsetDuration += Read.$().getDuration();
+								offsetDuration += 1f;
 							}
 
 							word.action(Delay.$(Read.$(2f), offsetDuration)
@@ -235,6 +235,10 @@ public class GameScreen extends BaseScreen<Game> {
 					@Override
 					public void completed(Action action) {
 						state = State.NEXT;
+						word.getLetterList().clear();
+						letterList.clear();
+						word = null;
+						font = null;
 					}
 				}));
 		List<Letter> wordLetters = word.getLetterList();
@@ -251,6 +255,10 @@ public class GameScreen extends BaseScreen<Game> {
 
 	private void updateNext() {
 		state = State.WAITING_ACTION;
+
+		// 清空原有功能对象，即只更新功能
+		clearFunctionActor();
+
 		if (currentIndex == cardList.size()) {
 			state = State.INIT;
 			return;
@@ -336,7 +344,7 @@ public class GameScreen extends BaseScreen<Game> {
 					Letter ltr = (Letter) button;
 					List<Letter> wordLetters = word.getLetterList();
 					for (int i = 0; i < wordLetters.size(); i++) {
-						Letter target = wordLetters.get(i);
+						final Letter target = wordLetters.get(i);
 
 						// 判断word字母未被填充，并且字母相同
 						if (!target.isFilled()
@@ -354,8 +362,17 @@ public class GameScreen extends BaseScreen<Game> {
 								ltr.scaleX = 1.0f;
 								ltr.scaleY = 1.0f;
 								ltr.canScale = false;
-								ltr.action(MoveTo.$(target.x, target.y, 0.1f));
-								target.setFilled(true);
+								ltr.action(MoveTo.$(target.x, target.y, 0.1f)
+										.setCompletionListener(
+												new OnActionCompleted() {
+
+													@Override
+													public void completed(
+															Action action) {
+														target.setFilled(true);
+													}
+												}));
+
 								ltr.locked = true;
 								break;
 							}
