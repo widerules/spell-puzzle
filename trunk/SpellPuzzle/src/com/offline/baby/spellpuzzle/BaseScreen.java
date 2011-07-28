@@ -148,7 +148,6 @@ public abstract class BaseScreen<G extends Game> implements Screen {
 
 	public void draw(float delta) {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
 		if (Settings.SHOW_FRAME) {
 			framePerSecordsLbl.setText(String.valueOf(Gdx.graphics
 					.getFramesPerSecond()));

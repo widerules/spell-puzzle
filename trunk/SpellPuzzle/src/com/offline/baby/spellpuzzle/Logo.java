@@ -1,6 +1,7 @@
 package com.offline.baby.spellpuzzle;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
 public class Logo implements Screen {
 
 	private Image img;
-	
+
 	protected SpellPuzzle game;
 	protected SpriteBatch batcher;
 	protected OrthographicCamera guiCam;
@@ -31,7 +32,7 @@ public class Logo implements Screen {
 		batcher = new SpriteBatch();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 				false);
-		
+
 		img = new Image("Image", region);
 		img.x = stage.centerX() - region.getRegionWidth() / 2;
 		img.y = stage.centerY() - region.getRegionHeight() / 2;
@@ -48,6 +49,7 @@ public class Logo implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
 		stage.act(delta);
 		stage.draw();
 
@@ -56,36 +58,36 @@ public class Logo implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
