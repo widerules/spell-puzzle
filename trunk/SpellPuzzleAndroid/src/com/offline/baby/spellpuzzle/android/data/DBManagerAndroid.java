@@ -57,28 +57,27 @@ public class DBManagerAndroid extends DBManager {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Cursor c = db
 				.rawQuery(
-						"SELECT card_info.*,card_voice_info.card_id, "
-								+ "card_voice_info.type AS card_type, card_voice_info.file_path AS voice_path "
-								+ " FROM card_info, card_voice_info WHERE card_info.id = card_voice_info.card_id "
-								+ " AND card_info.type=" + cardType
-								+ " AND card_voice_info.type=" + voiceType,
-						null);
+						"SELECT ci.id, ci.type, ci.name, ci.file_path, ci.description, ci.letters,"
+								+ "ci.length, ci.tips, ci.chinese_path, vi.type, vi.file_path "
+								+ " FROM card_info ci, card_voice_info vi WHERE ci.id = vi.card_id "
+								+ " AND ci.type=" + cardType + " AND vi.type="
+								+ voiceType, null);
 		CardInfo ci = null;
 		while (c.moveToNext()) {
 			ci = new CardInfo();
 			ci.setId(c.getInt(0));
 			ci.setCardType(c.getInt(1));
-			ci.setCardTypeName("");
-			ci.setDescription(c.getString(4));
-			ci.setFilePath(c.getString(3));
-			ci.setChinese(c.getString(8));
-			ci.setLength(c.getInt(6));
-			ci.setLetters(c.getString(5));
 			ci.setName(c.getString(2));
+			ci.setFilePath(c.getString(3));
+			ci.setDescription(c.getString(4));
+			ci.setLetters(c.getString(5));
+			ci.setLength(c.getInt(6));
 			ci.setTips(c.getString(7));
+			ci.setChinese(c.getString(8));
+			ci.setVoiceType(c.getInt(9));
+			ci.setVoiceFilePath(c.getString(10));
+			ci.setCardTypeName("");
 			ci.setVoiceDescription("");
-			ci.setVoiceFilePath(c.getString(11));
-			ci.setVoiceType(c.getInt(10));
 			ci.setVoiceTypeName("");
 			list.add(ci);
 		}
