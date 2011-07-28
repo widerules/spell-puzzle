@@ -2,6 +2,7 @@ package com.offline.baby.spellpuzzle;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import com.badlogic.gdx.Game;
@@ -61,11 +62,11 @@ public class GameScreen extends BaseScreen<Game> {
 		setBackground(bg);
 
 		cardList = game.getDb().getCardInfoList(1, 1);
-		letterGroup = new ListedGroup("LETTER_GROUP");
 	}
 
 	@Override
 	public void update(float delta) {
+		
 		switch (state) {
 		case INIT:
 			updateInit();
@@ -97,7 +98,7 @@ public class GameScreen extends BaseScreen<Game> {
 		state = State.WAITING_ACTION;
 		// TODO 在这里可以设置card顺序，过滤等等
 
-		currentIndex = 0;
+		currentIndex = 1;
 
 		state = State.NEXT;
 	}
@@ -127,7 +128,7 @@ public class GameScreen extends BaseScreen<Game> {
 				return 0;
 			}
 		});
-
+		
 		if (Settings.CHINESE_DISPLAY_ENABLED) {
 			font = new Image("chinese", new TextureRegion(Assets.loadTexture(
 					card.getChinese(), true), 0, 0, 200, 77));
@@ -138,17 +139,15 @@ public class GameScreen extends BaseScreen<Game> {
 
 						@Override
 						public void completed(Action action) {
-							currentIndex += 1;
-
 							float offsetDuration = 0;
+							float readDuration = 1f;
 
 							for (int i = 0; i < letterList.size(); i++) {
 								final Letter ltr = letterList.get(i);
-								ltr.clearActions();
 								ltr.action(Delay.$(
 										Sequence.$(
 												ScaleTo.$(1.2f, 1.2f, 0.05f),
-												Read.$(),
+												Read.$(readDuration),
 												ScaleTo.$(1f, 1f, 0.05f)),
 										offsetDuration).setCompletionListener(
 										new OnActionCompleted() {
@@ -159,7 +158,7 @@ public class GameScreen extends BaseScreen<Game> {
 											}
 										}));
 
-								offsetDuration += 1f;
+								offsetDuration += readDuration;
 							}
 
 							word.action(Delay.$(Read.$(2f), offsetDuration)
@@ -183,41 +182,32 @@ public class GameScreen extends BaseScreen<Game> {
 
 			addFunctionActor(font);
 		} else {
-			currentIndex += 1;
-
+			
 			float offsetDuration = 0;
+			float readDuration = 1f;
 
-			for (int i = 0; i < letterList.size(); i++) {
-				final Letter ltr = letterList.get(i);
-				ltr.action(Delay.$(
-						Sequence.$(ScaleTo.$(1.2f, 1.2f, 0.05f), Read.$(),
-								ScaleTo.$(1f, 1f, 0.05f)), offsetDuration)
-						.setCompletionListener(new OnActionCompleted() {
+			for (final Letter ltr : letterList) {
+				ltr.action(Delay
+						.$(Sequence.$(ScaleTo.$(1.2f, 1.2f, 0.05f),
+								Read.$(readDuration), ScaleTo.$(1f, 1f, 0.05f)),
+								offsetDuration).setCompletionListener(
+								new OnActionCompleted() {
 
-							@Override
-							public void completed(Action action) {
-								makeLetterTop(ltr);
-							}
-						}));
+									@Override
+									public void completed(Action action) {
+										makeLetterTop(ltr);
+									}
+								}));
 
-				offsetDuration += Read.$().getDuration();
+				offsetDuration += readDuration;
 			}
+			
+			Gdx.app.log("?????", "why?? offsetDuration:" + offsetDuration);
 
-			word.action(Delay.$(Read.$(2f), offsetDuration)
-					.setCompletionListener(new OnActionCompleted() {
-
-						@Override
-						public void completed(Action action) {
-							// for (Letter ltr :
-							// letterList) {
-							// ltr.action(Sequence.$(ScaleTo.$(
-							// 1.2f, 1.2f, 0.05f),
-							// Delay.$(ScaleTo.$(1f, 1f,
-							// 0.05f), 1f)));
-							// }
-						}
-					}));
+			word.action(Delay.$(Read.$(2f), offsetDuration));
 		}
+		
+		currentIndex--;
 		state = State.WAITING_SPELL;
 	}
 
@@ -234,11 +224,16 @@ public class GameScreen extends BaseScreen<Game> {
 
 					@Override
 					public void completed(Action action) {
-						state = State.NEXT;
 						word.getLetterList().clear();
-						letterList.clear();
 						word = null;
 						font = null;
+						
+						letterList.clear();
+						letterGroup.clear();
+						
+						// 清空原有功能对象，即只更新功能
+						clearFunctionActor();
+						state = State.NEXT;
 					}
 				}));
 		List<Letter> wordLetters = word.getLetterList();
@@ -255,15 +250,12 @@ public class GameScreen extends BaseScreen<Game> {
 
 	private void updateNext() {
 		state = State.WAITING_ACTION;
+		Gdx.app.log("debug", "loaded index: " + currentIndex);
 
-
-		if (currentIndex == cardList.size()) {
+		if (currentIndex >= cardList.size()) {
 			state = State.INIT;
 			return;
 		}
-		
-		// 清空原有功能对象，即只更新功能
-		clearFunctionActor();
 
 		card = cardList.get(currentIndex);
 
@@ -323,6 +315,7 @@ public class GameScreen extends BaseScreen<Game> {
 		addFunctionActor(word);
 
 		// letters
+		letterGroup = new ListedGroup("LETTER_GROUP");
 		letterList = Letter.from(card.getLetters());
 		Rectangle rect = new Rectangle();
 		rect.set(0, 0, stage.width() - Letter.LETTER_WIDTH, word.y
