@@ -2,7 +2,6 @@ package com.offline.baby.spellpuzzle;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import com.badlogic.gdx.Game;
@@ -29,6 +28,7 @@ import com.offline.baby.spellpuzzle.widget.Letter.OnTouchDown;
 import com.offline.baby.spellpuzzle.widget.ListedGroup;
 import com.offline.baby.spellpuzzle.widget.MovableButton;
 import com.offline.baby.spellpuzzle.widget.MovableButton.DragListener;
+import com.offline.baby.spellpuzzle.widget.Nothing;
 import com.offline.baby.spellpuzzle.widget.Word;
 import com.offline.baby.spellpuzzle.widget.Word.LetterClickListener;
 import com.offline.baby.spellpuzzle.widget.actions.Read;
@@ -66,7 +66,7 @@ public class GameScreen extends BaseScreen<Game> {
 
 	@Override
 	public void update(float delta) {
-		
+
 		switch (state) {
 		case INIT:
 			updateInit();
@@ -98,7 +98,7 @@ public class GameScreen extends BaseScreen<Game> {
 		state = State.WAITING_ACTION;
 		// TODO 在这里可以设置card顺序，过滤等等
 
-		currentIndex = 1;
+		currentIndex = 0;
 
 		state = State.NEXT;
 	}
@@ -128,7 +128,7 @@ public class GameScreen extends BaseScreen<Game> {
 				return 0;
 			}
 		});
-		
+
 		if (Settings.CHINESE_DISPLAY_ENABLED) {
 			font = new Image("chinese", new TextureRegion(Assets.loadTexture(
 					card.getChinese(), true), 0, 0, 200, 77));
@@ -139,42 +139,43 @@ public class GameScreen extends BaseScreen<Game> {
 
 						@Override
 						public void completed(Action action) {
+
 							float offsetDuration = 0;
-							float readDuration = 1f;
+							final float readDuration = 1f;
 
-							for (int i = 0; i < letterList.size(); i++) {
-								final Letter ltr = letterList.get(i);
-								ltr.action(Delay.$(
-										Sequence.$(
-												ScaleTo.$(1.2f, 1.2f, 0.05f),
-												Read.$(readDuration),
-												ScaleTo.$(1f, 1f, 0.05f)),
-										offsetDuration).setCompletionListener(
-										new OnActionCompleted() {
+							for (final Letter ltr : letterList) {
+								ltr.action(Delay.$(Nothing.$(), offsetDuration)
+										.setCompletionListener(
+												new OnActionCompleted() {
 
-											@Override
-											public void completed(Action action) {
-												makeLetterTop(ltr);
-											}
-										}));
+													@Override
+													public void completed(
+															Action action) {
+														makeLetterTop(ltr);
+
+														ltr.action(ScaleTo.$(
+																1.2f, 1.2f,
+																0.05f));
+														ltr.action(Read.$());
+														ltr.action(Delay.$(
+																ScaleTo.$(1f,
+																		1f,
+																		0.05f),
+																readDuration));
+													}
+												}));
 
 								offsetDuration += readDuration;
 							}
 
-							word.action(Delay.$(Read.$(2f), offsetDuration)
+							word.action(Delay.$(Nothing.$(), offsetDuration)
 									.setCompletionListener(
 											new OnActionCompleted() {
 
 												@Override
 												public void completed(
 														Action action) {
-													// for (Letter ltr :
-													// letterList) {
-													// ltr.action(Sequence.$(ScaleTo.$(
-													// 1.2f, 1.2f, 0.05f),
-													// Delay.$(ScaleTo.$(1f, 1f,
-													// 0.05f), 1f)));
-													// }
+													word.action(Read.$(2f));
 												}
 											}));
 						}
@@ -182,32 +183,39 @@ public class GameScreen extends BaseScreen<Game> {
 
 			addFunctionActor(font);
 		} else {
-			
+
 			float offsetDuration = 0;
-			float readDuration = 1f;
+			final float readDuration = 1f;
 
 			for (final Letter ltr : letterList) {
-				ltr.action(Delay
-						.$(Sequence.$(ScaleTo.$(1.2f, 1.2f, 0.05f),
-								Read.$(readDuration), ScaleTo.$(1f, 1f, 0.05f)),
-								offsetDuration).setCompletionListener(
-								new OnActionCompleted() {
+				ltr.action(Delay.$(Nothing.$(), offsetDuration)
+						.setCompletionListener(new OnActionCompleted() {
 
-									@Override
-									public void completed(Action action) {
-										makeLetterTop(ltr);
-									}
-								}));
+							@Override
+							public void completed(Action action) {
+								makeLetterTop(ltr);
+
+								ltr.action(ScaleTo.$(1.2f, 1.2f, 0.05f));
+								ltr.action(Read.$());
+								ltr.action(Delay.$(ScaleTo.$(1f, 1f, 0.05f),
+										readDuration));
+							}
+						}));
 
 				offsetDuration += readDuration;
 			}
-			
-			Gdx.app.log("?????", "why?? offsetDuration:" + offsetDuration);
 
-			word.action(Delay.$(Read.$(2f), offsetDuration));
+			word.action(Delay.$(Nothing.$(), offsetDuration)
+					.setCompletionListener(new OnActionCompleted() {
+
+						@Override
+						public void completed(Action action) {
+							word.action(Read.$(2f));
+						}
+					}));
 		}
-		
-		currentIndex--;
+
+		currentIndex++;
 		state = State.WAITING_SPELL;
 	}
 
@@ -227,10 +235,10 @@ public class GameScreen extends BaseScreen<Game> {
 						word.getLetterList().clear();
 						word = null;
 						font = null;
-						
+
 						letterList.clear();
 						letterGroup.clear();
-						
+
 						// 清空原有功能对象，即只更新功能
 						clearFunctionActor();
 						state = State.NEXT;
@@ -250,7 +258,6 @@ public class GameScreen extends BaseScreen<Game> {
 
 	private void updateNext() {
 		state = State.WAITING_ACTION;
-		Gdx.app.log("debug", "loaded index: " + currentIndex);
 
 		if (currentIndex >= cardList.size()) {
 			state = State.INIT;
