@@ -3,7 +3,6 @@ package com.offline.baby.spellpuzzle.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -447,19 +446,5 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 			str += action.toString() + "\n";
 		}
 		return str;
-	}
-
-	@Override
-	protected void act (float delta) {
-		actions.iter();
-		Action action;
-
-		while ((action = actions.next()) != null) {
-			action.act(delta);
-			if (action.isDone()) {
-				action.finish();
-				actions.remove();
-			}
-		}
 	}
 }

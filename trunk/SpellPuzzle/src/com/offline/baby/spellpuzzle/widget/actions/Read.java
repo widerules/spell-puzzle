@@ -1,6 +1,5 @@
 package com.offline.baby.spellpuzzle.widget.actions;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.ActionResetingPool;
@@ -44,10 +43,10 @@ public class Read extends Action {
 	@Override
 	public boolean isDone() {
 		if (this.taken > duration && played) {
+			pool.free(this);
 			if (target instanceof IPlay) {
 				((IPlay) target).setRead(true);
 			}
-			pool.free(this);
 			return true;
 		}
 
@@ -68,7 +67,6 @@ public class Read extends Action {
 	@Override
 	public void setTarget(Actor actor) {
 		this.target = actor;
-		Gdx.app.log("debug", "set target:" + target);
 		played = false;
 		taken = 0f;
 	}
