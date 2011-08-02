@@ -36,9 +36,10 @@ public class DBManagerAndroid extends DBManager {
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
+		
 		// copy文件到rom和sd卡
 		InputStream is = context.getAssets().open(ASS_FILE);
-		OutputStream os = new FileOutputStream(PATH_SD + DB_FILE, true);
+		OutputStream os = new FileOutputStream(PATH_SD + DB_FILE, false);
 		byte[] buffer = new byte[1024];
 		int length;
 		while ((length = is.read(buffer)) > 0) {
