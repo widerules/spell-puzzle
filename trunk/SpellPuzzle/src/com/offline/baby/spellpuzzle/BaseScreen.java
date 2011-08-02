@@ -1,5 +1,6 @@
 package com.offline.baby.spellpuzzle;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -63,12 +64,17 @@ public abstract class BaseScreen<G extends Game> implements Screen {
 	}
 
 	public void showMenu() {
-
+		
 	}
 
 	public void showBackConfirm() {
 		if (game.getScreen() instanceof MainScreen) {
-			
+//			if (Gdx.graphics.)
+			if (Gdx.app.getType() == Application.ApplicationType.Android){
+				
+			}else{
+			}
+			System.exit(0);
 		} else {
 			game.setScreen(new MainScreen((SpellPuzzle) game));
 		}

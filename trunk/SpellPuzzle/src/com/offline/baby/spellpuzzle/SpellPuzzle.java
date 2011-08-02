@@ -17,15 +17,15 @@ public class SpellPuzzle extends Game {
 	public void create() {
 		// Gdx.input.setCatchBackKey(true);
 
-		// setScreen(new Logo(this, new TextureRegion(Assets.loadTexture(
-		// "data/splash.png", true))));
+		setScreen(new Logo(this, new TextureRegion(Assets.loadTexture(
+				"data/splash.png", true))));
 
 		Assets.load();
 		Settings.load();
 
 		// Settings.SHOW_FRAME = true;
 
-		setScreen(new MainScreen(this));
+		// setScreen(new MainScreen(this));
 	}
 
 	@SuppressWarnings("unchecked")

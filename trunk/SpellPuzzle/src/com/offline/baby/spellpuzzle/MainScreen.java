@@ -309,6 +309,18 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 
 		}
 	}
+	
+	@Override
+	public void showMenu(){
+		if (menuSwitch.isChecked()) {
+			menuSwitch.action(RotateTo.$(0f, 0.3f));
+			menuBg.action(FoldOut.$(0.3f));
+		} else {
+			menuSwitch.action(RotateTo.$(180f, 0.3f));
+			menuBg.action(FoldIn.$(0.3f));
+		}
+		menuSwitch.setChecked(!menuSwitch.isChecked());
+	}
 
 	@Override
 	public void dispose() {
