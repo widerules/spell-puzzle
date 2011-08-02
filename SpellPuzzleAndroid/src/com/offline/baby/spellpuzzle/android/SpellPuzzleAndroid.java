@@ -30,7 +30,7 @@ public class SpellPuzzleAndroid extends AndroidApplication {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_MENU:
-			spellPuzzle.onBackPressed();
+			spellPuzzle.onMenuPressed();
 			return true;
 		case KeyEvent.KEYCODE_BACK:
 			spellPuzzle.onBackPressed();
