@@ -1,5 +1,6 @@
 package com.offline.baby.spellpuzzle;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
 import com.badlogic.gdx.scenes.scene2d.actions.Delay;
 import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
 import com.badlogic.gdx.scenes.scene2d.actions.FadeOut;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveBy;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateTo;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
@@ -23,12 +25,14 @@ import com.badlogic.gdx.scenes.scene2d.actors.Button.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.data.CardInfo;
+import com.offline.baby.spellpuzzle.widget.ButtonEx;
 import com.offline.baby.spellpuzzle.widget.Letter;
-import com.offline.baby.spellpuzzle.widget.Letter.OnTouchDown;
 import com.offline.baby.spellpuzzle.widget.ListedGroup;
 import com.offline.baby.spellpuzzle.widget.MovableButton;
 import com.offline.baby.spellpuzzle.widget.MovableButton.DragListener;
 import com.offline.baby.spellpuzzle.widget.Nothing;
+import com.offline.baby.spellpuzzle.widget.OnTouchDown;
+import com.offline.baby.spellpuzzle.widget.OnTouchUp;
 import com.offline.baby.spellpuzzle.widget.Word;
 import com.offline.baby.spellpuzzle.widget.Word.LetterClickListener;
 import com.offline.baby.spellpuzzle.widget.actions.Read;
@@ -42,6 +46,7 @@ public class GameScreen extends BaseScreen<Game> {
 	private State state = State.INIT;
 
 	private List<CardInfo> cardList;
+	private List<CardInfo> originalList;
 
 	private Image bg;
 
@@ -61,7 +66,7 @@ public class GameScreen extends BaseScreen<Game> {
 		bg = new Image("bg", Assets.GAME_BG);
 		setBackground(bg);
 
-		cardList = game.getDb().getCardInfoList(1, 1);
+		originalList = game.getDb().getCardInfoList(1, 1);
 	}
 
 	@Override
@@ -97,6 +102,16 @@ public class GameScreen extends BaseScreen<Game> {
 	private void updateInit() {
 		state = State.WAITING_ACTION;
 		// TODO 在这里可以设置card顺序，过滤等等
+
+		if (Settings.CARD_RANDOM_ACCESS) {
+			cardList = new ArrayList<CardInfo>();
+			for (int i = 0; i < originalList.size(); i++) {
+				cardList.add(originalList.remove((int) (Math.random() * originalList
+						.size())));
+			}
+		} else {
+			cardList = originalList;
+		}
 
 		currentIndex = 0;
 
@@ -333,7 +348,7 @@ public class GameScreen extends BaseScreen<Game> {
 			ltr.y = (float) (rect.height * Math.random());
 			ltr.onTouchDown = new OnTouchDown() {
 				@Override
-				public void touchDown(final Letter letter) {
+				public void pressed(final ButtonEx letter) {
 					makeLetterTop(letter);
 				}
 			};
@@ -381,6 +396,31 @@ public class GameScreen extends BaseScreen<Game> {
 					}
 				}
 
+			};
+
+			// Collections.r
+
+			ltr.onTouchUp = new OnTouchUp() {
+
+				@Override
+				public void released(ButtonEx scope) {
+					Letter letter = (Letter) scope;
+					if (!letter.locked) {
+						List<Letter> ltrList = word.getLetterList();
+						for (Letter target : ltrList) {
+							if (letter.intersects(target)) {
+								if (letter.y > word.y) {
+									letter.action(MoveBy.$(0,
+											Letter.LETTER_HEIGHT + 10, 0.1f));
+								} else {
+									letter.action(MoveBy.$(0,
+											-(Letter.LETTER_HEIGHT + 10), 0.1f));
+								}
+								break;
+							}
+						}
+					}
+				}
 			};
 			ltr.action(FadeIn.$(0.5f));
 			letterGroup.addActor(ltr);
