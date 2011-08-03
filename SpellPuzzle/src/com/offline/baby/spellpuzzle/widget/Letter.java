@@ -13,17 +13,9 @@ import com.offline.baby.spellpuzzle.widget.collision.RectCollider;
 
 public class Letter extends MovableButton implements RectCollider, IPlay {
 
-	public interface OnTouchDown {
-		void touchDown(Letter letter);
-	}
-
-	public interface OnTouchUp {
-		void touchUp(Letter letter);
-	}
-
 	public static final int LETTER_WIDTH = 92;
 	public static final int LETTER_HEIGHT = 92;
-
+	
 	public Letter(String name, String letter, TextureRegion region) {
 		super(name, region, region);
 		this.letter = letter;
@@ -31,8 +23,6 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 	}
 
 	private String letter;
-	public OnTouchDown onTouchDown;
-	public OnTouchUp onTouchUp;
 	public boolean canScale = true;
 	private boolean inCollision = false;
 	private boolean isFilled = false;
@@ -55,10 +45,6 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 					play();
 				}
 
-				if (onTouchDown != null) {
-					onTouchDown.touchDown(this);
-				}
-
 				if (!locked && canScale) {
 					scaleX = 1.1f;
 					scaleY = 1.1f;
@@ -74,9 +60,6 @@ public class Letter extends MovableButton implements RectCollider, IPlay {
 		boolean flag = super.touchUp(x, y, pointer);
 		if (touchable) {
 			if (flag) {
-				if (onTouchUp != null) {
-					onTouchUp.touchUp(this);
-				}
 
 				if (!locked && canScale) {
 					scaleX = 1.0f;

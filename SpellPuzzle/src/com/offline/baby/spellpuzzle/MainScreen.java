@@ -14,16 +14,18 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
 import com.offline.baby.spellpuzzle.config.Settings;
 import com.offline.baby.spellpuzzle.widget.AccordionLayer;
 import com.offline.baby.spellpuzzle.widget.AccordionLayer.Direction;
+import com.offline.baby.spellpuzzle.widget.ButtonEx;
+import com.offline.baby.spellpuzzle.widget.OnTouchDown;
 import com.offline.baby.spellpuzzle.widget.SwitchButton;
 import com.offline.baby.spellpuzzle.widget.actions.FoldIn;
 import com.offline.baby.spellpuzzle.widget.actions.FoldOut;
 
 public class MainScreen extends BaseScreen<SpellPuzzle> {
 
-	private Button btn;
+	private ButtonEx btn;
 	private Image bg;
 	private Image bgGrass;
-	
+
 	private boolean waitingSettingInitial;
 	private Image settingBg;
 	private Image settingTitle;
@@ -49,11 +51,19 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 		bgGrass = new Image("MAIN_GRASS", Assets.MAIN_GRASS);
 		setAboveBackground(bgGrass);
 
-		btn = new Button("CARD_BUTTON", Assets.ANIMAL_BTN_UNPRESSED,
+		btn = new ButtonEx("CARD_BUTTON", Assets.ANIMAL_BTN_UNPRESSED,
 				Assets.ANIMAL_BTN_PRESSED);
 		btn.x = stage.centerX() - btn.originX;
 		btn.y = (int) (stage.height() * 0.1f);
-		btn.clickListener = new Button.ClickListener() {
+		btn.onTouchDown = new OnTouchDown() {
+
+			@Override
+			public void pressed(ButtonEx button) {
+				Assets.CLICK.play();
+			}
+		};
+
+		btn.clickListener = new ClickListener() {
 
 			@Override
 			public void clicked(Button button) {
@@ -153,7 +163,7 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 
 	private void loadSettings() {
 		waitingSettingInitial = true;
-		
+
 		// 创建 setting组， 理论上保持在 overflow 的最顶层
 		settingGroup = new Group("SETTING_GROUP");
 
@@ -275,13 +285,14 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 						Gdx.graphics.getHeight() - Gdx.input.getY() - button.y) != null) {
 
 					for (final Actor actor : settingGroup.getActors()) {
-						actor.action(FadeOut.$(0.3f).setCompletionListener(new OnActionCompleted() {
-							
-							@Override
-							public void completed(Action action) {
-								actor.markToRemove(true);
-							}
-						}));
+						actor.action(FadeOut.$(0.3f).setCompletionListener(
+								new OnActionCompleted() {
+
+									@Override
+									public void completed(Action action) {
+										actor.markToRemove(true);
+									}
+								}));
 					}
 				}
 			}
@@ -299,7 +310,7 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 		settingGroup.addActor(chineseDisplayEnabled);
 		settingGroup.addActor(settingSave);
 		overflowGroup.addActor(settingGroup);
-		
+
 		waitingSettingInitial = false;
 	}
 
@@ -309,9 +320,9 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 
 		}
 	}
-	
+
 	@Override
-	public void showMenu(){
+	public void showMenu() {
 		if (menuSwitch.isChecked()) {
 			menuSwitch.action(RotateTo.$(0f, 0.3f));
 			menuBg.action(FoldOut.$(0.3f));

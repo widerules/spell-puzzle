@@ -16,6 +16,9 @@ public final class Settings {
 	public static boolean WORD_LETTER_ENABLED = true;
 	public static boolean CUTLINE_SOUND_ENABLED = true;
 	public static boolean CHINESE_DISPLAY_ENABLED = true;
+	
+	public static boolean CARD_RANDOM_ACCESS = true;
+	
 	public final static String file = ".spellpuzzle";
 
 	public static void load() {

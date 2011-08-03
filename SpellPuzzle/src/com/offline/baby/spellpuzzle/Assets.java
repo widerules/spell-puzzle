@@ -75,6 +75,8 @@ public class Assets {
 	public static TextureRegion Y_EPT = new TextureRegion();
 	public static TextureRegion Z_EPT = new TextureRegion();
 
+	public static Sound CLICK;
+	
 	public static Sound SOUND_A;
 	public static Sound SOUND_B;
 	public static Sound SOUND_C;
@@ -241,6 +243,8 @@ public class Assets {
 		SOUND_X = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "x.ogg"));
 		SOUND_Y = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "y.ogg"));
 		SOUND_Z = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "z.ogg"));
+		
+		CLICK = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "click.ogg"));
 		
 		animalButtons = loadTexture("data/cardtype_logo_animal.png");
 		ANIMAL_BTN_UNPRESSED = new TextureRegion(animalButtons, 0, 0, 225, 245);

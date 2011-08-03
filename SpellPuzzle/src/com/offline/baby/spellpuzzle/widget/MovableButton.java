@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
-import com.badlogic.gdx.scenes.scene2d.actors.Button;
 
-public class MovableButton extends Button {
+public class MovableButton extends ButtonEx {
 
 	public interface DragListener {
 		void dragged(MovableButton button);
