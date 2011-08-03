@@ -38,7 +38,7 @@ public class AccordionLayer extends Group {
 	public AccordionLayer(String name, TextureRegion region,
 			Direction direction, float spacing) {
 		super(name);
-		this.bg = new TextureRegion(region);
+		this.bg = region;
 		this.direction = direction;
 		this.spacing = spacing;
 		children = new ArrayList<Actor>();
@@ -105,10 +105,6 @@ public class AccordionLayer extends Group {
 				offsetY += actor.height + this.spacing;
 			}
 
-//			drawableX = (int) x;
-//			drawableY = (int) (y - drawableHeight);
-//			bg.setRegion(textureX, (int) (textureY + height - drawableHeight),
-//					(int) drawableWidth, (int) drawableHeight);
 			break;
 		case LEFT:
 			break;
