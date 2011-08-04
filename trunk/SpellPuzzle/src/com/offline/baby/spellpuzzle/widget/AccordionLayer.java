@@ -57,22 +57,6 @@ public class AccordionLayer extends Group {
 
 	@Override
 	protected void draw(SpriteBatch batch, float parentAlpha) {
-		switch (direction) {
-		case TOP:
-			break;
-		case BOTTOM:
-			drawableX = (int) x;
-			drawableY = (int) (y - drawableHeight);
-			regionHeight = drawableHeight;
-			bg.setRegion(textureX, (int) (textureY + height - drawableHeight),
-					(int) drawableWidth, (int) regionHeight);
-			break;
-		case LEFT:
-			break;
-		case RIGHT:
-			break;
-		}
-
 		layout();
 		batch.draw(bg, drawableX, drawableY);
 	}
@@ -93,6 +77,13 @@ public class AccordionLayer extends Group {
 		case TOP:
 			break;
 		case BOTTOM:
+			
+			drawableX = (int) x;
+			drawableY = (int) (y - drawableHeight);
+			regionHeight = drawableHeight;
+			bg.setRegion(textureX, (int) (textureY + height - drawableHeight),
+					(int) drawableWidth, (int) regionHeight);
+			
 			int offsetY = (int) spacing;
 
 			for (Actor actor : children) {
