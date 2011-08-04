@@ -28,7 +28,7 @@ public class FoldIn extends AnimationAction {
 	public void setTarget(Actor actor) {
 		if (!(actor instanceof AccordionLayer)) {
 			throw new GdxRuntimeException(
-					"Can only add AccordionLayer subclasses");
+					"Can only add AccordionLayer and AccordionLayer subclasses");
 		}
 		this.target = actor;
 		this.taken = 0;
