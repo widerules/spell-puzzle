@@ -17,19 +17,14 @@ public class WheelScrollBy extends AnimationAction {
 		}
 	};
 
-	protected float initialX;
-	protected float initialY;
-	protected float x;
-	protected float y;
-	protected float startX;
-	protected float startY;
-	protected float deltaX;
-	protected float deltaY;
+	protected float offset;
+	protected float start;
+	protected float destiny;
 
-	public static WheelScrollBy $(float x, float y, float duration) {
+	public static WheelScrollBy $(float offset, float duration) {
 		WheelScrollBy action = pool.obtain();
-		action.x = action.initialX = x;
-		action.y = action.initialY = y;
+
+		action.offset = offset;
 		action.duration = duration;
 		action.invDuration = 1 / duration;
 		return action;
@@ -41,42 +36,47 @@ public class WheelScrollBy extends AnimationAction {
 			throw new GdxRuntimeException(
 					"Can only add Wheel and Wheel subclasses");
 		}
+
+		Wheel w = (Wheel) actor;
+
 		this.target = actor;
 
 		this.taken = 0;
 		this.done = false;
 
-		this.startX = target.x;
-		this.startY = target.y;
-		this.deltaX = x;
-		this.deltaY = y;
-		this.x = target.x + x;
-		this.y = target.y + y;
+		switch (w.overflow) {
+		case X:
+			this.start = target.x;
+			this.destiny = offset + target.x;
+			break;
+		case Y:
+			this.start = target.y;
+			this.destiny = offset + target.y;
+			break;
+		}
+
 	}
 
 	@Override
 	public void act(float delta) {
 
 		float alpha = createInterpolatedAlpha(delta);
-		if (done) {
-			target.x = x;
-			target.y = y;
-		} else {
-			target.x = startX + deltaX * alpha;
-			target.y = startY + deltaY * alpha;
-		}
+		Wheel w = (Wheel) target;
 
-		Wheel actor = (Wheel) target;
-
-		switch (actor.overflow) {
+		switch (w.overflow) {
 		case X:
 			if (done) {
-				actor.drawableX = (int) (initialX + x);
+				target.x = this.destiny;
 			} else {
-				actor.drawableHeight = actor.height * alpha;
+				target.x = start + offset * alpha;
 			}
 			break;
 		case Y:
+			if (done) {
+				target.y = this.destiny;
+			} else {
+				target.y = start + offset * alpha;
+			}
 			break;
 		}
 	}
@@ -89,7 +89,7 @@ public class WheelScrollBy extends AnimationAction {
 
 	@Override
 	public Action copy() {
-		WheelScrollBy action = $(initialX, initialY, duration);
+		WheelScrollBy action = $(offset, duration);
 		if (interpolator != null)
 			action.setInterpolator(interpolator.copy());
 		return action;

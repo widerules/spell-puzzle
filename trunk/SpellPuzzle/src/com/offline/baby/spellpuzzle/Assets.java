@@ -18,6 +18,10 @@ public class Assets {
 	private static Texture settings;
 
 	private static Texture animalButtons;
+	private static Texture colorButtons;
+	private static Texture jobButtons;
+	private static Texture vegetablesButtons;
+	private static Texture vehicleButtons;
 
 	public static List<TextureRegion> letterList;
 
@@ -76,7 +80,7 @@ public class Assets {
 	public static TextureRegion Z_EPT = new TextureRegion();
 
 	public static Sound CLICK;
-	
+
 	public static Sound SOUND_A;
 	public static Sound SOUND_B;
 	public static Sound SOUND_C;
@@ -117,8 +121,16 @@ public class Assets {
 	public static TextureRegion MENU_HELP;
 	public static TextureRegion MENU_SETTING;
 
-	public static TextureRegion ANIMAL_BTN_UNPRESSED;
-	public static TextureRegion ANIMAL_BTN_PRESSED;
+	public static TextureRegion BTN_ANIMAL_UNPRESSED;
+	public static TextureRegion BTN_ANIMAL_PRESSED;
+	public static TextureRegion BTN_COLOR_UNPRESSED;
+	public static TextureRegion BTN_COLOR_PRESSED;
+	public static TextureRegion BTN_JOB_UNPRESSED;
+	public static TextureRegion BTN_JOB_PRESSED;
+	public static TextureRegion BTN_VEGETABLES_UNPRESSED;
+	public static TextureRegion BTN_VEGETABLES_PRESSED;
+	public static TextureRegion BTN_VEHICLE_UNPRESSED;
+	public static TextureRegion BTN_VEHICLE_PRESSED;
 
 	public static final int LETTER_WIDTH = 92;
 	public static final int LETTER_HEIGHT = 92;
@@ -243,12 +255,26 @@ public class Assets {
 		SOUND_X = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "x.ogg"));
 		SOUND_Y = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "y.ogg"));
 		SOUND_Z = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "z.ogg"));
-		
-		CLICK = Gdx.audio.newSound(Gdx.files.internal(SOUNDS_DIR + "click.ogg"));
-		
+
+		CLICK = Gdx.audio
+				.newSound(Gdx.files.internal(SOUNDS_DIR + "click.ogg"));
+
 		animalButtons = loadTexture("data/cardtype_logo_animal.png");
-		ANIMAL_BTN_UNPRESSED = new TextureRegion(animalButtons, 0, 0, 225, 245);
-		ANIMAL_BTN_PRESSED = new TextureRegion(animalButtons, 225, 0, 225, 245);
+		BTN_ANIMAL_UNPRESSED = new TextureRegion(animalButtons, 0, 0, 225, 245);
+		BTN_ANIMAL_PRESSED = new TextureRegion(animalButtons, 225, 0, 225, 245);
+
+		colorButtons = loadTexture("data/cardtype_logo_color_shape.png");
+		BTN_COLOR_UNPRESSED = new TextureRegion(colorButtons, 0, 0, 225, 245);
+		BTN_COLOR_PRESSED = new TextureRegion(colorButtons, 225, 0, 225, 245);
+		jobButtons = loadTexture("data/cardtype_logo_job.png");
+		BTN_JOB_UNPRESSED = new TextureRegion(jobButtons, 0, 0, 225, 245);
+		BTN_JOB_PRESSED = new TextureRegion(jobButtons, 225, 0, 225, 245);
+		vegetablesButtons = loadTexture("data/cardtype_logo_vegetables.png");
+		BTN_VEGETABLES_UNPRESSED = new TextureRegion(vegetablesButtons, 0, 0, 225, 245);
+		BTN_VEGETABLES_PRESSED = new TextureRegion(vegetablesButtons, 225, 0, 225, 245);
+		vehicleButtons = loadTexture("data/cardtype_logo_vehicle.png");
+		BTN_VEHICLE_UNPRESSED = new TextureRegion(vehicleButtons, 0, 0, 225, 245);
+		BTN_VEHICLE_PRESSED = new TextureRegion(vehicleButtons, 225, 0, 225, 245);
 
 		SETTING_BG = new TextureRegion(settings, 0, 0, 438, 652);
 		SETTING_TITLE = new TextureRegion(settings, 0, 652, 178, 54);
