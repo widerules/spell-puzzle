@@ -17,12 +17,19 @@ import com.offline.baby.spellpuzzle.widget.AccordionLayer.Direction;
 import com.offline.baby.spellpuzzle.widget.ButtonEx;
 import com.offline.baby.spellpuzzle.widget.OnTouchDown;
 import com.offline.baby.spellpuzzle.widget.SwitchButton;
+import com.offline.baby.spellpuzzle.widget.Wheel;
+import com.offline.baby.spellpuzzle.widget.Wheel.Overflow;
 import com.offline.baby.spellpuzzle.widget.actions.FoldIn;
 import com.offline.baby.spellpuzzle.widget.actions.FoldOut;
 
 public class MainScreen extends BaseScreen<SpellPuzzle> {
 
-	private ButtonEx btn;
+	private Wheel wheel;
+	private ButtonEx animalBtn;
+	private ButtonEx colorBtn;
+	private ButtonEx jobBtn;
+	private ButtonEx vegetableBtn;
+	private ButtonEx vehicleBtn;
 	private Image bg;
 	private Image bgGrass;
 
@@ -51,11 +58,14 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 		bgGrass = new Image("MAIN_GRASS", Assets.MAIN_GRASS);
 		setAboveBackground(bgGrass);
 
-		btn = new ButtonEx("CARD_BUTTON", Assets.ANIMAL_BTN_UNPRESSED,
-				Assets.ANIMAL_BTN_PRESSED);
-		btn.x = stage.centerX() - btn.originX;
-		btn.y = (int) (stage.height() * 0.1f);
-		btn.onTouchDown = new OnTouchDown() {
+		wheel = new Wheel("Wheel", Overflow.X, Gdx.graphics.getWidth(),
+				Assets.BTN_ANIMAL_UNPRESSED.getRegionHeight(), 50);
+
+		animalBtn = new ButtonEx("CARD_BUTTON_ANIMAL",
+				Assets.BTN_ANIMAL_UNPRESSED, Assets.BTN_ANIMAL_PRESSED);
+		// animalBtn.x = stage.centerX() - animalBtn.originX;
+		// animalBtn.y = (int) (stage.height() * 0.1f);
+		animalBtn.onTouchDown = new OnTouchDown() {
 
 			@Override
 			public void pressed(ButtonEx button) {
@@ -63,18 +73,119 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 			}
 		};
 
-		btn.clickListener = new ClickListener() {
+		animalBtn.clickListener = new ClickListener() {
 
 			@Override
 			public void clicked(Button button) {
 				if (button.hit(Gdx.input.getX() - button.x,
-						Gdx.graphics.getHeight() - Gdx.input.getY() - btn.y) != null) {
+						Gdx.graphics.getHeight() - Gdx.input.getY()
+								- animalBtn.y) != null) {
 					game.setScreen(new GameScreen(game));
 				}
 			}
 		};
-		btn.action(FadeIn.$(0.3f));
-		addFunctionActor(btn);
+		
+		wheel.addActor(animalBtn);
+		
+		animalBtn = new ButtonEx("CARD_BUTTON_ANIMAL",
+				Assets.BTN_ANIMAL_UNPRESSED, Assets.BTN_ANIMAL_PRESSED);
+		// animalBtn.x = stage.centerX() - animalBtn.originX;
+		// animalBtn.y = (int) (stage.height() * 0.1f);
+		animalBtn.onTouchDown = new OnTouchDown() {
+
+			@Override
+			public void pressed(ButtonEx button) {
+				Assets.CLICK.play();
+			}
+		};
+
+		animalBtn.clickListener = new ClickListener() {
+
+			@Override
+			public void clicked(Button button) {
+				if (button.hit(Gdx.input.getX() - button.x,
+						Gdx.graphics.getHeight() - Gdx.input.getY()
+								- animalBtn.y) != null) {
+					game.setScreen(new GameScreen(game));
+				}
+			}
+		};
+		
+		animalBtn = new ButtonEx("CARD_BUTTON_ANIMAL",
+				Assets.BTN_ANIMAL_UNPRESSED, Assets.BTN_ANIMAL_PRESSED);
+		// animalBtn.x = stage.centerX() - animalBtn.originX;
+		// animalBtn.y = (int) (stage.height() * 0.1f);
+		animalBtn.onTouchDown = new OnTouchDown() {
+
+			@Override
+			public void pressed(ButtonEx button) {
+				Assets.CLICK.play();
+			}
+		};
+
+		animalBtn.clickListener = new ClickListener() {
+
+			@Override
+			public void clicked(Button button) {
+				if (button.hit(Gdx.input.getX() - button.x,
+						Gdx.graphics.getHeight() - Gdx.input.getY()
+								- animalBtn.y) != null) {
+					game.setScreen(new GameScreen(game));
+				}
+			}
+		};
+		
+		animalBtn = new ButtonEx("CARD_BUTTON_ANIMAL",
+				Assets.BTN_ANIMAL_UNPRESSED, Assets.BTN_ANIMAL_PRESSED);
+		// animalBtn.x = stage.centerX() - animalBtn.originX;
+		// animalBtn.y = (int) (stage.height() * 0.1f);
+		animalBtn.onTouchDown = new OnTouchDown() {
+
+			@Override
+			public void pressed(ButtonEx button) {
+				Assets.CLICK.play();
+			}
+		};
+
+		animalBtn.clickListener = new ClickListener() {
+
+			@Override
+			public void clicked(Button button) {
+				if (button.hit(Gdx.input.getX() - button.x,
+						Gdx.graphics.getHeight() - Gdx.input.getY()
+								- animalBtn.y) != null) {
+					game.setScreen(new GameScreen(game));
+				}
+			}
+		};
+		
+		animalBtn = new ButtonEx("CARD_BUTTON_ANIMAL",
+				Assets.BTN_ANIMAL_UNPRESSED, Assets.BTN_ANIMAL_PRESSED);
+		// animalBtn.x = stage.centerX() - animalBtn.originX;
+		// animalBtn.y = (int) (stage.height() * 0.1f);
+		animalBtn.onTouchDown = new OnTouchDown() {
+
+			@Override
+			public void pressed(ButtonEx button) {
+				Assets.CLICK.play();
+			}
+		};
+
+		animalBtn.clickListener = new ClickListener() {
+
+			@Override
+			public void clicked(Button button) {
+				if (button.hit(Gdx.input.getX() - button.x,
+						Gdx.graphics.getHeight() - Gdx.input.getY()
+								- animalBtn.y) != null) {
+					game.setScreen(new GameScreen(game));
+				}
+			}
+		};
+
+		// btn.action(FadeIn.$(0.3f));
+
+		// addFunctionActor(btn);
 
 		loadMenu();
 	}
@@ -336,7 +447,7 @@ public class MainScreen extends BaseScreen<SpellPuzzle> {
 	@Override
 	public void dispose() {
 		super.dispose();
-		btn = null;
+		animalBtn = null;
 		bg = null;
 		bgGrass = null;
 	}

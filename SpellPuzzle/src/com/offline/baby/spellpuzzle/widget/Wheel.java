@@ -13,16 +13,16 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 public class Wheel extends Group {
 
 	public Wheel(String name, TextureRegion bg, Overflow overflow, float spacing) {
-		this(name, bg, overflow, bg.getRegionWidth(), bg.getRegionHeight(),
-				spacing);
+		this(name, bg, overflow, bg
+				.getRegionWidth(), bg.getRegionHeight(), spacing);
 	}
 
-	public Wheel(String name, Overflow overflow, int w, int h, float spacing) {
+	public Wheel(String name, Overflow overflow, int w, int h,
+			float spacing) {
 		this(name, null, overflow, w, h, spacing);
 	}
 
-	public Wheel(String name, TextureRegion bg, Overflow overflow, int w,
-			int h, float spacing) {
+	public Wheel(String name, TextureRegion bg, Overflow overflow, int w, int h, float spacing) {
 		super(name);
 		this.bg = bg;
 		this.overflow = overflow;
@@ -39,6 +39,8 @@ public class Wheel extends Group {
 		this.originY = height / 2f;
 		this.centerX = Gdx.graphics.getWidth() / 2;
 		this.centerY = Gdx.graphics.getHeight() / 2;
+//		this.drawableX = x;
+//		this.drawableY = y;
 	}
 
 	public enum Overflow {
@@ -55,8 +57,8 @@ public class Wheel extends Group {
 	public float regionWidth;
 	public float drawableHeight;
 	public float regionHeight;
-	public int drawableX;
-	public int drawableY;
+	public float drawableX;
+	public float drawableY;
 	public float spacing = 0;
 	public int currentIndex = 0;
 
@@ -79,8 +81,7 @@ public class Wheel extends Group {
 	protected void layout() {
 		switch (overflow) {
 		case X:
-
-			int offsetX = (int) (centerX - children.get(currentIndex).originX);
+			float offsetX = drawableX;//  (int) (centerX - children.get(currentIndex).originX);
 			int midY = (int) this.y + (int) originY;
 
 			for (int i = currentIndex - 1; i >= 0; i--) {
@@ -90,7 +91,7 @@ public class Wheel extends Group {
 				act.y = midY - act.originY;
 			}
 
-			offsetX = (int) (centerX - children.get(currentIndex).originX);
+			offsetX = drawableX;
 			for (int i = currentIndex; i < children.size(); i++) {
 				Actor act = children.get(i);
 				act.x = offsetX;
