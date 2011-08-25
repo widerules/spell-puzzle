@@ -8,39 +8,44 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Wheel extends Group {
 
 	public Wheel(String name, TextureRegion bg, Overflow overflow, float spacing) {
-		this(name, bg, overflow, bg
-				.getRegionWidth(), bg.getRegionHeight(), spacing);
+		this(name, bg, overflow, bg.getRegionWidth(), bg.getRegionHeight(),
+				spacing);
 	}
 
-	public Wheel(String name, Overflow overflow, int w, int h,
-			float spacing) {
+	public Wheel(String name, Overflow overflow, int w, int h, float spacing) {
 		this(name, null, overflow, w, h, spacing);
 	}
 
-	public Wheel(String name, TextureRegion bg, Overflow overflow, int w, int h, float spacing) {
+	public Wheel(String name, TextureRegion bg, Overflow overflow, int w,
+			int h, float spacing) {
 		super(name);
 		this.bg = bg;
 		this.overflow = overflow;
 		this.bg = bg;
 		this.spacing = spacing;
-		children = new ArrayList<Actor>();
+		children = new ArrayList<ButtonEx>();
 		drawableWidth = w;
 		drawableHeight = h;
 		regionWidth = w;
 		regionHeight = h;
-		this.width = w;
-		this.height = h;
-		this.originX = width / 2f;
-		this.originY = height / 2f;
-		this.centerX = Gdx.graphics.getWidth() / 2;
-		this.centerY = Gdx.graphics.getHeight() / 2;
-//		this.drawableX = x;
-//		this.drawableY = y;
+		switch (overflow) {
+		case X:
+			this.height = h;
+			this.originY = height / 2f;
+			this.centerY = Gdx.graphics.getHeight() / 2;
+			this.drawableX = Gdx.graphics.getWidth() / 2;
+			break;
+		case Y:
+			this.width = w;
+			this.originX = width / 2f;
+			this.centerX = Gdx.graphics.getWidth() / 2;
+			this.drawableY = Gdx.graphics.getHeight() / 2;
+			break;
+		}
 	}
 
 	public enum Overflow {
@@ -48,7 +53,7 @@ public class Wheel extends Group {
 	}
 
 	private TextureRegion bg;
-	private List<Actor> children;
+	private List<ButtonEx> children;
 	private int centerX = 0;
 	private int centerY = 0;
 
@@ -61,6 +66,8 @@ public class Wheel extends Group {
 	public float drawableY;
 	public float spacing = 0;
 	public int currentIndex = 0;
+	
+	private boolean isDrag = false;
 
 	@Override
 	protected void draw(SpriteBatch batch, float parentAlpha) {
@@ -76,12 +83,17 @@ public class Wheel extends Group {
 			}
 
 		}
+
+		for (ButtonEx child : children) {
+			child.draw(batch, parentAlpha);
+		}
 	}
 
 	protected void layout() {
 		switch (overflow) {
 		case X:
-			float offsetX = drawableX;//  (int) (centerX - children.get(currentIndex).originX);
+			float offsetX = drawableX ;// (int) (centerX -
+										// children.get(currentIndex).originX);
 			int midY = (int) this.y + (int) originY;
 
 			for (int i = currentIndex - 1; i >= 0; i--) {
@@ -91,7 +103,7 @@ public class Wheel extends Group {
 				act.y = midY - act.originY;
 			}
 
-			offsetX = drawableX;
+			offsetX = drawableX - children.get(currentIndex).originX;
 			for (int i = currentIndex; i < children.size(); i++) {
 				Actor act = children.get(i);
 				act.x = offsetX;
@@ -123,11 +135,25 @@ public class Wheel extends Group {
 		}
 	}
 
-	public void addActor(Actor actor) {
-		if (actor instanceof Group) {
-			throw new GdxRuntimeException("Can not add Group (Actors)");
-		}
-
+	public void addActor(ButtonEx actor) {
 		children.add(actor);
+	}
+	
+	@Override
+	protected boolean touchDown(float x, float y, int pointer) {
+		// TODO Auto-generated method stub
+		return super.touchDown(x, y, pointer);
+	}
+	
+	@Override
+	protected boolean touchDragged(float x, float y, int pointer) {
+		isDrag = true;
+		return super.touchDragged(x, y, pointer);
+	}
+	
+	@Override
+	protected boolean touchUp(float x, float y, int pointer) {
+		// TODO Auto-generated method stub
+		return super.touchUp(x, y, pointer);
 	}
 }

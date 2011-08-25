@@ -1,6 +1,7 @@
 package com.offline.baby.spellpuzzle.widget;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actors.Button;
 
@@ -34,11 +35,15 @@ public class ButtonEx extends Button {
 	@Override
 	protected boolean touchUp(float x, float y, int pointer) {
 		boolean result = super.touchUp(x, y, pointer);
-		
+
 		if (result && onTouchUp != null) {
 			onTouchUp.released(this);
 		}
 		return result;
 	}
 
+	@Override
+	protected void draw(SpriteBatch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+	}
 }
