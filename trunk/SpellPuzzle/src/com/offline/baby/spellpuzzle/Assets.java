@@ -269,7 +269,7 @@ public class Assets {
 		jobButtons = loadTexture("data/cardtype_logo_job.png");
 		BTN_JOB_UNPRESSED = new TextureRegion(jobButtons, 0, 0, 225, 245);
 		BTN_JOB_PRESSED = new TextureRegion(jobButtons, 225, 0, 225, 245);
-		vegetablesButtons = loadTexture("data/cardtype_logo_vegetables.png");
+		vegetablesButtons = loadTexture("data/cardtype_logo_vegetables_fruits.png");
 		BTN_VEGETABLES_UNPRESSED = new TextureRegion(vegetablesButtons, 0, 0, 225, 245);
 		BTN_VEGETABLES_PRESSED = new TextureRegion(vegetablesButtons, 225, 0, 225, 245);
 		vehicleButtons = loadTexture("data/cardtype_logo_vehicle.png");
