@@ -2,6 +2,7 @@ package com.james.fa.actions;
 
 import com.james.fa.po.User;
 import com.james.fa.services.UserService;
+import com.opensymphony.webwork.ServletActionContext;
 
 public class LoginAction extends BasicAction {
 
@@ -19,11 +20,14 @@ public class LoginAction extends BasicAction {
 	public String execute() {
 		User user = userService.login(username, password);
 		if (user != null) {
-			
+			ServletActionContext.getRequest().getSession()
+					.setAttribute(User.STORAGE_KEY, user);
+			setMsg("Login Success!!");
 		} else {
-
+			makeFailure();
+			setMsg("Failed!!");
 		}
-		return SUCCESS;
+		return ajaxReturn();
 	}
 
 	public String getUsername() {

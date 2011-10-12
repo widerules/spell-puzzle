@@ -46,7 +46,8 @@ public class UserDaoImpl extends BasicDao<User> implements UserDao {
 	private static final String SQL_FIND_BY_USERNAME_PASSWORD = "SELECT * FROM user WHERE username=? and password=?";
 
 	public User findByUserNamePassword(String username, String password) {
-		return query(SQL_FIND_BY_USERNAME_PASSWORD, new UserSingleRowMapper());
+		return query(SQL_FIND_BY_USERNAME_PASSWORD, new Object[] { username,
+				password }, new UserSingleRowMapper());
 	}
 
 	public List<User> findAll() {
