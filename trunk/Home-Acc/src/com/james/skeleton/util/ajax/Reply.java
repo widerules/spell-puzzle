@@ -33,12 +33,14 @@ public class Reply {
 	}
 
 	private boolean success = true;
+	
 	private ErrorInfo errors;
-
 	private String status;
 	private Object value;
 	private Object collections;
 
+	private String msg;
+	
 	private List<String> errMessage = new ArrayList<String>();
 	private List<String> message = new ArrayList<String>();
 
@@ -104,5 +106,13 @@ public class Reply {
 
 	public void setErrors(ErrorInfo errors) {
 		this.errors = errors;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 }

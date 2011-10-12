@@ -11,45 +11,45 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.trans24.ach">
+	<logger name="com.james">
 		<level value="info" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="info" />
+		<level value="warn" />
 	</logger>	
 	
 	<logger name="org.springframework.beans">
-		<level value="info" />
+		<level value="warn" />
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="info" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework.http">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework.binding">
-		<level value="info" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework.webflow">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework.faces">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 	
 	<logger name="org">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<!-- Root Logger -->

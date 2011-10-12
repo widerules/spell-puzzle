@@ -153,9 +153,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<!-- Beans -->
 	<!-- Beans -->
 	<!-- Beans -->
-<!-- 	<bean id="systemLog" class="com.trans24.ach.service.impl.SystemLogImpl"> -->
-<!-- 		<property name="systemLogDao" ref="systemLogDao" /> -->
-<!-- 	</bean> -->
+	<bean id="userService" class="com.james.fa.services.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
 	
 <!-- 	<bean id="achServiceApi" class="com.trans24.ach.service.impl.AchServiceImpl"> -->
 <!-- 		<property name="merchantService" ref="merchantService" /> -->
@@ -183,13 +183,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<!-- Daos -->
 	<!-- Daos -->
 	<!-- Daos -->
-	
-	
-	<!-- <bean id="systemLogDao" class="com.trans24.ach.dao.impl.SystemLogDaoImpl">  -->
-	<!-- <bean id="systemLogDao" class="com.trans24.ach.dao.impl.SystemLogQueueDaoImpl">  -->
-<!-- 	<bean id="systemLogDao" class="com.trans24.ach.dao.impl.proc.SystemLogDaoProc"> -->
-<!-- 		<property name="dataSource" ref="c3p0DS" /> -->
-<!-- 	</bean> -->
+	<bean id="userDao" class="com.james.fa.daos.UserDaoImpl">
+		<property name="dataSource" ref="c3p0DS" />
+	</bean>
 <!-- 	<bean id="merchantViewDao" class="com.trans24.ach.dao.impl.MerchantViewDaoImpl"> -->
 <!-- 		<property name="dataSource" ref="c3p0DS" /> -->
 <!-- 	</bean> -->

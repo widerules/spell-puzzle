@@ -3,6 +3,9 @@ package com.james.fa.po;
 import java.util.Date;
 
 public class User {
+	
+	public static final String STORAGE_KEY = "com.james.fa.po.User";
+	
 	private String id;
 	private String username;
 	private String password;

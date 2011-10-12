@@ -73,10 +73,10 @@
 					if (form.isValid()) {
 						form.submit({
 							success : function(form, action) {
-								Ext.Msg.alert('Success', action);
+								Ext.Msg.alert('Success', action.result.msg);
 							},
 							failure : function(form, action) {
-								Ext.Msg.alert('Failed', action);
+								Ext.Msg.alert('Failed', action.result.msg);
 							},
 							waitMsg : 'Submiting...'
 						});
