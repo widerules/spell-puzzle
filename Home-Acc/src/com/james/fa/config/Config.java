@@ -49,10 +49,11 @@ public class Config {
 		root.setRoot(true);
 
 		TreeNode node1 = new TreeNode("Accounting", "/app/test.action");
+		node1.setExpanded(true);
 		node1.addChild(new TreeNode("Input", "app/test.action"));
 		node1.addChild(new TreeNode("Details", "app/test.action"));
 		node1.addChild(new TreeNode("Report", "app/test.action"));
-		
+
 		root.addChild(node1);
 
 		return root;

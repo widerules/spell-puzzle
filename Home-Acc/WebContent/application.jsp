@@ -14,8 +14,16 @@
 <title>Family Accounting</title>
 <script type="text/javascript">
 Ext.onReady(function() {
-    var cw;
-    
+	
+	Ext.define('TreeNode', {
+	    extend: 'Ext.data.Model',
+	    fields: [
+            {name: 'text',  type: 'string'},
+            {name: 'url',  type: 'string'},
+	    ],
+	});
+	
+	
     Ext.create('Ext.Viewport', {
         layout: {
             type: 'border',
@@ -44,13 +52,16 @@ Ext.onReady(function() {
                         id: 'src',
                         expanded: true
                     },
-                    folderSort: true,
-                    sorters: [{
-                        property: 'text',
-                        direction: 'ASC'
-                    }]
+                    model: 'TreeNode'
                 }),
-                rootVisible: false
+                rootVisible: false,
+                listeners : {
+                	itemclick: {
+                		fn: function (view, record, item, index, e){
+                			Ext.Msg.alert('Title', record.data.url);
+                		}
+                	}
+                }
             }]
         },{
             region: 'center',
