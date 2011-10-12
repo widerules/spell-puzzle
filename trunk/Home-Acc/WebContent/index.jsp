@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Family Accounting</title>
 <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css" />
-<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/docs-ext.css" />
-<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/reset.css" />
-<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/scrollbars.css" />
-<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/viewport.css" />
+<!-- <link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/docs-ext.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/reset.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/scrollbars.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/viewport.css" /> -->
 <script type="text/javascript" src="extjs/ext-all.js"></script>
 <!-- <script type="text/javascript" src="extjs/resources/locale/ext-lang-zh_CN.js"></script> -->
 <script type="text/javascript">

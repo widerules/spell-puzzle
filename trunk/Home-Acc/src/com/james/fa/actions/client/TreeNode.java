@@ -11,7 +11,16 @@ public class TreeNode {
 	private boolean expandable = true;
 
 	private String text;
+
+	private String href;
+	private String hrefTarget;
+	
 	private String url;
+
+	private String id;
+	private String parentId;
+
+	private String cls = "";
 
 	private List<TreeNode> children = new ArrayList<TreeNode>();
 
@@ -22,9 +31,10 @@ public class TreeNode {
 		this.text = text;
 	}
 
-	public TreeNode(String text, String url) {
+	public TreeNode(String text, String href) {
 		this.text = text;
-		this.url = url;
+		this.url = href;
+//		this.href = href;
 	}
 
 	public boolean isRoot() {
@@ -67,20 +77,60 @@ public class TreeNode {
 		this.text = text;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 	public List<TreeNode> getChildren() {
 		return children;
 	}
 
 	public void setChildren(List<TreeNode> children) {
 		this.children = children;
+	}
+
+	public String getHref() {
+		return href;
+	}
+
+	public void setHref(String href) {
+		this.href = href;
+	}
+
+	public String getHrefTarget() {
+		return hrefTarget;
+	}
+
+	public void setHrefTarget(String hrefTarget) {
+		this.hrefTarget = hrefTarget;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getCls() {
+		return cls;
+	}
+
+	public void setCls(String cls) {
+		this.cls = cls;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public TreeNode addChild(TreeNode child) {
