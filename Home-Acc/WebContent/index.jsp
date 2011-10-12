@@ -1,10 +1,15 @@
-<!doctype html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Family Accounting</title>
-<link rel="stylesheet" type="text/css"
-	href="extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/docs-ext.css" />
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/reset.css" />
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/scrollbars.css" />
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/doc/viewport.css" />
 <script type="text/javascript" src="extjs/ext-all.js"></script>
 <!-- <script type="text/javascript" src="extjs/resources/locale/ext-lang-zh_CN.js"></script> -->
 <script type="text/javascript">
@@ -73,7 +78,7 @@
 					if (form.isValid()) {
 						form.submit({
 							success : function(form, action) {
-								Ext.Msg.alert('Success', action.result.msg);
+                                location.href = 'app.action';
 							},
 							failure : function(form, action) {
 								Ext.Msg.alert('Failed', action.result.msg);

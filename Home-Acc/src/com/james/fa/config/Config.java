@@ -6,9 +6,18 @@ import java.util.Date;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
 
-public class Config {
+import com.james.fa.actions.client.TreeNode;
 
-	public static JsonConfig JSON_CONFIG = defaultJsonConfig();
+public class Config {
+	
+	public static TreeNode TREE_STORE;
+	public static JsonConfig JSON_CONFIG;
+	
+	static {
+		TREE_STORE = retriveTreeStore();
+		JSON_CONFIG = defaultJsonConfig();
+	}
+
 
 	private static JsonConfig defaultJsonConfig() {
 		JsonConfig cfg = new JsonConfig();
@@ -34,5 +43,17 @@ public class Config {
 					}
 				});
 		return cfg;
+	}
+	
+	private static TreeNode retriveTreeStore(){
+		TreeNode root = new TreeNode();
+		root.setRoot(true);
+		
+		TreeNode node = new TreeNode();
+		node.setLeaf(true);
+		node.setText("Node");
+		node.setUrl("/app/test.action");
+		root.addChild(node);
+		return root;
 	}
 }
