@@ -6,7 +6,7 @@ import java.util.List;
 public class TreeNode {
 
 	private boolean root;
-	private boolean leaf;
+	private boolean leaf = true;
 	private boolean expanded;
 	private boolean expandable = true;
 
@@ -14,6 +14,18 @@ public class TreeNode {
 	private String url;
 
 	private List<TreeNode> children = new ArrayList<TreeNode>();
+
+	public TreeNode() {
+	}
+
+	public TreeNode(String text) {
+		this.text = text;
+	}
+
+	public TreeNode(String text, String url) {
+		this.text = text;
+		this.url = url;
+	}
 
 	public boolean isRoot() {
 		return root;
@@ -71,7 +83,9 @@ public class TreeNode {
 		this.children = children;
 	}
 
-	public void addChild(TreeNode child) {
+	public TreeNode addChild(TreeNode child) {
+		leaf = false;
 		this.children.add(child);
+		return this;
 	}
 }

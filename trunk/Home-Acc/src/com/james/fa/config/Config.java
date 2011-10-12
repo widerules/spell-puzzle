@@ -9,15 +9,14 @@ import net.sf.json.processors.JsonValueProcessor;
 import com.james.fa.actions.client.TreeNode;
 
 public class Config {
-	
+
 	public static TreeNode TREE_STORE;
 	public static JsonConfig JSON_CONFIG;
-	
+
 	static {
 		TREE_STORE = retriveTreeStore();
 		JSON_CONFIG = defaultJsonConfig();
 	}
-
 
 	private static JsonConfig defaultJsonConfig() {
 		JsonConfig cfg = new JsonConfig();
@@ -44,16 +43,18 @@ public class Config {
 				});
 		return cfg;
 	}
-	
-	private static TreeNode retriveTreeStore(){
+
+	private static TreeNode retriveTreeStore() {
 		TreeNode root = new TreeNode();
 		root.setRoot(true);
+
+		TreeNode node1 = new TreeNode("Accounting", "/app/test.action");
+		node1.addChild(new TreeNode("Input", "app/test.action"));
+		node1.addChild(new TreeNode("Details", "app/test.action"));
+		node1.addChild(new TreeNode("Report", "app/test.action"));
 		
-		TreeNode node = new TreeNode();
-		node.setLeaf(true);
-		node.setText("Node");
-		node.setUrl("/app/test.action");
-		root.addChild(node);
+		root.addChild(node1);
+
 		return root;
 	}
 }
