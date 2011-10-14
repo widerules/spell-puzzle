@@ -58,18 +58,36 @@ Ext.onReady(function() {
                 listeners : {
                 	itemclick: {
                 		fn: function (view, record, item, index, e){
-                			Ext.Msg.alert('Title', record.data.url);
+                            if (Ext.getCmp('main_tab')){
+                            	Ext.getCmp('main_tab').setLoading(true);
+                            }
+                            
+                            Ext.Ajax.request({
+                                url: 'showInput.action',
+                                params: {
+                                    id: 1
+                                },
+                                success: function(response){
+                                    var text = response.responseText;
+                                    // process server response here
+                                }
+                            });
                 		}
                 	}
                 }
             }]
         },{
             region: 'center',
-            layout: 'border',
+            layout: 'fit',
             border: false,
             items: [{
-                region: 'center',
-                html: 'center center'
+                id: 'main_tab',
+                xtype: 'tabpanel',
+                items: [{
+                    id: 'main_content',
+                    title: 'test title',
+                    html: 'content',
+                }]
             }]
         }],
         renderTo: 'mainContain'
