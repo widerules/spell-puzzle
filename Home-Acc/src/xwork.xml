@@ -36,10 +36,11 @@
         <!-- ajax json request -->
 		<action name="login" class="com.james.fa.actions.LoginAction" />
         <action name="loadNavigator" class="com.james.fa.actions.NavigatorAction" />
+        <action name="loadConsumeType" class="com.james.fa.actions.ComsumeTypeAction" />
         
         <!-- ajax request -->
-        <action name="preInput" class="com.james.fa.actions.InputRecordAction">
-            <result name="success"></result>
+        <action name="showInput" class="com.james.fa.actions.InputRecordAction">
+            <result name="success">inner/input.jsp</result>
         </action>
 	</package>
 <!--	<include file="./xwork_ccp_act_fee.xml"></include>-->

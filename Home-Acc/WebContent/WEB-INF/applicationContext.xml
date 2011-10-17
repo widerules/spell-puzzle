@@ -156,29 +156,10 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="userService" class="com.james.fa.services.UserServiceImpl">
 		<property name="userDao" ref="userDao" />
 	</bean>
-	
-<!-- 	<bean id="achServiceApi" class="com.trans24.ach.service.impl.AchServiceImpl"> -->
-<!-- 		<property name="merchantService" ref="merchantService" /> -->
-<!-- 		<property name="blackListService" ref="blackListService" /> -->
-<!-- 		<property name="countryService" ref="countryService" /> -->
-<!-- 		<property name="bankService" ref="bankService" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="merchantService" class="com.trans24.ach.service.impl.MerchantServiceImpl"> -->
-<!-- 		<property name="merchantViewDao" ref="merchantViewDao" /> -->
-<!-- 		<property name="merchantAccountsDao" ref="merchantAccountsDao" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="blackListService" class="com.trans24.ach.service.impl.BlackListServiceImpl"> -->
-<!-- 		<property name="achBlackListDao" ref="achBlackListDao" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="countryService" class="com.trans24.ach.service.impl.CountryServiceImpl"> -->
-<!-- 		<property name="countryDao" ref="countryDao" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="bankService" class="com.trans24.ach.service.impl.BankServiceImpl"> -->
-<!-- 		<property name="bankDao" ref="bankDao" /> -->
-<!-- 	</bean> -->
-	
+    
+    <bean id="consumeTypeService" class="com.james.fa.services.ConsumeTypeServiceImpl">
+        <property name="consumeTypeDao" ref="consumeTypeDao" />
+    </bean>
 
 	<!-- Daos -->
 	<!-- Daos -->
@@ -186,21 +167,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="userDao" class="com.james.fa.daos.UserDaoImpl">
 		<property name="dataSource" ref="c3p0DS" />
 	</bean>
-<!-- 	<bean id="merchantViewDao" class="com.trans24.ach.dao.impl.MerchantViewDaoImpl"> -->
-<!-- 		<property name="dataSource" ref="c3p0DS" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="merchantAccountsDao" class="com.trans24.ach.dao.impl.MerchantAccountsDaoImpl" > -->
-<!-- 		<property name="dataSource" ref="c3p0DS" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="achBlackListDao" class="com.trans24.ach.dao.impl.AchBlackListDaoImpl"> -->
-<!-- 		<property name="dataSource" ref="c3p0DS" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="countryDao" class="com.trans24.ach.dao.impl.CountryDaoImpl"> -->
-<!-- 		<property name="dataSource" ref="c3p0DS" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="bankDao" class="com.trans24.ach.dao.impl.BankDaoImpl"> -->
-<!-- 		<property name="dataSource" ref="c3p0DS" /> -->
-<!-- 	</bean> -->
+    <bean id="consumeTypeDao" class="com.james.fa.daos.ConsumeTypeDaoImpl">
+        <property name="dataSource" ref="c3p0DS" />
+    </bean>
 	
 </beans>
 

@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeNode {
+	
+	public static final String ROOT_ID = "00000000000000000000000000000000";
 
 	private boolean root;
 	private boolean leaf = true;
 	private boolean expanded;
 	private boolean expandable = true;
 
-	private String text;
 
 	private String href;
 	private String hrefTarget;
 	
-	private String url;
-
 	private String id;
 	private String parentId;
 
@@ -25,16 +24,6 @@ public class TreeNode {
 	private List<TreeNode> children = new ArrayList<TreeNode>();
 
 	public TreeNode() {
-	}
-
-	public TreeNode(String text) {
-		this.text = text;
-	}
-
-	public TreeNode(String text, String href) {
-		this.text = text;
-		this.url = href;
-//		this.href = href;
 	}
 
 	public boolean isRoot() {
@@ -67,14 +56,6 @@ public class TreeNode {
 
 	public void setExpandable(boolean expandable) {
 		this.expandable = expandable;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public List<TreeNode> getChildren() {
@@ -125,16 +106,9 @@ public class TreeNode {
 		this.cls = cls;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 	public TreeNode addChild(TreeNode child) {
 		leaf = false;
+		child.setParentId(this.id);
 		this.children.add(child);
 		return this;
 	}

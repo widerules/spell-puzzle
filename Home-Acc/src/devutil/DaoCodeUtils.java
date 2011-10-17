@@ -624,7 +624,7 @@ public class DaoCodeUtils {
 	}
 
 	public static void main(String[] args) {
-		DaoCodeUtils builder = new DaoCodeUtils("user", "User");
+		DaoCodeUtils builder = new DaoCodeUtils("consume_type", "ConsumeType");
 		builder.printCode();
 	}
 

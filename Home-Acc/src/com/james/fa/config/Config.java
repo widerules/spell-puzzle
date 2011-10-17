@@ -7,6 +7,7 @@ import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
 
 import com.james.fa.actions.client.TreeNode;
+import com.james.fa.po.MenuItem;
 
 public class Config {
 
@@ -45,14 +46,14 @@ public class Config {
 	}
 
 	private static TreeNode retriveTreeStore() {
-		TreeNode root = new TreeNode();
+		MenuItem root = new MenuItem();
 		root.setRoot(true);
 
-		TreeNode node1 = new TreeNode("Accounting", "/app/test.action");
+		MenuItem node1 = new MenuItem("Accounting", "/app/test.action");
 		node1.setExpanded(true);
-		node1.addChild(new TreeNode("Input", "app/test.action"));
-		node1.addChild(new TreeNode("Details", "app/test.action"));
-		node1.addChild(new TreeNode("Report", "app/test.action"));
+		node1.addChild(new MenuItem("Input", "app/test.action"));
+		node1.addChild(new MenuItem("Details", "app/test.action"));
+		node1.addChild(new MenuItem("Report", "app/test.action"));
 
 		root.addChild(node1);
 
