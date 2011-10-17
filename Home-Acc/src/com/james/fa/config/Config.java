@@ -49,11 +49,11 @@ public class Config {
 		MenuItem root = new MenuItem();
 		root.setRoot(true);
 
-		MenuItem node1 = new MenuItem("Accounting", "/app/test.action");
+		MenuItem node1 = new MenuItem("Accounting", "accounting", "/app/test.action");
 		node1.setExpanded(true);
-		node1.addChild(new MenuItem("Input", "app/test.action"));
-		node1.addChild(new MenuItem("Details", "app/test.action"));
-		node1.addChild(new MenuItem("Report", "app/test.action"));
+		node1.addChild(new MenuItem("Input", "accounting/input", "app/test.action"));
+		node1.addChild(new MenuItem("Details", "accounting/details", "app/test.action"));
+		node1.addChild(new MenuItem("Report", "accounting/report", "app/test.action"));
 
 		root.addChild(node1);
 
