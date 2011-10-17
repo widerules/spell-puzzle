@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css" />
+<!-- <script type="text/javascript" src="extjs/ext-all.js"></script> -->
 <script type="text/javascript" src="extjs/ext-all.js"></script>
 <style type="text/css">
 #loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
@@ -19,8 +20,16 @@ Ext.onReady(function() {
 	    fields: [
             {name: 'text',  type: 'string'},
             {name: 'url',  type: 'string'},
+            {name: 'key',  type: 'string'},
 	    ]
 	});
+	
+	Ext.define('ConsumeType', {
+        extend: 'Ext.data.Model',
+        fields: [
+            {name: 'text',  type: 'string'},
+        ],
+    });
 	
 	
     Ext.create('Ext.Viewport', {
@@ -57,23 +66,29 @@ Ext.onReady(function() {
                 listeners : {
                 	itemclick: {
                 		fn: function (view, record, item, index, e){
-                            if (Ext.getCmp('main_tab')){
-                            	Ext.getCmp('main_tab').setLoading(true);
-                            }
-                            Ext.getCmp('main_tab').removeAll();
-
-                            tab = Ext.create('Ext.panel.Panel', {
-                                title: 'Input',
-                                padding: '20 10 10 10',
-                                loader: {
-                            	        url: 'showInput.action',
-                            	        renderer: 'html',
-                                        scripts: true,
-                            	        autoLoad: true
-                                }});
-                            Ext.getCmp('main_tab').add(tab);
-                            Ext.getCmp('main_tab').setActiveTab(0);
-                            Ext.getCmp('main_tab').setLoading(false);
+                			if (record.data.key == "accounting/input"){
+                				if (Ext.getCmp('main_tab')){
+                                    Ext.getCmp('main_tab').setLoading(true);
+                                    Ext.getCmp('main_tab').removeAll();
+                                    tab = Ext.create('Ext.panel.Panel', {
+                                        title: 'Input',
+                                        padding: '20 10 10 10',
+                                        loader: {
+                                                url: 'showInput.action',
+                                                renderer: 'html',
+                                                scripts: true,
+                                                autoLoad: true
+                                        }});
+                                    
+                                    Ext.getCmp('main_tab').add(tab);
+                                    Ext.getCmp('main_tab').setActiveTab(0);
+                                    Ext.getCmp('main_tab').setLoading(false);
+                                }
+                			}else if (record.data.key == ""){
+                				
+                			}else if (record.data.key == ""){
+                				
+                			}
                 		}
                 	}
                 }
