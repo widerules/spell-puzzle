@@ -14,13 +14,12 @@
 <title>Family Accounting</title>
 <script type="text/javascript">
 Ext.onReady(function() {
-	
 	Ext.define('TreeNode', {
 	    extend: 'Ext.data.Model',
 	    fields: [
             {name: 'text',  type: 'string'},
             {name: 'url',  type: 'string'},
-	    ],
+	    ]
 	});
 	
 	
@@ -61,17 +60,20 @@ Ext.onReady(function() {
                             if (Ext.getCmp('main_tab')){
                             	Ext.getCmp('main_tab').setLoading(true);
                             }
-                            
-                            Ext.Ajax.request({
-                                url: 'showInput.action',
-                                params: {
-                                    id: 1
-                                },
-                                success: function(response){
-                                    var text = response.responseText;
-                                    // process server response here
-                                }
-                            });
+                            Ext.getCmp('main_tab').removeAll();
+
+                            tab = Ext.create('Ext.panel.Panel', {
+                                title: 'Input',
+                                padding: '20 10 10 10',
+                                loader: {
+                            	        url: 'showInput.action',
+                            	        renderer: 'html',
+                                        scripts: true,
+                            	        autoLoad: true
+                                }});
+                            Ext.getCmp('main_tab').add(tab);
+                            Ext.getCmp('main_tab').setActiveTab(0);
+                            Ext.getCmp('main_tab').setLoading(false);
                 		}
                 	}
                 }
@@ -86,7 +88,7 @@ Ext.onReady(function() {
                 items: [{
                     id: 'main_content',
                     title: 'test title',
-                    html: 'content',
+                    html: 'content'
                 }]
             }]
         }],
@@ -98,5 +100,9 @@ Ext.onReady(function() {
 <body>
 <div id="loading"><span class="title">Accounting Loading...</span><span class="logo"></span></div>
 <div id="mainContain"></div>
+<form id="history-form" class="x-hide-display">
+    <input type="hidden" id="x-history-field" />
+    <iframe id="x-history-frame"></iframe>
+</form>
 </body>
 </html>
