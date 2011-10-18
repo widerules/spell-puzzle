@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css" />
 <!-- <script type="text/javascript" src="extjs/ext-all.js"></script> -->
-<script type="text/javascript" src="extjs/ext-all.js"></script>
+<script type="text/javascript" src="extjs/ext-all-debug-w-comments.js"></script>
 <style type="text/css">
 #loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
 #loading .title {position: absolute; display: block; top: 0; left: 0px; width: 180px; height: 27px; }
@@ -68,21 +68,22 @@ Ext.onReady(function() {
                 		fn: function (view, record, item, index, e){
                 			if (record.data.key == "accounting/input"){
                 				if (Ext.getCmp('main_tab')){
-                                    Ext.getCmp('main_tab').setLoading(true);
-                                    Ext.getCmp('main_tab').removeAll();
-                                    tab = Ext.create('Ext.panel.Panel', {
-                                        title: 'Input',
-                                        padding: '20 10 10 10',
-                                        loader: {
-                                                url: 'showInput.action',
-                                                renderer: 'html',
-                                                scripts: true,
-                                                autoLoad: true
-                                        }});
+                					tabPanel = Ext.getCmp('main_tab');
+                					tabPanel.setLoading(true);
                                     
-                                    Ext.getCmp('main_tab').add(tab);
-                                    Ext.getCmp('main_tab').setActiveTab(0);
-                                    Ext.getCmp('main_tab').setLoading(false);
+                                    	// tabPanel.removeAll();
+                                    //tab = Ext.create('Ext.panel.Panel', {
+                                    //    title: 'Input',
+                                        // padding: '20 10 10 10',
+                                    //    loader: {
+                                    //            url: 'showInput.action',
+                                    //            renderer: 'html',
+                                    //            scripts: true,
+                                    //            autoLoad: true
+                                    //    }});
+                                    tabPanel.child(0).update(inputTab);
+                                    tabPanel.setActiveTab(0);
+                                    tabPanel.setLoading(false);
                                 }
                 			}else if (record.data.key == ""){
                 				
@@ -109,6 +110,73 @@ Ext.onReady(function() {
         }],
         renderTo: 'mainContain'
     });
+});
+
+inputTab = Ext.create('Ext.tab.Panel', {
+    autoDestroy: false,
+    id: 'inputTab',
+    title: 'input',
+    layout : {
+      type : 'border',
+      padding : 5
+    },
+    defaults : {
+        split : false
+    },
+    items : [ {
+        region : 'west',
+        width : '30%',
+        split : false,
+        collapsible: false,
+        items : [ {
+            xtype : 'treepanel',
+            title : 'Consume Type',
+            store : Ext.create('Ext.data.TreeStore', {
+                proxy : {
+                    type : 'ajax',
+                    url : 'loadConsumeType.action'
+                },
+                model : 'ConsumeType'
+            }),
+            rootVisible : false,
+            listeners : {
+                itemclick : {
+                    fn : function(view, record, item, index, e) {
+                        Ext.Msg.alert('title', str);
+                    }
+                }
+            }
+        } ]
+    }, {
+        region : 'center',
+        border : false,
+        defaults: {
+            padding: 4
+        },
+        items : [ {
+        	xtype:'fieldset',
+            title: 'Input Record~',
+            defaultType: 'textfield',
+            defaults: {
+                bodyPadding: 4
+            },
+            items: [{
+            	xtype : 'combobox',
+                fieldLabel : 'State',
+                name : 'type',
+                store : Ext.create('Ext.data.ArrayStore', {
+                    fields : [ 'key', 'value' ],
+                    data : [ [ '-1', 'Credit' ], [ '1', 'Debit' ] ]
+                }),
+                valueField : 'key',
+                displayField : 'value',
+                typeAhead : false,
+                editable : false,
+                queryMode : 'local',
+                emptyText : 'Select a Type...'
+            }]
+        } ]
+    } ]
 });
 </script>
 </head>

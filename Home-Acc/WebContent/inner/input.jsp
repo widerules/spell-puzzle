@@ -2,59 +2,7 @@
 <script type="text/javascript">
 	Ext.onReady(function() {
 
-		Ext.create('Ext.panel.Panel', {
-			renderTo: 'inputForm',
-			height: '100%',
-			layout : {
-				type : 'border',
-				padding : 5
-			},
-			defaults : {
-				split : true
-			},
-			items : [ {
-				region : 'west',
-				width : '30%',
-				split : true,
-				collapsible: false,
-				items : [ {
-					xtype : 'treepanel',
-					store : Ext.create('Ext.data.TreeStore', {
-						proxy : {
-							type : 'ajax',
-							url : 'loadConsumeType.action'
-						},
-						model : 'ConsumeType'
-					}),
-					rootVisible : false,
-					listeners : {
-						itemclick : {
-							fn : function(view, record, item, index, e) {
-								Ext.Msg.alert('title', str);
-							}
-						}
-					}
-				} ]
-			}, {
-				region : 'center',
-				border : false,
-				items : [ {
-					xtype : 'combobox',
-					fieldLabel : 'State',
-					name : 'type',
-					store : Ext.create('Ext.data.ArrayStore', {
-						fields : [ 'key', 'value' ],
-						data : [ [ '-1', 'Credit' ], [ '1', 'Debit' ] ]
-					}),
-					valueField : 'key',
-					displayField : 'value',
-					typeAhead : false,
-					editable : false,
-					queryMode : 'local',
-					emptyText : 'Select a Type...'
-				} ]
-			} ]
-		});
+		
 
 		//     tree = Ext.create('Ext.tree.Panel',{
 		//     	renderTo: 'consume_tree',
