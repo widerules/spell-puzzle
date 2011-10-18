@@ -31,7 +31,7 @@ Ext.onReady(function() {
         ],
     });
 	
-	
+
     Ext.create('Ext.Viewport', {
         layout: {
             type: 'border',
@@ -70,18 +70,8 @@ Ext.onReady(function() {
                 				if (Ext.getCmp('main_tab')){
                 					tabPanel = Ext.getCmp('main_tab');
                 					tabPanel.setLoading(true);
-                                    
-                                    	// tabPanel.removeAll();
-                                    //tab = Ext.create('Ext.panel.Panel', {
-                                    //    title: 'Input',
-                                        // padding: '20 10 10 10',
-                                    //    loader: {
-                                    //            url: 'showInput.action',
-                                    //            renderer: 'html',
-                                    //            scripts: true,
-                                    //            autoLoad: true
-                                    //    }});
-                                    tabPanel.child(0).update(inputTab);
+                					tabPanel.removeAll();
+                                    tabPanel.add(buildInputTab());
                                     tabPanel.setActiveTab(0);
                                     tabPanel.setLoading(false);
                                 }
@@ -112,72 +102,160 @@ Ext.onReady(function() {
     });
 });
 
-inputTab = Ext.create('Ext.tab.Panel', {
-    autoDestroy: false,
-    id: 'inputTab',
-    title: 'input',
-    layout : {
-      type : 'border',
-      padding : 5
-    },
-    defaults : {
-        split : false
-    },
-    items : [ {
-        region : 'west',
-        width : '30%',
-        split : false,
-        collapsible: false,
-        items : [ {
-            xtype : 'treepanel',
-            title : 'Consume Type',
-            store : Ext.create('Ext.data.TreeStore', {
-                proxy : {
-                    type : 'ajax',
-                    url : 'loadConsumeType.action'
-                },
-                model : 'ConsumeType'
-            }),
-            rootVisible : false,
-            listeners : {
-                itemclick : {
-                    fn : function(view, record, item, index, e) {
-                        Ext.Msg.alert('title', str);
-                    }
-                }
-            }
-        } ]
-    }, {
-        region : 'center',
-        border : false,
-        defaults: {
-            padding: 4
+function buildInputTab() {
+	return Ext.create('Ext.panel.Panel', {
+        title: 'input',
+        layout : {
+          type : 'border',
+          padding : 5
+        },
+        defaults : {
+            split : false
         },
         items : [ {
-        	xtype:'fieldset',
-            title: 'Input Record~',
-            defaultType: 'textfield',
-            defaults: {
-                bodyPadding: 4
-            },
-            items: [{
-            	xtype : 'combobox',
-                fieldLabel : 'State',
-                name : 'type',
-                store : Ext.create('Ext.data.ArrayStore', {
-                    fields : [ 'key', 'value' ],
-                    data : [ [ '-1', 'Credit' ], [ '1', 'Debit' ] ]
+            region : 'west',
+            width : '30%',
+            layout: 'fit',
+            split : false,
+            collapsible: false,
+            items : [ {
+                xtype : 'treepanel',
+                title : 'Consume Type',
+                border : false,
+                store : Ext.create('Ext.data.TreeStore', {
+                    proxy : {
+                        type : 'ajax',
+                        url : 'loadConsumeType.action'
+                    },
+                    model : 'ConsumeType'
                 }),
-                valueField : 'key',
-                displayField : 'value',
-                typeAhead : false,
-                editable : false,
-                queryMode : 'local',
-                emptyText : 'Select a Type...'
+                rootVisible : false,
+                listeners : {
+                    itemclick : {
+                        fn : function(view, record, item, index, e) {
+                            Ext.getCmp('consumeTypeId').setValue(record.data.id);
+                        }
+                    }
+                }
+            } ]
+        }, {
+            region : 'center',
+            border : false,
+            bodyStyle: 'padding:5px 5px 0',
+            defaults: {
+                padding: 4
+            },
+            items : [ {
+            	xtype : 'form',
+            	url : 'saveInput.action',
+            	border : false,
+            	items :[{
+                    xtype:'fieldset',
+                    title: 'Input Record~',
+                    defaultType: 'textfield',
+                    defaults: {
+                        anchor: '50%'
+                    },
+                    items: [{
+                        xtype : 'combobox',
+                        fieldLabel : 'Type',
+                        name : 'type',
+                        store : Ext.create('Ext.data.ArrayStore', {
+                            fields : [ 'key', 'value' ],
+                            data : [ [ '-1', 'Credit' ], [ '1', 'Debit' ] ]
+                        }),
+                        valueField : 'key',
+                        displayField : 'value',
+                        typeAhead : false,
+                        editable : false,
+                        queryMode : 'local',
+                        emptyText : 'Select a Type...'
+                    }, {
+                        xtype: 'datefield',
+                        fieldLabel: 'Date',
+                        name: 'consumeDate',
+                        allowBlank: false,
+                        format: 'Y-m-d',
+                        value: Ext.Date.format(new Date(), 'Y-m-d')
+                    }, {
+                        xtype: 'textfield',
+                        fieldLabel: 'Target',
+                        name: 'target',
+                    }, {
+                        xtype: 'textfield',
+                        fieldLabel: 'Amount',
+                        name: 'amount',
+                        allowBlank: false,
+                        regex: /^[0-9.]+$/,
+                        regexText: 'Number only'
+                    }, {
+                        xtype: 'hiddenfield',
+                        id: 'consumeTypeId',
+                        name: 'consumeTypeId',
+                        value: '',
+                    }]
+                }],
+                buttons: [{
+                    text : 'Reset',
+                    handler : function() {
+                        this.up('form').getForm().reset();
+                    }
+                }, {
+                    text : 'Submit',
+                    handler : function() {
+                        var form = this.up('form').getForm();
+                        if (Ext.getCmp('consumeTypeId').value == ""){
+                            Ext.Msg.alert('Failed', 'Please select a "Consume Type"');
+                        }
+                        if (form.isValid()) {
+                            form.submit({
+                                success : function(form, action) {
+                                    
+                                },
+                                failure : function(form, action) {
+                                    Ext.Msg.alert('Failed', action.result.msg);
+                                },
+                                waitMsg : 'Submiting...'
+                            });
+                        } else {
+
+                        }
+                    }
+                }]
             }]
+        }, {
+            region : 'south',
+            height : '60%',
+            defaults: {
+                padding: 4
+            },
+            items : [ {
+                xtype:'fieldset',
+                title: 'Input Record~',
+                defaultType: 'textfield',
+                defaults: {
+                    bodyPadding: 50
+                },
+                items: [{
+                    xtype : 'combobox',
+                    fieldLabel : 'State',
+                    name : 'type',
+                    store : Ext.create('Ext.data.ArrayStore', {
+                        fields : [ 'key', 'value' ],
+                        data : [ [ '-1', 'Credit' ], [ '1', 'Debit' ] ]
+                    }),
+                    valueField : 'key',
+                    displayField : 'value',
+                    typeAhead : false,
+                    editable : false,
+                    queryMode : 'local',
+                    emptyText : 'Select a Type...'
+                }]
+            } ]
         } ]
-    } ]
-});
+    });
+}
+
 </script>
 </head>
 <body>

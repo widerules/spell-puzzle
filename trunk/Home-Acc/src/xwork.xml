@@ -37,6 +37,7 @@
 		<action name="login" class="com.james.fa.actions.LoginAction" ><result name="ajax">index.jsp</result></action>
         <action name="loadNavigator" class="com.james.fa.actions.NavigatorAction" ><result name="json">index.jsp</result></action>
         <action name="loadConsumeType" class="com.james.fa.actions.ComsumeTypeAction" ><result name="json">index.jsp</result></action>
+        <action name="saveInput" class="com.james.fa.actions.DetailsAction"><result name="ajax">index.jsp</result></action>
         
         <!-- ajax request -->
         <action name="showInput" class="com.james.fa.actions.InputRecordAction">
