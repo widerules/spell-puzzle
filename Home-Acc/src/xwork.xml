@@ -19,15 +19,23 @@
 	</package>
 	<package name="basic" extends="default">
 		<interceptors>
-<!-- 			<interceptor name="logRequestInterceptor" class="com.trans24.ach.intercepor.LogRequestInterceptor" /> -->
+			<interceptor name="auth" class="com.james.fa.interceptors.AuthInterceptor" />
+            <interceptor name="i18n" class="com.james.fa.interceptors.I18nInterceptor" />
 			
 			<interceptor-stack name="defaultStack">
 				<interceptor-ref name="params" />
+                <interceptor-ref name="i18n" />
+                <interceptor-ref name="auth" />
 <!-- 				<interceptor-ref name="logRequestInterceptor" /> -->
 			</interceptor-stack>
 		</interceptors>
 		
 		<default-interceptor-ref name="defaultStack" />
+        <action name="index" class="com.james.fa.actions.BasicAction" >
+            <result name="success">index.jsp</result>
+            <interceptor-ref name="params"></interceptor-ref>
+        </action>
+        
         <!-- redirect request -->
         <action name="app" class="com.james.fa.actions.BasicAction" >
             <result name="success">application.jsp</result>

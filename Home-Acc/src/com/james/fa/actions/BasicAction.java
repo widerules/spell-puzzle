@@ -132,4 +132,16 @@ public class BasicAction extends ActionSupport {
 	public void setJsonObj(Object jsonObj) {
 		this.jsonObj = jsonObj;
 	}
+	
+	public class I18N {
+		public String getI18nText(String key) {
+			return getText(key);
+		}
+	}
+
+	public I18N getI18n() {
+		return i18n;
+	}
+
+	private I18N i18n = new I18N();
 }
