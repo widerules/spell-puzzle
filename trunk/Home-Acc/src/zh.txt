@@ -1,0 +1,9 @@
+#common
+button.submit=提 交
+button.reset=重 置
+msg.waiting.submit=提交中，请稍后...
+
+# login page
+title.login=登 录
+label.username=用户名
+label.password=密 码

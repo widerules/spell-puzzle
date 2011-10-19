@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@page import="com.james.fa.actions.BasicAction.I18N"%>
+<% I18N i18n = (I18N)pageContext.findAttribute("i18n"); %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -47,17 +51,17 @@
 				},
 				items : [ {
 					xtype : 'label',
-					text : 'Login',
+					text : '<%= i18n.getI18nText("title.login") %>',
 					style : {
 						fontSize : '24px'
 					}
 				} ]
 			}, {
-				fieldLabel : 'User Name',
+				fieldLabel : '<%= i18n.getI18nText("label.username") %>',
 				name : 'username',
 				allowBlank : false
 			}, {
-				fieldLabel : 'Password',
+				fieldLabel : '<%= i18n.getI18nText("label.password") %>',
 				inputType : 'password',
 				name : 'password',
 				allowBlank : false
@@ -65,12 +69,12 @@
 
 			// Reset and Submit buttons
 			buttons : [ {
-				text : 'Reset',
+				text : '<%= i18n.getI18nText("button.reset") %>',
 				handler : function() {
 					this.up('form').getForm().reset();
 				}
 			}, {
-				text : 'Submit',
+				text : '<%= i18n.getI18nText("button.submit") %>',
 // 				formBind : true, //only enabled once the form is valid
 // 				disabled : true,
 				handler : function() {
@@ -83,7 +87,7 @@
 							failure : function(form, action) {
 								Ext.Msg.alert('Failed', action.result.msg);
 							},
-							waitMsg : 'Submiting...'
+							waitMsg : '<%= i18n.getI18nText("msg.waiting.submit") %>'
 						});
 					} else {
 
@@ -96,6 +100,5 @@
 </script>
 </head>
 <body>
-
 </body>
 </html>
