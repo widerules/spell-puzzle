@@ -119,6 +119,7 @@ function buildInputTab() {
                     itemclick : {
                         fn : function(view, record, item, index, e) {
                             Ext.getCmp('consumeTypeId').setValue(record.data.id);
+                            Ext.getCmp('consumeTypeValue').setValue(record.data.text);
                         }
                     }
                 }
@@ -169,6 +170,7 @@ function buildInputTab() {
                     }, {
                         xtype: 'textfield',
                         fieldLabel: '<%= i18n.getI18nText("accounting.input.amount") %>',
+                        id: 'amount',
                         name: 'amount',
                         allowBlank: false,
                         regex: /^[0-9.]+$/,
@@ -177,6 +179,11 @@ function buildInputTab() {
                         xtype: 'hiddenfield',
                         id: 'consumeTypeId',
                         name: 'consumeTypeId',
+                        value: '',
+                    }, {
+                        xtype: 'hiddenfield',
+                        id: 'consumeTypeValue',
+                        name: 'consumeTypeValue',
                         value: '',
                     }]
                 }],
@@ -195,7 +202,10 @@ function buildInputTab() {
                         if (form.isValid()) {
                             form.submit({
                                 success : function(form, action) {
-                                    
+                                	store = Ext.getStore('temp-input-data');
+                                	form.setValues([{id: 'amount', value: parseInt(form.getValues()['type']) * parseFloat(form.getValues()['amount']) }]);
+                                	store.insert(0, form.getValues());
+                                	form.reset();
                                 },
                                 failure : function(form, action) {
                                     Ext.Msg.alert('Failed', action.result.msg);
@@ -215,27 +225,38 @@ function buildInputTab() {
                 padding: 4
             },
             items : [ {
-                xtype:'fieldset',
-                title: 'Input Record~',
-                defaultType: 'textfield',
-                defaults: {
-                    bodyPadding: 50
-                },
-                items: [{
-                    xtype : 'combobox',
-                    fieldLabel : 'State',
-                    name : 'type',
-                    store : Ext.create('Ext.data.ArrayStore', {
-                        fields : [ 'key', 'value' ],
-                        data : [ [ '-1', 'Credit' ], [ '1', 'Debit' ] ]
-                    }),
-                    valueField : 'key',
-                    displayField : 'value',
-                    typeAhead : false,
-                    editable : false,
-                    queryMode : 'local',
-                    emptyText : 'Select a Type...'
-                }]
+                xtype:'grid',
+                title: '<%= i18n.getI18nText("accounting.input.record") %>',
+                store: Ext.create('Ext.data.Store', {
+                	storeId: 'temp-input-data',
+                    fields: ['id', 'type', 'consumeTypeId', 'consumeDate', 'target', {name: 'amount', type: 'int'}, 'consumeTypeValue'],
+                    data: [],
+                    proxy: {
+                        type: ('localStorage' in window && window['localStorage'] !== null) ? 'localstorage' : 'memory',
+                        id  : 'temp-input-data'
+                    }
+                }),
+                features: [{
+                    ftype: 'summary'
+                }],
+                columns: [
+                          {header: '<%= i18n.getI18nText("accounting.input.type") %>',  dataIndex: 'type', flex: 1, renderer: function(value, metaData, record){
+                        	  if (value == 1){
+                        		  return '<%= i18n.getI18nText("accounting.input.type.debit") %>';
+                        	  }else if (value == -1){
+	                        	  return '<%= i18n.getI18nText("accounting.input.type.credit") %>';
+                        	  }
+                          }},
+                          {header: '<%= i18n.getI18nText("accounting.input.consume.type") %>', dataIndex: 'consumeTypeId', flex: 1,  renderer: function(value, metaData, record){
+                        	  return record.data.consumeTypeValue;
+                          }},
+                          
+                          {header: '<%= i18n.getI18nText("accounting.input.target") %>', dataIndex: 'target', flex: 1},
+                          {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDate', flex: 1},
+                          {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount', renderer: 'usMoney', flex: 1, summaryType: 'sum', summaryRenderer: function(value, summaryData, dataIndex) {
+                              return Ext.util.Format.usMoney(value, '$', 2); 
+                          }},
+                      ],
             } ]
         } ]
     });
