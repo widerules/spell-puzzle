@@ -28,6 +28,7 @@ accounting.input.type.debit=收入
 accounting.input.date=发生日期
 accounting.input.target=使用对象
 accounting.input.amount=金额
+accounting.input.record=记录
 
 #input error
 accounting.input.type.err.required=请选择“消费归类”
