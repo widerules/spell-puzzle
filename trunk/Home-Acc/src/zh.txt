@@ -7,3 +7,28 @@ msg.waiting.submit=提交中，请稍后...
 title.login=登 录
 label.username=用户名
 label.password=密 码
+
+#app
+title.navigator=导航栏
+menu.accounting=财务
+menu.accounting.input=输入信息
+menu.accounting.details=历史查询
+menu.accounting.report=总结报表
+
+#home
+accounting.home.title=欢迎您
+
+# input
+accounting.input.consume.type=消费归类
+accounting.input.input.tips=录入信息
+accounting.input.type=类型
+accounting.input.type.tips=请选择类型...
+accounting.input.type.credit=支出
+accounting.input.type.debit=收入
+accounting.input.date=发生日期
+accounting.input.target=使用对象
+accounting.input.amount=金额
+
+#input error
+accounting.input.type.err.required=请选择“消费归类”
+accounting.input.amount.err=请输入数字

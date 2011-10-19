@@ -1,0 +1,1 @@
+native2ascii zh.txt message_zh_CN.properties
