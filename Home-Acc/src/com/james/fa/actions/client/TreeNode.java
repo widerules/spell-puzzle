@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeNode {
-	
+
 	public static final String ROOT_ID = "00000000000000000000000000000000";
 
 	private boolean root;
@@ -12,10 +12,9 @@ public class TreeNode {
 	private boolean expanded;
 	private boolean expandable = true;
 
-
 	private String href;
 	private String hrefTarget;
-	
+
 	private String id;
 	private String parentId;
 
@@ -106,10 +105,15 @@ public class TreeNode {
 		this.cls = cls;
 	}
 
+	public boolean hasChild() {
+		return !children.isEmpty();
+	}
+
 	public TreeNode addChild(TreeNode child) {
 		leaf = false;
 		child.setParentId(this.id);
 		this.children.add(child);
 		return this;
 	}
+
 }

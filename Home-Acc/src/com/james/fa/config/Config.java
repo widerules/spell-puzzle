@@ -6,16 +6,15 @@ import java.util.Date;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
 
-import com.james.fa.actions.client.TreeNode;
 import com.james.fa.po.MenuItem;
 
 public class Config {
 
-	public static TreeNode TREE_STORE;
+	public static MenuItem TREE_STORE;
 	public static JsonConfig JSON_CONFIG;
 
 	static {
-		TREE_STORE = retriveTreeStore();
+		TREE_STORE = retriveMenuItemStore();
 		JSON_CONFIG = defaultJsonConfig();
 	}
 
@@ -45,15 +44,15 @@ public class Config {
 		return cfg;
 	}
 
-	private static TreeNode retriveTreeStore() {
+	private static MenuItem retriveMenuItemStore() {
 		MenuItem root = new MenuItem();
 		root.setRoot(true);
 
-		MenuItem node1 = new MenuItem("Accounting", "accounting", "/app/test.action");
+		MenuItem node1 = new MenuItem("menu.accounting", "accounting", "/app/test.action");
 		node1.setExpanded(true);
-		node1.addChild(new MenuItem("Input", "accounting/input", "app/test.action"));
-		node1.addChild(new MenuItem("Details", "accounting/details", "app/test.action"));
-		node1.addChild(new MenuItem("Report", "accounting/report", "app/test.action"));
+		node1.addChild(new MenuItem("menu.accounting.input", "accounting/input", "app/test.action"));
+		node1.addChild(new MenuItem("menu.accounting.details", "accounting/details", "app/test.action"));
+		node1.addChild(new MenuItem("menu.accounting.report", "accounting/report", "app/test.action"));
 
 		root.addChild(node1);
 
