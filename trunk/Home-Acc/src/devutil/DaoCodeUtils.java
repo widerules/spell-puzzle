@@ -615,6 +615,8 @@ public class DaoCodeUtils {
 		System.out.println(getFindByIdSQL());
 		System.out.println(getFindByIdsSQL());
 
+		System.out.println(buildRowMapper());
+
 		System.out.println(getFindAllMethod());
 		System.out.println(getAddMethod());
 		System.out.println(getRemoveMethod());
@@ -623,8 +625,40 @@ public class DaoCodeUtils {
 		System.out.println(getFindByIdsMethod());
 	}
 
+	private String buildRowMapper() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("private static class ").append(entityName)
+				.append("MultiRowMapper implements MultiRowMapper<")
+				.append(entityName).append(">{").append("\n");
+		sb.append("\tpublic ")
+				.append(entityName)
+				.append(" mapRow(ResultSet rs, int rowNum) throws SQLException {")
+				.append("\n");
+		sb.append("\t\t").append(entityName).append(" ")
+				.append(initialToLowerCase(entityName)).append(" = new ")
+				.append(entityName).append("();").append("\n");
+		sb.append(getRowMapping());
+		sb.append("\t\t").append("return ").append(initialToLowerCase(entityName)).append(";")
+				.append("\n");
+		sb.append("\t").append("}").append("\n");
+		sb.append("}").append("\n");
+		
+		sb.append("private static class ").append(entityName)
+		.append("SingleRowMapper implements SingleRowMapper<")
+		.append(entityName).append(">{").append("\n");
+		sb.append("\tpublic ")
+		.append(entityName)
+		.append(" mapRow(ResultSet rs) throws SQLException {")
+		.append("\n");
+		sb.append("\t\t").append("return new ")
+				.append(entityName).append("MultiRowMapper().mapRow(rs, 1);").append("\n");
+		sb.append("\t}").append("\n");
+		sb.append("}").append("\n");
+		return sb.toString();
+	}
+
 	public static void main(String[] args) {
-		DaoCodeUtils builder = new DaoCodeUtils("consume_type", "ConsumeType");
+		DaoCodeUtils builder = new DaoCodeUtils("records", "Record");
 		builder.printCode();
 	}
 

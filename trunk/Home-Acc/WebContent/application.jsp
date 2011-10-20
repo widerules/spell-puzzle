@@ -155,7 +155,8 @@ function buildInputTab() {
                         typeAhead : false,
                         editable : false,
                         queryMode : 'local',
-                        emptyText : '<%= i18n.getI18nText("accounting.input.type.tips") %>'
+                        emptyText : '<%= i18n.getI18nText("accounting.input.type.tips") %>',
+                        allowBlank: false
                     }, {
                         xtype: 'datefield',
                         fieldLabel: '<%= i18n.getI18nText("accounting.input.date") %>',
@@ -167,6 +168,7 @@ function buildInputTab() {
                         xtype: 'textfield',
                         fieldLabel: '<%= i18n.getI18nText("accounting.input.target") %>',
                         name: 'target',
+                        allowBlank: false,
                     }, {
                         xtype: 'textfield',
                         fieldLabel: '<%= i18n.getI18nText("accounting.input.amount") %>',
@@ -179,12 +181,12 @@ function buildInputTab() {
                         xtype: 'hiddenfield',
                         id: 'consumeTypeId',
                         name: 'consumeTypeId',
-                        value: '',
+                        value: ''
                     }, {
                         xtype: 'hiddenfield',
                         id: 'consumeTypeValue',
                         name: 'consumeTypeValue',
-                        value: '',
+                        value: ''
                     }]
                 }],
                 buttons: [{
@@ -205,7 +207,12 @@ function buildInputTab() {
                                 	store = Ext.getStore('temp-input-data');
                                 	form.setValues([{id: 'amount', value: parseInt(form.getValues()['type']) * parseFloat(form.getValues()['amount']) }]);
                                 	store.insert(0, form.getValues());
+                                    Ext.getCmp('temp-input-grid').getView().refresh();
+                                	ctid = Ext.getCmp('consumeTypeId').getValue();
+                                    ctval = Ext.getCmp('consumeTypeValue').getValue();
                                 	form.reset();
+                                	Ext.getCmp('consumeTypeId').setValue(ctid);
+                                    Ext.getCmp('consumeTypeValue').setValue(ctval);
                                 },
                                 failure : function(form, action) {
                                     Ext.Msg.alert('Failed', action.result.msg);
@@ -226,6 +233,7 @@ function buildInputTab() {
             },
             items : [ {
                 xtype:'grid',
+                id: 'temp-input-grid',
                 title: '<%= i18n.getI18nText("accounting.input.record") %>',
                 store: Ext.create('Ext.data.Store', {
                 	storeId: 'temp-input-data',
@@ -252,9 +260,24 @@ function buildInputTab() {
                           }},
                           
                           {header: '<%= i18n.getI18nText("accounting.input.target") %>', dataIndex: 'target', flex: 1},
-                          {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDate', flex: 1},
-                          {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount', renderer: 'usMoney', flex: 1, summaryType: 'sum', summaryRenderer: function(value, summaryData, dataIndex) {
-                              return Ext.util.Format.usMoney(value, '$', 2); 
+                          {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDate', flex: 1,
+                        	  summaryRenderer: function(value, metaData, record){
+                        		    return '<string>Sum:</string>';
+                              }},
+                          {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount', 
+                              renderer: function(value, metaData, record){
+                                  if (record.data.type == -1){
+                                      return '<font style="color: red;">' + Ext.util.Format.currency(value, '￥', 2) + '</font>';
+                                  }else{
+                                	  return Ext.util.Format.currency(value, '￥', 2);
+                                  }
+                              }, 
+                              flex: 1, summaryType: 'sum', 
+                              summaryRenderer: function(value, summaryData, dataIndex) {
+                              if (value < 0){
+                            	  return '<font style="color: red;">' + Ext.util.Format.currency(value, '￥', 2) + '</font>'; 
+                              }
+                              return Ext.util.Format.currency(value, '￥', 2); 
                           }},
                       ],
             } ]
