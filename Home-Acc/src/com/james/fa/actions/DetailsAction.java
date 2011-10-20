@@ -1,5 +1,8 @@
 package com.james.fa.actions;
 
+import com.james.fa.po.Record;
+import com.james.fa.services.RecordService;
+
 public class DetailsAction extends BasicAction {
 
 	private static final long serialVersionUID = 8104630171217587718L;
@@ -9,9 +12,16 @@ public class DetailsAction extends BasicAction {
 	private String target;
 	private float amount;
 	private String consumeTypeId;
-	
+
+	private RecordService recordService;
+
 	public String execute() {
-		
+		Record record = new Record();
+		record.setType(Integer.parseInt(type));
+		record.setAmount((int) (amount * 100));
+		record.setTarget(target);
+		record.setConsumeTypeId(consumeDate);
+		recordService.addRecord(record);
 		return ajaxReturn();
 	}
 
@@ -53,5 +63,9 @@ public class DetailsAction extends BasicAction {
 
 	public void setConsumeTypeId(String consumeTypeId) {
 		this.consumeTypeId = consumeTypeId;
+	}
+
+	public void setRecordService(RecordService recordService) {
+		this.recordService = recordService;
 	}
 }

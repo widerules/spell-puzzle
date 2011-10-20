@@ -47,8 +47,8 @@ INSERT INTO `consume_type` (`id`, `name`, `parent_id`) VALUES
 -- 表的结构 `details`
 --
 
-DROP TABLE IF EXISTS `details`;
-CREATE TABLE IF NOT EXISTS `details` (
+DROP TABLE IF EXISTS `records`;
+CREATE TABLE IF NOT EXISTS `records` (
   `id` char(32) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
   `comesume_type_id` char(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -73,9 +73,8 @@ CREATE TABLE IF NOT EXISTS `details` (
 
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE IF NOT EXISTS `tag` (
-  `id` char(32) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
