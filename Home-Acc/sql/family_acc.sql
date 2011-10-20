@@ -51,8 +51,8 @@ DROP TABLE IF EXISTS `records`;
 CREATE TABLE IF NOT EXISTS `records` (
   `id` char(32) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
-  `comesume_type_id` char(32) COLLATE utf8_unicode_ci NOT NULL,
-  `comsume_date` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `consume_type_id` char(32) COLLATE utf8_unicode_ci NOT NULL,
+  `consume_date` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `target` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `amount` int(11) NOT NULL,
   `creation_time` datetime NOT NULL,
