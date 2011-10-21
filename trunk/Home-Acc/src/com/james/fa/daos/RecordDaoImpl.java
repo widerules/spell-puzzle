@@ -3,6 +3,7 @@ package com.james.fa.daos;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Date;
 import java.util.List;
 
 import com.james.fa.po.Record;
@@ -11,18 +12,18 @@ import com.james.skeleton.util.dao.MultiRowMapper;
 import com.james.skeleton.util.dao.SingleRowMapper;
 
 public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
-	private static final String SQL_FIND_ALL = "SELECT * FROM details";
+	private static final String SQL_FIND_ALL = "SELECT * FROM records";
 
-	private static final String SQL_INSERT_RECORD = "INSERT INTO details(id,type,consume_type_id,"
-			+ "consume_date,target,amount,creation_time,last_update) "
-			+ "VALUES(?,?,?,?,?,?,?,?)";
+	private static final String SQL_INSERT_RECORD = "INSERT INTO records(id,type,consume_type_id,"
+			+ "consume_date,target,amount,description,creation_time,last_update) "
+			+ "VALUES(?,?,?,?,?,?,?,?,?)";
 
-	private static final String SQL_DELETE_RECORD = "DELETE FROM details WHERE id=?";
+	private static final String SQL_DELETE_RECORD = "DELETE FROM records WHERE id=?";
 
-	private static final String SQL_UPDATE_RECORD = "UPDATE details SET type=?,consume_type_id=?,"
-			+ "consume_date=?,target=?,amount=?,creation_time=?,last_update=? WHERE id=?";
+	private static final String SQL_UPDATE_RECORD = "UPDATE records SET type=?,consume_type_id=?,"
+			+ "consume_date=?,target=?,amount=?,description=?,last_update=? WHERE id=?";
 
-	private static final String SQL_FIND_RECORD_BY_ID = "SELECT * FROM details WHERE id=?";
+	private static final String SQL_FIND_RECORD_BY_ID = "SELECT * FROM records WHERE id=?";
 
 	private static class RecordMultiRowMapper implements MultiRowMapper<Record> {
 		public Record mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -33,6 +34,7 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 			record.setConsumeDate(rs.getString("consume_date"));
 			record.setTarget(rs.getString("target"));
 			record.setAmount(rs.getInt("amount"));
+			record.setDesc(rs.getString("description"));
 			record.setCreationTime(rs.getTimestamp("creation_time"));
 			record.setLastUpdate(rs.getTimestamp("last_update"));
 			return record;
@@ -52,13 +54,18 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 
 	public String insert(Record record) {
 		record.setId(createId());
-		if (update(SQL_INSERT_RECORD,
+		Date now = new Date();
+		record.setCreationTime(now);
+		record.setLastUpdate(now);
+		if (update(
+				SQL_INSERT_RECORD,
 				new Object[] { record.getId(), new Integer(record.getType()),
 						record.getConsumeTypeId(), record.getConsumeDate(),
 						record.getTarget(), new Integer(record.getAmount()),
-						record.getCreationTime(), record.getLastUpdate() },
-				new int[] { Types.CHAR, Types.INTEGER, Types.CHAR,
-						Types.VARCHAR, Types.VARCHAR, Types.INTEGER,
+						record.getDesc(), record.getCreationTime(),
+						record.getLastUpdate() }, new int[] { Types.CHAR,
+						Types.INTEGER, Types.CHAR, Types.VARCHAR,
+						Types.VARCHAR, Types.INTEGER, Types.VARCHAR,
 						Types.TIMESTAMP, Types.TIMESTAMP }) > 0) {
 			return record.getId();
 		} else {
@@ -75,15 +82,16 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 	}
 
 	public String update(Record record) {
+		record.setLastUpdate(new Date());
 		if (update(
 				SQL_UPDATE_RECORD,
 				new Object[] { new Integer(record.getType()),
 						record.getConsumeTypeId(), record.getConsumeDate(),
 						record.getTarget(), new Integer(record.getAmount()),
-						record.getCreationTime(), record.getLastUpdate(),
+						record.getDesc(), record.getLastUpdate(),
 						record.getId() }, new int[] { Types.INTEGER,
 						Types.CHAR, Types.VARCHAR, Types.VARCHAR,
-						Types.INTEGER, Types.TIMESTAMP, Types.TIMESTAMP,
+						Types.INTEGER, Types.VARCHAR, Types.TIMESTAMP,
 						Types.CHAR }) > 0) {
 			return record.getId();
 		} else {

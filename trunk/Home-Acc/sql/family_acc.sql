@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2011 年 10 月 17 日 10:05
+-- 生成日期: 2011 年 10 月 21 日 09:39
 -- 服务器版本: 5.5.8
 -- PHP 版本: 5.3.5
 
@@ -44,7 +44,7 @@ INSERT INTO `consume_type` (`id`, `name`, `parent_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `details`
+-- 表的结构 `records`
 --
 
 DROP TABLE IF EXISTS `records`;
@@ -53,16 +53,13 @@ CREATE TABLE IF NOT EXISTS `records` (
   `type` int(11) NOT NULL,
   `consume_type_id` char(32) COLLATE utf8_unicode_ci NOT NULL,
   `consume_date` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `target` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `target` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `amount` int(11) NOT NULL,
+  `description` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   `creation_time` datetime NOT NULL,
   `last_update` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- 转存表中的数据 `details`
---
 
 
 -- --------------------------------------------------------
@@ -76,10 +73,6 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- 转存表中的数据 `tag`
---
 
 
 -- --------------------------------------------------------

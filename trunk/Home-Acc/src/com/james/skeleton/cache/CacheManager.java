@@ -23,6 +23,9 @@ public class CacheManager {
 	public static <E extends Cache> E getCache(E c) {
 		CacheProvider<E> provider = null;
 		E cache = null;
+		if (providerMap == null) {
+			return cache;
+		}
 		if (providerMap.containsKey(c.getKey())) {
 			provider = (CacheProvider<E>) providerMap.get(c.getKey());
 			if (provider.needRefresh()) {

@@ -9,6 +9,7 @@ public class Record {
 	private String consumeDate;
 	private String target;
 	private int amount;
+	private String desc;
 	private Date creationTime;
 	private Date lastUpdate;
 
@@ -74,5 +75,13 @@ public class Record {
 
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 }
