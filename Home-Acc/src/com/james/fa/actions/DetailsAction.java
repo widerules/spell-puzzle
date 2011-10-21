@@ -12,6 +12,7 @@ public class DetailsAction extends BasicAction {
 	private String target;
 	private float amount;
 	private String consumeTypeId;
+	private String desc;
 
 	private RecordService recordService;
 
@@ -20,8 +21,12 @@ public class DetailsAction extends BasicAction {
 		record.setType(Integer.parseInt(type));
 		record.setAmount((int) (amount * 100));
 		record.setTarget(target);
-		record.setConsumeTypeId(consumeDate);
+		record.setConsumeTypeId(consumeTypeId);
+		record.setConsumeDate(consumeDate);
+		record.setDesc(desc);
+		
 		recordService.addRecord(record);
+		
 		return ajaxReturn();
 	}
 
@@ -67,5 +72,13 @@ public class DetailsAction extends BasicAction {
 
 	public void setRecordService(RecordService recordService) {
 		this.recordService = recordService;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 }
