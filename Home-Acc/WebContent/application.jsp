@@ -18,6 +18,7 @@
 </style>
 <title>Family Accounting</title>
 <%@include file="accounting-input.jsp" %>
+<%@include file="accounting-query.jsp" %>
 <script type="text/javascript">
 Ext.onReady(function() {
 
@@ -62,8 +63,15 @@ Ext.onReady(function() {
                                     tabPanel.setActiveTab(0);
                                     tabPanel.setLoading(false);
                                 }
-                			}else if (record.data.key == ""){
-                				
+                			}else if (record.data.key == "accounting/query"){
+                				if (Ext.getCmp('main_tab')){
+                					tabPanel = Ext.getCmp('main_tab');
+                					tabPanel.setLoading(true);
+                					tabPanel.removeAll();
+                					tabPanel.add(buildQueryTab());
+                					tabPanel.setActiveTab(0);
+                                    tabPanel.setLoading(false);
+                				}
                 			}else if (record.data.key == ""){
                 				
                 			}

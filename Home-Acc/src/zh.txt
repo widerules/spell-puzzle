@@ -12,7 +12,7 @@ label.password=密 码
 title.navigator=导航栏
 menu.accounting=财务
 menu.accounting.input=输入信息
-menu.accounting.details=历史查询
+menu.accounting.query=历史查询
 menu.accounting.report=总结报表
 
 #home
@@ -30,6 +30,18 @@ accounting.input.target=使用对象
 accounting.input.amount=金额
 accounting.input.record=记录
 accounting.input.desc=描述
+
+# query
+accounting.query.type=类型
+accounting.query.type.tips=请选择类型...
+accounting.query.label.target=使用对象
+accounting.query.label.data.range=日期范围
+accounting.query.label.data.range.start=起始
+accounting.query.label.data.range.end=结束
+accounting.query.label.amount.range=金额范围
+accounting.query.label.amount.range.start=最小
+accounting.query.label.amount.range.end=最大
+
 
 #input error
 accounting.input.type.err.required=请选择“消费归类”

@@ -22,7 +22,7 @@ public class Config {
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class,
 				new JsonValueProcessor() {
-					private final String format = "MM/dd/yyyy";
+					private final String format = "yyyy-MM-dd";
 
 					public Object processObjectValue(String key, Object value,
 							JsonConfig arg2) {
@@ -51,7 +51,7 @@ public class Config {
 		MenuItem node1 = new MenuItem("menu.accounting", "accounting", "/app/test.action");
 		node1.setExpanded(true);
 		node1.addChild(new MenuItem("menu.accounting.input", "accounting/input", "app/test.action"));
-		node1.addChild(new MenuItem("menu.accounting.details", "accounting/details", "app/test.action"));
+		node1.addChild(new MenuItem("menu.accounting.query", "accounting/query", "app/test.action"));
 		node1.addChild(new MenuItem("menu.accounting.report", "accounting/report", "app/test.action"));
 
 		root.addChild(node1);

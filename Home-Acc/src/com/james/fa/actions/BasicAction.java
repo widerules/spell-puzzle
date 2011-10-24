@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.james.fa.config.Config;
@@ -58,8 +59,13 @@ public class BasicAction extends ActionSupport {
 		PrintWriter outer;
 		try {
 			outer = response.getWriter();
-			outer.print(JSONObject.fromObject(jsonObj, Config.JSON_CONFIG)
-					.toString());
+			if (jsonObj instanceof List){
+				outer.print(JSONArray.fromObject(jsonObj, Config.JSON_CONFIG)
+						.toString());
+			}else{
+				outer.print(JSONObject.fromObject(jsonObj, Config.JSON_CONFIG)
+						.toString());
+			}
 			outer.flush();
 			outer.close();
 			response.setStatus(HttpServletResponse.SC_OK);
