@@ -1,4 +1,4 @@
-<<script type="text/javascript">
+<script type="text/javascript">
 <!--
 function buildInputTab() {
     return Ext.create('Ext.panel.Panel', {
