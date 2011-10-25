@@ -49,9 +49,9 @@ function buildQueryTab(){
        						fields: [ {name: 'tag',  type: 'string'}],
         				    proxy: {
         				        type: 'ajax',
-        				        url : 'tags.action',
+        				        url : 'tags.action'
         				    },
-        				    autoLoad: true,
+        				    autoLoad: true
                         }),
                         fieldLabel: '<%= i18n.getI18nText("accounting.query.label.target") %>',
                         valueField : 'tag',
@@ -105,7 +105,10 @@ function buildQueryTab(){
                             regex: /^[0-9.]+$/,
                             regexText: '<%= i18n.getI18nText("accounting.input.amount.err") %>'
                         }]
-        			},]
+        			},{
+                        name: 'description',
+                        fieldLabel: '<%= i18n.getI18nText("accounting.query.label.desc") %>'
+                    }]
         		}],
         		buttons:[{
         			text : '<%= i18n.getI18nText("button.reset") %>',

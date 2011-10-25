@@ -41,6 +41,7 @@ accounting.query.label.data.range.end=结束
 accounting.query.label.amount.range=金额范围
 accounting.query.label.amount.range.start=最小
 accounting.query.label.amount.range.end=最大
+accounting.query.label.desc=描述
 
 
 #input error
