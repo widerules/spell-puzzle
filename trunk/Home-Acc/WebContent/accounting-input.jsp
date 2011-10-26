@@ -186,17 +186,17 @@ function buildInputTab() {
                           {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount', 
                               renderer: function(value, metaData, record){
                                   if (record.data.type == -1){
-                                      return '<font style="color: red;">' + Ext.util.Format.currency(value, 'ï¿¥', 2) + '</font>';
+                                      return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>';
                                   }else{
-                                      return Ext.util.Format.currency(value, 'ï¿¥', 2);
+                                      return Ext.util.Format.currency(value, '¥', 2);
                                   }
                               }, 
                               flex: 1, summaryType: 'sum', 
                               summaryRenderer: function(value, summaryData, dataIndex) {
                               if (value < 0){
-                                  return '<font style="color: red;">' + Ext.util.Format.currency(value, 'ï¿¥', 2) + '</font>'; 
+                                  return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>'; 
                               }
-                              return Ext.util.Format.currency(value, 'ï¿¥', 2); 
+                              return Ext.util.Format.currency(value, '¥', 2); 
                               }
                           },{
                               header: '<%= i18n.getI18nText("accounting.input.desc") %>', dataIndex: 'desc', flex: 1

@@ -25,7 +25,7 @@
 			<interceptor-stack name="defaultStack">
 				<interceptor-ref name="params" />
                 <interceptor-ref name="i18n" />
-                <interceptor-ref name="auth" />
+<!--                 <interceptor-ref name="auth" /> -->
 <!-- 				<interceptor-ref name="logRequestInterceptor" /> -->
 			</interceptor-stack>
 		</interceptors>
@@ -47,7 +47,9 @@
         <action name="loadNavigator" class="com.james.fa.actions.NavigatorAction" ><result name="json">index.jsp</result></action>
         <action name="loadConsumeType" class="com.james.fa.actions.ComsumeTypeAction" ><result name="json">index.jsp</result></action>
         <action name="loadCascadeConsumeType" class="com.james.fa.actions.ComsumeTypeAction" method="buildCascadeList"><result name="json">index.jsp</result></action>
+        <action name="loadCascadeTag" class="com.james.fa.actions.TagsAction" method="buildCascadeList"><result name="json">index.jsp</result></action>
         <action name="saveInput" class="com.james.fa.actions.DetailsAction"><result name="ajax">index.jsp</result></action>
+        <action name="queryRecord" class="com.james.fa.actions.DetailsAction" method="queryRecord"><result name="ajax">index.jsp</result></action>
         
 	</package>
 <!--	<include file="./xwork_ccp_act_fee.xml"></include>-->

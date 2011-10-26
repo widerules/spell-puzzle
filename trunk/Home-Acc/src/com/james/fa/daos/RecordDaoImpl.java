@@ -7,9 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import com.james.fa.po.Record;
+import com.james.fa.vo.RecordCondition;
+import com.james.skeleton.util.Validators;
 import com.james.skeleton.util.dao.BasicDao;
 import com.james.skeleton.util.dao.MultiRowMapper;
 import com.james.skeleton.util.dao.SingleRowMapper;
+import com.james.skeleton.util.dao.SqlHandler;
 
 public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 	private static final String SQL_FIND_ALL = "SELECT * FROM records";
@@ -102,6 +105,28 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 	public Record findById(String recordId) {
 		return (Record) query(SQL_FIND_RECORD_BY_ID, recordId,
 				new RecordSingleRowMapper());
+	}
+
+	@Override
+	public List<Record> findByCondition(RecordCondition condition) {
+		SqlHandler handler = new SqlHandler(SQL_FIND_ALL, false);
+		handler.and("consume_date >= ?", condition.getStartDate(),
+				condition.getStartDate() != null);
+		handler.and("consume_date < ?", condition.getEndDate(),
+				condition.getEndDate() != null);
+		handler.and("type = ?", condition.getType(), condition.getType() != 0);
+		handler.and("consume_type_id=?", condition.getConsumeTypeId(),
+				!Validators.isEmpty(condition.getConsumeTypeId()));
+		handler.and("amount >= ?", condition.getStartAmount(),
+				condition.getStartAmount() != -1);
+		handler.and("amount <= ?", condition.getEndAmount(),
+				condition.getEndAmount() != -1);
+		handler.and("target = ?", condition.getTarget(),
+				!Validators.isEmpty(condition.getTarget()));
+		handler.and("description like ?", "%" + condition.getDesc() + "%",
+				!Validators.isEmpty(condition.getDesc()));
+
+		return query(handler.getSQL(), handler.getArgs(), new RecordMultiRowMapper());
 	}
 
 }

@@ -1,7 +1,10 @@
 package com.james.fa.services;
 
+import java.util.List;
+
 import com.james.fa.daos.RecordDao;
 import com.james.fa.po.Record;
+import com.james.fa.vo.RecordCondition;
 
 public class RecordServiceImpl implements RecordService {
 
@@ -16,6 +19,11 @@ public class RecordServiceImpl implements RecordService {
 
 		recordDao.insert(record);
 		return record.getId();
+	}
+	
+	@Override
+	public List<Record> searchRecord(RecordCondition condition) {
+		return recordDao.findByCondition(condition);
 	}
 
 	public void setRecordDao(RecordDao recordDao) {

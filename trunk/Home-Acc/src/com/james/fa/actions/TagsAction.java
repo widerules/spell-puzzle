@@ -14,12 +14,14 @@ public class TagsAction extends BasicAction {
 
 	public String execute() {
 		List<Tag> retrieveTags = tagService.retrieveTags();
-		List<String> tagList = new ArrayList<String>();
-		
-		for (Tag t : retrieveTags) {
-			tagList.add(t.getName());
-		}
-		setJsonObj(tagList);
+		setJsonObj(retrieveTags);
+		return jsonReturn();
+	}
+	
+	public String buildCascadeList(){
+		List<Tag> retrieveTags = tagService.retrieveTags();
+		retrieveTags.add(0, new Tag());
+		setJsonObj(retrieveTags);
 		return jsonReturn();
 	}
 
