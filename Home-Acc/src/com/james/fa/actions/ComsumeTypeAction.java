@@ -70,10 +70,11 @@ public class ComsumeTypeAction extends BasicAction {
 			}
 		}
 
-		String tab = "\t";
+		String tab = "--";
 
-		List<List<String>> typeList = new ArrayList<List<String>>();
+		List<IdTextJson> typeList = new ArrayList<IdTextJson>();
 
+		typeList.add(new IdTextJson("", getText("accounting.common.all")));
 		if (t.hasChild()) {
 			typeList = buildObj(t.getChildren(), tab, 1);
 		}
@@ -82,9 +83,9 @@ public class ComsumeTypeAction extends BasicAction {
 		return jsonReturn();
 	}
 
-	private List<List<String>> buildObj(List<TreeNode> typeList, String sep,
+	private List<IdTextJson> buildObj(List<TreeNode> typeList, String sep,
 			int repeat) {
-		List<List<String>> valueList = new ArrayList<List<String>>();
+		List<IdTextJson> valueList = new ArrayList<IdTextJson>();
 
 		String fullSep = "";
 		for (int i = 1; i <= repeat; i++) {
@@ -92,10 +93,8 @@ public class ComsumeTypeAction extends BasicAction {
 		}
 
 		for (TreeNode type : typeList) {
-
-			List<String> json = new ArrayList<String>();
-			json.add(type.getId());
-			json.add(fullSep + ((ConsumeType) type).getText());
+			IdTextJson json = new IdTextJson(type.getId(),
+					fullSep + ((ConsumeType) type).getText());
 			valueList.add(json);
 			if (type.hasChild()) {
 				buildObj(type.getChildren(), sep, repeat + 1);
@@ -103,6 +102,33 @@ public class ComsumeTypeAction extends BasicAction {
 		}
 
 		return valueList;
+	}
+
+	public static class IdTextJson {
+
+		private String id;
+		private String text;
+
+		public IdTextJson(String id, String text) {
+			this.id = id;
+			this.text = text;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getText() {
+			return text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
 	}
 
 	public void setConsumeTypeService(ConsumeTypeService consumeTypeService) {

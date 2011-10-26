@@ -1,7 +1,12 @@
 package com.james.fa.actions;
 
+import java.util.List;
+
 import com.james.fa.po.Record;
 import com.james.fa.services.RecordService;
+import com.james.fa.vo.RecordCondition;
+import com.james.skeleton.util.DateUtils;
+import com.james.skeleton.util.Validators;
 
 public class DetailsAction extends BasicAction {
 
@@ -13,6 +18,10 @@ public class DetailsAction extends BasicAction {
 	private float amount;
 	private String consumeTypeId;
 	private String desc;
+	private String startAmount;
+	private String endAmount;
+	private String startDate;
+	private String endDate;
 
 	private RecordService recordService;
 
@@ -24,9 +33,31 @@ public class DetailsAction extends BasicAction {
 		record.setConsumeTypeId(consumeTypeId);
 		record.setConsumeDate(consumeDate);
 		record.setDesc(desc);
-		
+
 		recordService.addRecord(record);
+
+		return ajaxReturn();
+	}
+
+	public String queryRecord() {
+
+		RecordCondition condition = new RecordCondition();
+		condition.setType(Integer.parseInt(type));
+		condition.setConsumeTypeId(consumeTypeId);
+		condition.setTarget(target);
+		condition.setDesc(desc);
+		condition.setStartAmount(Validators.isEmpty(startAmount) ? -1
+				: (int) (Float.parseFloat(startAmount) * 100));
+		condition.setEndAmount(Validators.isEmpty(endAmount) ? -1
+				: (int) (Float.parseFloat(endAmount) * 100));
+		condition.setStartDate(DateUtils.string2Date(startDate));
+		condition
+				.setEndDate(DateUtils.addDay(DateUtils.string2Date(endDate), 1));
+
+		List<Record> searchRecord = recordService.searchRecord(condition);
 		
+		getReply().setValue(searchRecord);
+
 		return ajaxReturn();
 	}
 
@@ -80,5 +111,37 @@ public class DetailsAction extends BasicAction {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public String getStartAmount() {
+		return startAmount;
+	}
+
+	public void setStartAmount(String startAmount) {
+		this.startAmount = startAmount;
+	}
+
+	public String getEndAmount() {
+		return endAmount;
+	}
+
+	public void setEndAmount(String endAmount) {
+		this.endAmount = endAmount;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 }

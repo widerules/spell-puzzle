@@ -3,6 +3,7 @@ package com.james.fa.daos;
 import java.util.List;
 
 import com.james.fa.po.Record;
+import com.james.fa.vo.RecordCondition;
 
 public interface RecordDao {
 
@@ -15,5 +16,7 @@ public interface RecordDao {
 	String update(Record record);
 
 	Record findById(String recordId);
+
+	List<Record> findByCondition(RecordCondition condition);
 
 }
