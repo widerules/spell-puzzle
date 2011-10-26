@@ -14,7 +14,7 @@ function buildQueryTab(){
         	bodyStyle: 'padding:10px',
         	items:[{
         		xtype: 'form',
-        		url: '',
+        		url: 'queryRecord.action',
         		border: false,
         		defaults:{
         			anchor: '100%',
@@ -32,14 +32,30 @@ function buildQueryTab(){
                         name : 'type',
                         store : Ext.create('Ext.data.ArrayStore', {
                             fields : [ 'key', 'value' ],
-                            data : [ [ '-1', '<%= i18n.getI18nText("accounting.input.type.credit") %>' ], [ '1', '<%= i18n.getI18nText("accounting.input.type.debit") %>' ] ]
+                            data : [ [ '', '<%= i18n.getI18nText("accounting.common.all") %>' ], [ '-1', '<%= i18n.getI18nText("accounting.common.type.credit") %>' ], [ '1', '<%= i18n.getI18nText("accounting.common.type.debit") %>' ] ]
                         }),
+                        value: '',
                         valueField : 'key',
                         displayField : 'value',
                         typeAhead : false,
                         editable : false,
                         queryMode : 'local',
-                        emptyText : '<%= i18n.getI18nText("accounting.query.type.tips") %>',
+                        allowBlank: true
+                    },{
+                        xtype: 'combobox',
+                        name: 'consumeType',
+                        forceSelection: true,
+                        store : Ext.create('Ext.data.ArrayStore', {
+                            fields: [ {name: 'id',  type: 'string'}, {name: 'text', type: 'string'}],
+                            proxy: {
+                                type: 'ajax',
+                                url : 'loadCascadeConsumeType.action'
+                            },
+                            autoLoad: true
+                        }),
+                        fieldLabel: '<%= i18n.getI18nText("accounting.query.label.consume.type") %>',
+                        valueField : 'id',
+                        displayField : 'text',
                         allowBlank: true
                     },{
         				xtype: 'combobox',
@@ -106,6 +122,7 @@ function buildQueryTab(){
                             regexText: '<%= i18n.getI18nText("accounting.input.amount.err") %>'
                         }]
         			},{
+                        xtype: 'textfield',
                         name: 'description',
                         fieldLabel: '<%= i18n.getI18nText("accounting.query.label.desc") %>'
                     }]

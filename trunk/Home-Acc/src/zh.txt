@@ -15,6 +15,12 @@ menu.accounting.input=输入信息
 menu.accounting.query=历史查询
 menu.accounting.report=总结报表
 
+#common
+accounting.common.type=类型
+accounting.common.type.credit=支出
+accounting.common.type.debit=收入
+accounting.common.all=全部
+
 #home
 accounting.home.title=欢迎您
 
@@ -35,6 +41,7 @@ accounting.input.desc=描述
 accounting.query.type=类型
 accounting.query.type.tips=请选择类型...
 accounting.query.label.target=使用对象
+accounting.query.label.consume.type=消费归类
 accounting.query.label.data.range=日期范围
 accounting.query.label.data.range.start=起始
 accounting.query.label.data.range.end=结束
