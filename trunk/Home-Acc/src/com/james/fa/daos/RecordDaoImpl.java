@@ -112,7 +112,7 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 		SqlHandler handler = new SqlHandler(SQL_FIND_ALL, false);
 		handler.and("consume_date >= ?", condition.getStartDate(),
 				condition.getStartDate() != null);
-		handler.and("consume_date < ?", condition.getEndDate(),
+		handler.and("consume_date <= ?", condition.getEndDate(),
 				condition.getEndDate() != null);
 		handler.and("type = ?", condition.getType(), condition.getType() != 0);
 		handler.and("consume_type_id=?", condition.getConsumeTypeId(),
