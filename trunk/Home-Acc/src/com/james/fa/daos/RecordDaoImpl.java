@@ -6,8 +6,8 @@ import java.sql.Types;
 import java.util.Date;
 import java.util.List;
 
+import com.james.fa.actions.conditions.RecordCondition;
 import com.james.fa.po.Record;
-import com.james.fa.vo.RecordCondition;
 import com.james.skeleton.util.Validators;
 import com.james.skeleton.util.dao.BasicDao;
 import com.james.skeleton.util.dao.MultiRowMapper;
