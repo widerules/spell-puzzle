@@ -177,17 +177,69 @@ function buildQueryTab(){
                 features: [{
                     ftype: 'summary'
                 }],
+                plugins: [
+                    Ext.create('Ext.grid.plugin.RowEditing', {
+                        clicksToEdit: 1
+                    })
+                ],
+                tbar: [
+                    {
+                    	xtype: 'button',
+                    	text: 'Apply',
+                    	handler: function() {
+                    		store = Ext.getStore('temp-query-data');
+                    		Ext.Msg.alert('?', store.getUpdatedRecords());
+                    	}
+                    }
+                ],
                 columns: [
-                    {header: '<%= i18n.getI18nText("accounting.input.type") %>',  dataIndex: 'type', flex: 1, renderer: function(value, metaData, record){
-	                    if (value == 1){
-	                        return '<%= i18n.getI18nText("accounting.input.type.debit") %>';
-	                    }else if (value == -1){
-	                        return '<%= i18n.getI18nText("accounting.input.type.credit") %>';
+                    {header: '<%= i18n.getI18nText("accounting.input.type") %>',  dataIndex: 'type', flex: 1, 
+                        renderer: function(value, metaData, record){
+		                    if (value == 1){
+		                        return '<%= i18n.getI18nText("accounting.input.type.debit") %>';
+		                    }else if (value == -1){
+		                        return '<%= i18n.getI18nText("accounting.input.type.credit") %>';
+		                    }
+	                    },
+                        editor:{
+                        	xtype : 'combobox',
+                            fieldLabel : '<%= i18n.getI18nText("accounting.input.type") %>',
+                            name : 'type',
+                            store : Ext.create('Ext.data.ArrayStore', {
+                                fields : [ 'key', 'value' ],
+                                data : [ [ '-1', '<%= i18n.getI18nText("accounting.input.type.credit") %>' ], [ '1', '<%= i18n.getI18nText("accounting.input.type.debit") %>' ] ]
+                            }),
+                            valueField : 'key',
+                            displayField : 'value',
+                            typeAhead : false,
+                            editable : false,
+                            queryMode : 'local',
+                            emptyText : '<%= i18n.getI18nText("accounting.input.type.tips") %>',
+                            allowBlank: false
+                        }
+                    },
+	                {header: '<%= i18n.getI18nText("accounting.input.consume.type") %>', dataIndex: 'consumeTypeId', flex: 1,  
+                    	renderer: function(value, metaData, record){
+                    		   return record.data.consumeTypeValue;
+	                    },
+	                    editor: {
+	                    	xtype: 'combobox',
+	                        name: 'consumeTypeId',
+	                        store : Ext.create('Ext.data.ArrayStore', {
+	                            fields: [ {name: 'id',  type: 'string'}, {name: 'text', type: 'string'}],
+	                            proxy: {
+	                                type: 'ajax',
+	                                url : 'loadCascadeConsumeType.action'
+	                            },
+	                            autoLoad: true
+	                        }),
+	                        fieldLabel: '<%= i18n.getI18nText("accounting.query.label.consume.type") %>',
+	                        valueField : 'id',
+	                        displayField : 'text',
+	                        editable : false,
+	                        allowBlank: true
 	                    }
-	                }},
-	                {header: '<%= i18n.getI18nText("accounting.input.consume.type") %>', dataIndex: 'consumeTypeId', flex: 1,  renderer: function(value, metaData, record){
-	                    return record.data.consumeTypeValue;
-	                }},
+	                },
 	                
 	                {header: '<%= i18n.getI18nText("accounting.input.target") %>', dataIndex: 'target', flex: 1},
 	                {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDate', flex: 1,

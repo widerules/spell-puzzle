@@ -1,11 +1,17 @@
 package com.james.fa.actions;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.james.fa.actions.conditions.RecordCondition;
+import com.james.fa.po.ConsumeType;
 import com.james.fa.po.Record;
+import com.james.fa.services.ConsumeTypeService;
 import com.james.fa.services.RecordService;
-import com.james.skeleton.util.DateUtils;
+import com.james.fa.vo.RecordVo;
 import com.james.skeleton.util.Validators;
 
 public class DetailsAction extends BasicAction {
@@ -24,6 +30,7 @@ public class DetailsAction extends BasicAction {
 	private String endDate;
 
 	private RecordService recordService;
+	private ConsumeTypeService consumeTypeService;
 
 	public String execute() {
 		Record record = new Record();
@@ -50,15 +57,41 @@ public class DetailsAction extends BasicAction {
 				: (int) (Float.parseFloat(startAmount) * 100));
 		condition.setEndAmount(Validators.isEmpty(endAmount) ? -1
 				: (int) (Float.parseFloat(endAmount) * 100));
-		condition.setStartDate(DateUtils.string2Date(startDate));
-		condition
-				.setEndDate(DateUtils.addDay(DateUtils.string2Date(endDate), 1));
+		condition.setStartDate(startDate);
+		condition.setEndDate(endDate);
 
-		List<Record> searchRecord = recordService.searchRecord(condition);
-		
-		getReply().setValue(searchRecord);
+		List<Record> searchRecords = recordService.searchRecord(condition);
+
+		if (!searchRecords.isEmpty()) {
+			List<RecordVo> resultList = new ArrayList<RecordVo>();
+
+			List<ConsumeType> typeList = consumeTypeService.getAll();
+			Map<String, String> typeMap = new HashMap<String, String>();
+			for (ConsumeType type : typeList) {
+				typeMap.put(type.getId(), type.getText());
+			}
+
+			for (Record record : searchRecords) {
+				RecordVo vo = new RecordVo(record);
+				vo.setAmount(vo.getAmount() / 100 * vo.getType());
+				vo.setConsumeTypeValue(typeMap.get(vo.getConsumeTypeId()));
+				resultList.add(vo);
+			}
+
+			getReply().setValue(resultList);
+		} else {
+			getReply().setValue(Collections.emptyList());
+		}
 
 		return ajaxReturn();
+	}
+
+	public void setRecordService(RecordService recordService) {
+		this.recordService = recordService;
+	}
+
+	public void setConsumeTypeService(ConsumeTypeService consumeTypeService) {
+		this.consumeTypeService = consumeTypeService;
 	}
 
 	public String getType() {
@@ -99,10 +132,6 @@ public class DetailsAction extends BasicAction {
 
 	public void setConsumeTypeId(String consumeTypeId) {
 		this.consumeTypeId = consumeTypeId;
-	}
-
-	public void setRecordService(RecordService recordService) {
-		this.recordService = recordService;
 	}
 
 	public String getDesc() {
