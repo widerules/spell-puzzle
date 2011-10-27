@@ -2,9 +2,9 @@ package com.james.fa.services;
 
 import java.util.List;
 
+import com.james.fa.actions.conditions.RecordCondition;
 import com.james.fa.daos.RecordDao;
 import com.james.fa.po.Record;
-import com.james.fa.vo.RecordCondition;
 
 public class RecordServiceImpl implements RecordService {
 

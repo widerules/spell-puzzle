@@ -1,4 +1,4 @@
-package com.james.fa.vo;
+package com.james.fa.actions.conditions;
 
 import java.util.Date;
 

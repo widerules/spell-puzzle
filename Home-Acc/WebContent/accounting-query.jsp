@@ -142,8 +142,8 @@ function buildQueryTab(){
                             form.submit({
                                 success : function(form, action) {
                                 	if (action.result){
-                                		store = Ext.getStore('temp-input-data');
-                                		store.loadData(action.result.value);
+                                		store = Ext.getStore('temp-query-data');
+                                		store.loadData(action.result.value, false);
 	                                    Ext.getCmp('temp-query-grid').getView().refresh();
                                 	}
                                 },

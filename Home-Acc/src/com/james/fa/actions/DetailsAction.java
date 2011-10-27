@@ -2,9 +2,9 @@ package com.james.fa.actions;
 
 import java.util.List;
 
+import com.james.fa.actions.conditions.RecordCondition;
 import com.james.fa.po.Record;
 import com.james.fa.services.RecordService;
-import com.james.fa.vo.RecordCondition;
 import com.james.skeleton.util.DateUtils;
 import com.james.skeleton.util.Validators;
 

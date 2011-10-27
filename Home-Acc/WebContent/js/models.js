@@ -16,7 +16,7 @@ Ext.define('ConsumeType', {
 
 Ext.define('RecordModel',{
 	extend: 'Ext.data.Model',
-	fields: ['id', 'type', 'consumeTypeId', 'consumeDate', 'target', {name: 'amount', type: 'int'}, 'consumeTypeValue', 'desc'],
+	fields: ['id', 'type', 'consumeTypeId', 'consumeDate', 'target', {name: 'amount', type: 'float'}, 'consumeTypeValue', 'desc'],
     proxy: {
         type: ('localStorage' in window && window['localStorage'] !== null) ? 'localstorage' : 'memory',
         id  : 'temp-input-data'
