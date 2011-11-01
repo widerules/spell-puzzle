@@ -18,6 +18,7 @@ public class DetailsAction extends BasicAction {
 
 	private static final long serialVersionUID = 8104630171217587718L;
 
+	private String id;
 	private String type;
 	private String consumeDate;
 	private String target;
@@ -73,7 +74,7 @@ public class DetailsAction extends BasicAction {
 
 			for (Record record : searchRecords) {
 				RecordVo vo = new RecordVo(record);
-				vo.setAmount(vo.getAmount() / 100 * vo.getType());
+				vo.setAmount(vo.getAmount() / 100);
 				vo.setConsumeTypeValue(typeMap.get(vo.getConsumeTypeId()));
 				resultList.add(vo);
 			}
@@ -83,6 +84,20 @@ public class DetailsAction extends BasicAction {
 			getReply().setValue(Collections.emptyList());
 		}
 
+		return ajaxReturn();
+	}
+	
+	public String modifyRecord(){
+		Record record = new Record();
+		record.setId(id);
+		record.setType(Integer.parseInt(type));
+		record.setAmount((int) (amount * 100));
+		record.setTarget(target);
+		record.setConsumeTypeId(consumeTypeId);
+		record.setConsumeDate(consumeDate.substring(0, 12));
+		record.setDesc(desc);
+
+		recordService.modifyRecord(record);
 		return ajaxReturn();
 	}
 
@@ -172,5 +187,13 @@ public class DetailsAction extends BasicAction {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

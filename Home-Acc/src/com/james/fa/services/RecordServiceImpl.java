@@ -11,6 +11,7 @@ public class RecordServiceImpl implements RecordService {
 	private RecordDao recordDao;
 	private TagService tagService;
 
+	@Override
 	public String addRecord(Record record) {
 
 		if (!tagService.contains(record.getTarget())) {
@@ -20,10 +21,18 @@ public class RecordServiceImpl implements RecordService {
 		recordDao.insert(record);
 		return record.getId();
 	}
-	
+
 	@Override
 	public List<Record> searchRecord(RecordCondition condition) {
 		return recordDao.findByCondition(condition);
+	}
+
+	@Override
+	public String modifyRecord(Record record) {
+		if (!tagService.contains(record.getTarget())) {
+			tagService.addTag(record.getTarget());
+		}
+		return recordDao.update(record);
 	}
 
 	public void setRecordDao(RecordDao recordDao) {

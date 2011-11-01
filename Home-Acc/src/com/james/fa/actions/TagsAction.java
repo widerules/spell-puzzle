@@ -1,6 +1,5 @@
 package com.james.fa.actions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.james.fa.po.Tag;
@@ -20,7 +19,6 @@ public class TagsAction extends BasicAction {
 	
 	public String buildCascadeList(){
 		List<Tag> retrieveTags = tagService.retrieveTags();
-		retrieveTags.add(0, new Tag());
 		setJsonObj(retrieveTags);
 		return jsonReturn();
 	}

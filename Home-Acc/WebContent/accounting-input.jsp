@@ -71,6 +71,7 @@ function buildInputTab() {
                             displayField : 'value',
                             typeAhead : false,
                             editable : false,
+                            value: '-1',
                             queryMode : 'local',
                             emptyText : '<%= i18n.getI18nText("accounting.input.type.tips") %>',
                             allowBlank: false
@@ -82,10 +83,22 @@ function buildInputTab() {
                             format: 'Y-m-d',
                             value: Ext.Date.format(new Date(), 'Y-m-d')
                         }, {
-                            xtype: 'textfield',
-                            fieldLabel: '<%= i18n.getI18nText("accounting.input.target") %>',
+                        	xtype: 'combo',
                             name: 'target',
-                            allowBlank: false,
+                            store : Ext.create('Ext.data.ArrayStore', {
+                                fields: [ {name: 'name',  type: 'string'}],
+                                proxy: {
+                                    type: 'ajax',
+                                    url : 'loadCascadeTag.action'
+                                },
+                                autoLoad: true
+                            }),
+                            fieldLabel: '<%= i18n.getI18nText("accounting.query.label.target") %>',
+                            value: '',
+                            typeAhead: true,
+                            valueField : 'name',
+                            displayField : 'name',
+                            allowBlank: false
                         }, {
                             xtype: 'textfield',
                             fieldLabel: '<%= i18n.getI18nText("accounting.input.amount") %>',
@@ -132,6 +145,7 @@ function buildInputTab() {
                                         Ext.getCmp('temp-input-grid').getView().refresh();
                                         ctid = Ext.getCmp('consumeTypeId').getValue();
                                         ctval = Ext.getCmp('consumeTypeValue').getValue();
+                                        Ext.Tips.msg("Finished", "Completed!");
                                         form.reset();
                                         Ext.getCmp('consumeTypeId').setValue(ctid);
                                         Ext.getCmp('consumeTypeValue').setValue(ctval);
@@ -180,23 +194,25 @@ function buildInputTab() {
                           
                           {header: '<%= i18n.getI18nText("accounting.input.target") %>', dataIndex: 'target', flex: 1},
                           {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDate', flex: 1,
+                        	  xtype: 'datecolumn',
+                              format: 'Y-m-d',
                               summaryRenderer: function(value, metaData, record){
                                     return '<string>Sum:</string>';
                               }},
                           {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount', 
                               renderer: function(value, metaData, record){
                                   if (record.data.type == -1){
-                                      return '<font style="color: red;">' + Ext.util.Format.currency(value, 'ï¿½', 2) + '</font>';
+                                      return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>';
                                   }else{
-                                      return Ext.util.Format.currency(value, 'ï¿½', 2);
+                                      return Ext.util.Format.currency(value, '¥', 2);
                                   }
                               }, 
                               flex: 1, summaryType: 'sum', 
                               summaryRenderer: function(value, summaryData, dataIndex) {
                               if (value < 0){
-                                  return '<font style="color: red;">' + Ext.util.Format.currency(value, 'ï¿½', 2) + '</font>'; 
+                                  return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>'; 
                               }
-                              return Ext.util.Format.currency(value, 'ï¿½', 2); 
+                              return Ext.util.Format.currency(value, '¥', 2); 
                               }
                           },{
                               header: '<%= i18n.getI18nText("accounting.input.desc") %>', dataIndex: 'desc', flex: 1
