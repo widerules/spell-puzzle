@@ -11,4 +11,6 @@ public interface RecordService {
 
 	List<Record> searchRecord(RecordCondition condition);
 
+	String modifyRecord(Record record);
+
 }

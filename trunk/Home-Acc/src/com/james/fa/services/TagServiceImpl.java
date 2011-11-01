@@ -1,7 +1,10 @@
 package com.james.fa.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.james.fa.daos.TagDao;
 import com.james.fa.po.Tag;
@@ -24,14 +27,19 @@ public class TagServiceImpl implements TagService, Cache {
 			CacheManager.putCache(this, cacheProvider);
 			c = CacheManager.getCache(this);
 		}
-		return ((TagServiceImpl) c).tagList;
+		return new ArrayList<Tag>(((TagServiceImpl) c).tagList);
 	}
 
 	@Override
 	public boolean contains(String name) {
-		return retrieveTags().contains(name);
+		List<Tag> tagList = retrieveTags();
+		Set<String> nameSet = new HashSet<String>();
+		for (Tag tag : tagList) {
+			nameSet.add(tag.getName());
+		}
+		return nameSet.contains(name);
 	}
-	
+
 	@Override
 	public String addTag(String tag) {
 		String result = tagDao.insert(new Tag(tag));

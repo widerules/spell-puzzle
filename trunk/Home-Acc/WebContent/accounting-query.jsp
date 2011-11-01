@@ -61,7 +61,6 @@ function buildQueryTab(){
                     },{
         				xtype: 'combobox',
         				name: 'target',
-        				forceSelection: true,
         				store : Ext.create('Ext.data.ArrayStore', {
        						fields: [ {name: 'name',  type: 'string'}],
         				    proxy: {
@@ -144,6 +143,7 @@ function buildQueryTab(){
                                 	if (action.result){
                                 		store = Ext.getStore('temp-query-data');
                                 		store.loadData(action.result.value, false);
+                                		Ext.getCmp('temp-query-grid').setHeight('100%');
 	                                    Ext.getCmp('temp-query-grid').getView().refresh();
                                 	}
                                 },
@@ -167,6 +167,7 @@ function buildQueryTab(){
             },
         	items:[{
         		xtype:'grid',
+        		autoScroll: true,
         		id : 'temp-query-grid',
                 title: '<%= i18n.getI18nText("accounting.input.record") %>',
                 store: Ext.create('Ext.data.Store', {
@@ -179,18 +180,57 @@ function buildQueryTab(){
                 }],
                 plugins: [
                     Ext.create('Ext.grid.plugin.RowEditing', {
+                    	listeners: {
+                    		edit: {
+                    			element: 'el',
+                    			fn: function(editor){
+                    				if (editor.record.dirty){
+                    					Ext.getCmp('applyButton').setDisabled(false);
+                    				}
+                    			}
+                    		}
+                    	},
                         clicksToEdit: 2
                     })
                 ],
                 tbar: [
                     {
                     	xtype: 'button',
+                    	id: 'applyButton',
                     	text: '<%= i18n.getI18nText("accounting.common.apply") %>',
-                    	// disabled: true,
+                    	disabled: true,
                     	handler: function() {
                     		store = Ext.getStore('temp-query-data');
-                    		console.log(store.getUpdatedRecords());
-                    		// Ext.Msg.alert('?', );
+                    		updatedRecords = store.getUpdatedRecords();
+                    		var showed = false;
+                    		for (i in updatedRecords){
+                    			//console.log(updatedRecords[i]);
+                    			Ext.Ajax.request({
+                    				url: 'modifyRecord.action',
+                    				params: {
+                    					id: updatedRecords[i].data.id,
+                    					type: updatedRecords[i].data.type,
+                    					consumeDate: updatedRecords[i].data.consumeDate,
+                    					target: updatedRecords[i].data.target,
+                    				    amount: updatedRecords[i].data.amount,
+                    				    consumeTypeId: updatedRecords[i].data.consumeTypeId,
+                    				    desc: updatedRecords[i].data.desc
+                    				},
+                    				success: function(response, opts){
+                    					if (!showed){
+                    						showed = !showed;
+                    						Ext.Tips.msg('Updated!', 'Update');
+                    					}
+                    				},
+                    				failure: function(response, opts){
+                    					
+                    				}
+                    			});
+                    			updatedRecords[i].commit();
+                    		}
+                    		
+                    		Ext.getCmp('temp-query-grid').getView().refresh();
+                    		this.setDisabled(true);
                     	}
                     }
                 ],
@@ -220,12 +260,25 @@ function buildQueryTab(){
                     },
 	                {header: '<%= i18n.getI18nText("accounting.input.consume.type") %>', dataIndex: 'consumeTypeId', flex: 1,  
                     	renderer: function(value, metaData, record){
-                    		   return record.data.consumeTypeValue;
+                    		store = Ext.getStore('temp-consume-type');
+                    		if (!store){
+                    			return record.data.consumeTypeValue;
+                    		}
+                    		
+                    		filtered = store.queryBy(function(record, id){
+                    			return id == value;
+                    		});
+                    		
+                    		if (filtered.items[0]){
+                    			return filtered.items[0].data.originValue;
+                    		}
+                    		return record.data.consumeTypeValue;
 	                    },
 	                    editor: {
 	                    	xtype: 'combobox',
 	                        store : Ext.create('Ext.data.ArrayStore', {
-	                            fields: [ {name: 'id',  type: 'string'}, {name: 'text', type: 'string'}],
+	                        	storeId: 'temp-consume-type',
+	                            fields: [ {name: 'id',  type: 'string'}, {name: 'text', type: 'string'}, {name: 'originValue', type: 'string'}],
 	                            proxy: {
 	                                type: 'ajax',
 	                                url : 'loadCascadeConsumeType.action'
@@ -258,10 +311,10 @@ function buildQueryTab(){
 	                        allowBlank: true
                         }
                     },
-	                {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDateOrigin', flex: 1,
+	                {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDate', flex: 1,
                     	xtype: 'datecolumn',
                     	format: 'Y-m-d',
-                    	editor: {
+                    	field: {
                             xtype: 'datefield',
                             allowBlank: false,
                             format: 'Y-m-d'
@@ -274,24 +327,38 @@ function buildQueryTab(){
 	                    }},
 	                {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount',
                         editor: {
-                            
+                        	xtype: 'textfield',
+                            fieldLabel: '<%= i18n.getI18nText("accounting.input.amount") %>',
+                            id: 'amount',
+                            name: 'amount',
+                            allowBlank: false,
+                            regex: /^[0-9.]+$/,
+                            regexText: '<%= i18n.getI18nText("accounting.input.amount.err") %>'
                         },
 	                    renderer: function(value, metaData, record){
 	                        if (record.data.type == -1){
-	                            return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>';
+	                            return '<font style="color: red;">' + Ext.util.Format.currency(value * record.data.type, '¥', 2) + '</font>';
 	                        }else{
 	                            return Ext.util.Format.currency(value, '¥', 2);
 	                        }
 	                    }, 
-	                    flex: 1, summaryType: 'sum', 
+	                    flex: 1, 
+	                    summaryType: function(field){
+	                    	sum = 0;
+	                    	for (i in field){
+	                    		sum += field[i].data.amount * field[i].data.type;
+	                    	}
+	                    	return sum;
+	                    }, 
 	                    summaryRenderer: function(value, summaryData, dataIndex) {
-	                    if (value < 0){
-	                        return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>'; 
-	                    }
-	                    return Ext.util.Format.currency(value, '¥', 2); 
+		                    if (value < 0){
+		                        return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>'; 
+		                    }
+		                    return Ext.util.Format.currency(value, '¥', 2); 
 	                    }
 	                },{
-	                    header: '<%= i18n.getI18nText("accounting.input.desc") %>', dataIndex: 'desc', flex: 1
+	                    header: '<%= i18n.getI18nText("accounting.input.desc") %>', dataIndex: 'desc', flex: 1,
+	                    editor: {}
 	                }
 	            ]
         	}]

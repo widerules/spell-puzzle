@@ -8,9 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="css/msgtool.css" />
 <!-- <script type="text/javascript" src="extjs/ext-all.js"></script> -->
 <script type="text/javascript" src="extjs/ext-all-debug-w-comments.js"></script>
 <script type="text/javascript" src="js/models.js"></script>
+<script type="text/javascript" src="js/msgtool.js"></script>
 <style type="text/css">
 #loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
 #loading .title {position: absolute; display: block; top: 0; left: 0px; width: 180px; height: 27px; }

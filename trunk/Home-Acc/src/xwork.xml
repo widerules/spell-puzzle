@@ -49,6 +49,7 @@
         <action name="loadCascadeConsumeType" class="com.james.fa.actions.ComsumeTypeAction" method="buildCascadeList"><result name="json">index.jsp</result></action>
         <action name="loadCascadeTag" class="com.james.fa.actions.TagsAction" method="buildCascadeList"><result name="json">index.jsp</result></action>
         <action name="saveInput" class="com.james.fa.actions.DetailsAction"><result name="ajax">index.jsp</result></action>
+        <action name="modifyRecord" class="com.james.fa.actions.DetailsAction" method="modifyRecord"><result name="ajax">index.jsp</result></action>
         <action name="queryRecord" class="com.james.fa.actions.DetailsAction" method="queryRecord"><result name="ajax">index.jsp</result></action>
         
 	</package>

@@ -16,7 +16,6 @@ public class RecordVo {
 	private float amount;
 	private String consumeTypeValue;
 	private String desc;
-	private Date consumeDateOrigin;
 
 	public RecordVo(Record po) {
 		this.id = po.getId();
@@ -24,7 +23,6 @@ public class RecordVo {
 		this.consumeTypeId = po.getConsumeTypeId();
 		this.target = po.getTarget();
 		this.consumeDate = po.getConsumeDate();
-		this.consumeDateOrigin = DateUtils.string2Date(consumeDate);
 		this.amount = po.getAmount();
 		this.desc = po.getDesc();
 	}
@@ -94,11 +92,4 @@ public class RecordVo {
 		this.desc = desc;
 	}
 
-	public Date getConsumeDateOrigin() {
-		return consumeDateOrigin;
-	}
-
-	public void setConsumeDateOrigin(Date consumeDateOrigin) {
-		this.consumeDateOrigin = consumeDateOrigin;
-	}
 }
