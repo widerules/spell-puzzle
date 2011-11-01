@@ -179,16 +179,18 @@ function buildQueryTab(){
                 }],
                 plugins: [
                     Ext.create('Ext.grid.plugin.RowEditing', {
-                        clicksToEdit: 1
+                        clicksToEdit: 2
                     })
                 ],
                 tbar: [
                     {
                     	xtype: 'button',
-                    	text: 'Apply',
+                    	text: '<%= i18n.getI18nText("accounting.common.apply") %>',
+                    	// disabled: true,
                     	handler: function() {
                     		store = Ext.getStore('temp-query-data');
-                    		Ext.Msg.alert('?', store.getUpdatedRecords());
+                    		console.log(store.getUpdatedRecords());
+                    		// Ext.Msg.alert('?', );
                     	}
                     }
                 ],
@@ -204,14 +206,12 @@ function buildQueryTab(){
                         editor:{
                         	xtype : 'combobox',
                             fieldLabel : '<%= i18n.getI18nText("accounting.input.type") %>',
-                            name : 'type',
                             store : Ext.create('Ext.data.ArrayStore', {
                                 fields : [ 'key', 'value' ],
-                                data : [ [ '-1', '<%= i18n.getI18nText("accounting.input.type.credit") %>' ], [ '1', '<%= i18n.getI18nText("accounting.input.type.debit") %>' ] ]
+                                data : [ [ -1, '<%= i18n.getI18nText("accounting.input.type.credit") %>' ], [ 1, '<%= i18n.getI18nText("accounting.input.type.debit") %>' ] ]
                             }),
                             valueField : 'key',
                             displayField : 'value',
-                            typeAhead : false,
                             editable : false,
                             queryMode : 'local',
                             emptyText : '<%= i18n.getI18nText("accounting.input.type.tips") %>',
@@ -224,7 +224,6 @@ function buildQueryTab(){
 	                    },
 	                    editor: {
 	                    	xtype: 'combobox',
-	                        name: 'consumeTypeId',
 	                        store : Ext.create('Ext.data.ArrayStore', {
 	                            fields: [ {name: 'id',  type: 'string'}, {name: 'text', type: 'string'}],
 	                            proxy: {
@@ -241,12 +240,42 @@ function buildQueryTab(){
 	                    }
 	                },
 	                
-	                {header: '<%= i18n.getI18nText("accounting.input.target") %>', dataIndex: 'target', flex: 1},
-	                {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDate', flex: 1,
+	                {header: '<%= i18n.getI18nText("accounting.input.target") %>', dataIndex: 'target', flex: 1,
+	                	editor:{
+	                		xtype: 'combobox',
+	                        store : Ext.create('Ext.data.ArrayStore', {
+	                            fields: [ {name: 'name',  type: 'string'}],
+	                            proxy: {
+	                                type: 'ajax',
+	                                url : 'loadCascadeTag.action'
+	                            },
+	                            autoLoad: true
+	                        }),
+	                        fieldLabel: '<%= i18n.getI18nText("accounting.query.label.target") %>',
+	                        valueField : 'name',
+                            editable: true,
+	                        displayField : 'name',
+	                        allowBlank: true
+                        }
+                    },
+	                {header: '<%= i18n.getI18nText("accounting.input.date") %>', dataIndex: 'consumeDateOrigin', flex: 1,
+                    	xtype: 'datecolumn',
+                    	format: 'Y-m-d',
+                    	editor: {
+                            xtype: 'datefield',
+                            allowBlank: false,
+                            format: 'Y-m-d'
+                            //minValue: '2010-01-01',
+                            //minText: 'Cannot have a start date before the company existed!',
+                            //maxValue: Ext.Date.format(new Date(), 'm/d/Y')
+                        },
 	                    summaryRenderer: function(value, metaData, record){
 	                          return '<string>Sum:</string>';
 	                    }},
-	                {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount', 
+	                {header: '<%= i18n.getI18nText("accounting.input.amount") %>', dataIndex: 'amount',
+                        editor: {
+                            
+                        },
 	                    renderer: function(value, metaData, record){
 	                        if (record.data.type == -1){
 	                            return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>';

@@ -16,6 +16,7 @@ menu.accounting.query=历史查询
 menu.accounting.report=总结报表
 
 #common
+accounting.common.apply=应 用
 accounting.common.type=类型
 accounting.common.type.credit=支出
 accounting.common.type.debit=收入
