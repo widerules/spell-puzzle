@@ -204,7 +204,7 @@ function buildInputTab() {
                                   if (record.data.type == -1){
                                       return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>';
                                   }else{
-                                      return Ext.util.Format.currency(value, '', 2);
+                                      return Ext.util.Format.currency(value, '¥', 2);
                                   }
                               }, 
                               flex: 1, summaryType: 'sum', 
