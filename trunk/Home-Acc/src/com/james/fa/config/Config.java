@@ -52,7 +52,8 @@ public class Config {
 		node1.setExpanded(true);
 		node1.addChild(new MenuItem("menu.accounting.input", "accounting/input", "app/test.action"));
 		node1.addChild(new MenuItem("menu.accounting.query", "accounting/query", "app/test.action"));
-		node1.addChild(new MenuItem("menu.accounting.report", "accounting/report", "app/test.action"));
+		node1.addChild(new MenuItem("menu.accounting.report.realtime", "accounting/realtimereport", "app/test.action"));
+		node1.addChild(new MenuItem("menu.accounting.report.history", "accounting/historyreport", "app/test.action"));
 
 		root.addChild(node1);
 

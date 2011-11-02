@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
 function buildQueryTab(){
 	return Ext.create('Ext.panel.Panel', {
 	    title: '<%= i18n.getI18nText("menu.accounting.query") %>',
@@ -6,11 +6,11 @@ function buildQueryTab(){
           type : 'border'
         },
         defaults : {
-          split : false
+          split : true
         },
         items: [{
         	region: 'north',
-        	height: 250,
+        	height: 270,
         	bodyStyle: 'padding:10px',
         	items:[{
         		xtype: 'form',
@@ -138,17 +138,21 @@ function buildQueryTab(){
                     handler : function() {
                         var form = this.up('form').getForm();
                         if (form.isValid()) {
+                        	grid = Ext.getCmp('temp-query-grid');
+                            grid.setLoading(true);
                             form.submit({
                                 success : function(form, action) {
                                 	if (action.result){
                                 		store = Ext.getStore('temp-query-data');
                                 		store.loadData(action.result.value, false);
-                                		Ext.getCmp('temp-query-grid').setHeight('100%');
-	                                    Ext.getCmp('temp-query-grid').getView().refresh();
+                                		grid.setHeight('100%');
+	                                    grid.getView().refresh();
+	                                    grid.setLoading(false);
                                 	}
                                 },
                                 failure : function(form, action) {
                                     Ext.Msg.alert('Failed', 'Error');
+                                    grid.setLoading(false);
                                 },
                                 waitMsg : '<%= i18n.getI18nText("msg.waiting.submit") %>'
                             });
@@ -219,7 +223,7 @@ function buildQueryTab(){
                     				success: function(response, opts){
                     					if (!showed){
                     						showed = !showed;
-                    						Ext.Tips.msg('Updated!', 'Update');
+                    						Ext.Tips.msg('<%= i18n.getI18nText("accounting.common.msg.title.success") %>', '<%= i18n.getI18nText("accounting.query.modify.msg.success") %>');
                     					}
                     				},
                     				failure: function(response, opts){
