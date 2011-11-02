@@ -1,9 +1,6 @@
 package com.james.fa.vo;
 
-import java.util.Date;
-
 import com.james.fa.po.Record;
-import com.james.skeleton.util.DateUtils;
 
 public class RecordVo {
 	// 'id', 'type', 'consumeTypeId', 'consumeDate', 'target', {name: 'amount',

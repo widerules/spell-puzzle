@@ -134,7 +134,7 @@ function buildInputTab() {
                         handler : function() {
                             var form = this.up('form').getForm();
                             if (Ext.getCmp('consumeTypeId').value == ""){
-                                Ext.Msg.alert('Failed', '<%= i18n.getI18nText("accounting.input.type.err.required") %>');
+                                Ext.Msg.alert('<%= i18n.getI18nText("accounting.common.msg.title.failure") %>', '<%= i18n.getI18nText("accounting.input.type.err.required") %>');
                             }
                             if (form.isValid()) {
                                 form.submit({
@@ -145,13 +145,13 @@ function buildInputTab() {
                                         Ext.getCmp('temp-input-grid').getView().refresh();
                                         ctid = Ext.getCmp('consumeTypeId').getValue();
                                         ctval = Ext.getCmp('consumeTypeValue').getValue();
-                                        Ext.Tips.msg("Finished", "Completed!");
+                                        Ext.Tips.msg('<%= i18n.getI18nText("accounting.common.msg.title.success") %>', '<%= i18n.getI18nText("accounting.input.save.msg.success") %>');
                                         form.reset();
                                         Ext.getCmp('consumeTypeId').setValue(ctid);
                                         Ext.getCmp('consumeTypeValue').setValue(ctval);
                                     },
                                     failure : function(form, action) {
-                                        Ext.Msg.alert('Failed', 'Error');
+                                        Ext.Msg.alert('<%= i18n.getI18nText("accounting.common.msg.title.failure") %>', '<%= i18n.getI18nText("accounting.common.msg.unknown") %>');
                                     },
                                     waitMsg : '<%= i18n.getI18nText("msg.waiting.submit") %>'
                                 });
@@ -204,7 +204,7 @@ function buildInputTab() {
                                   if (record.data.type == -1){
                                       return '<font style="color: red;">' + Ext.util.Format.currency(value, '¥', 2) + '</font>';
                                   }else{
-                                      return Ext.util.Format.currency(value, '¥', 2);
+                                      return Ext.util.Format.currency(value, '', 2);
                                   }
                               }, 
                               flex: 1, summaryType: 'sum', 

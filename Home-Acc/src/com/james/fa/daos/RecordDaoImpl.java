@@ -115,8 +115,6 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 		handler.and("consume_date <= ?", condition.getEndDate(),
 				condition.getEndDate() != null);
 		handler.and("type = ?", condition.getType(), condition.getType() != 0);
-		handler.and("consume_type_id=?", condition.getConsumeTypeId(),
-				!Validators.isEmpty(condition.getConsumeTypeId()));
 		handler.and("amount >= ?", condition.getStartAmount(),
 				condition.getStartAmount() != -1);
 		handler.and("amount <= ?", condition.getEndAmount(),
@@ -125,8 +123,11 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 				!Validators.isEmpty(condition.getTarget()));
 		handler.and("description like ?", "%" + condition.getDesc() + "%",
 				!Validators.isEmpty(condition.getDesc()));
+		handler.and("consume_type_id=?", condition.getConsumeTypeId(),
+				!Validators.isEmpty(condition.getConsumeTypeId()));
 
-		return query(handler.getSQL(), handler.getArgs(), new RecordMultiRowMapper());
+		return query(handler.getSQL(), handler.getArgs(),
+				new RecordMultiRowMapper());
 	}
 
 }

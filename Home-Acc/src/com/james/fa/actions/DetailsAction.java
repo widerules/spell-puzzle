@@ -94,7 +94,7 @@ public class DetailsAction extends BasicAction {
 		record.setAmount((int) (amount * 100));
 		record.setTarget(target);
 		record.setConsumeTypeId(consumeTypeId);
-		record.setConsumeDate(consumeDate.substring(0, 12));
+		record.setConsumeDate(consumeDate.substring(0, 10));
 		record.setDesc(desc);
 
 		recordService.modifyRecord(record);

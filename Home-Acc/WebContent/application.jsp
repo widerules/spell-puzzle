@@ -9,18 +9,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css" />
 <link rel="stylesheet" type="text/css" href="css/msgtool.css" />
-<!-- <script type="text/javascript" src="extjs/ext-all.js"></script> -->
-<script type="text/javascript" src="extjs/ext-all-debug-w-comments.js"></script>
+<script type="text/javascript" src="extjs/ext-all.js"></script>
+<script type="text/javascript" src="extjs/resources/locale/ext-lang-zh_CN.js"></script> 
 <script type="text/javascript" src="js/models.js"></script>
-<script type="text/javascript" src="js/msgtool.js"></script>
 <style type="text/css">
 #loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
 #loading .title {position: absolute; display: block; top: 0; left: 0px; width: 180px; height: 27px; }
 #loading .logo { background: url(images/loading.gif) no-repeat; position: absolute; display: block; top: 25px; left: 22px; width: 120px; height: 120px; }
 </style>
 <title>Family Accounting</title>
-<%@include file="accounting-input.jsp" %>
-<%@include file="accounting-query.jsp" %>
 <script type="text/javascript">
 Ext.onReady(function() {
 
@@ -56,27 +53,34 @@ Ext.onReady(function() {
                 listeners : {
                 	itemclick: {
                 		fn: function (view, record, item, index, e){
+                			tabPanel = Ext.getCmp('main_tab');
+        					tabPanel.setLoading(true);
                 			if (record.data.key == "accounting/input"){
-                				if (Ext.getCmp('main_tab')){
-                					tabPanel = Ext.getCmp('main_tab');
-                					tabPanel.setLoading(true);
+                				if (tabPanel){
                 					tabPanel.removeAll();
                                     tabPanel.add(buildInputTab());
                                     tabPanel.setActiveTab(0);
-                                    tabPanel.setLoading(false);
                                 }
                 			}else if (record.data.key == "accounting/query"){
-                				if (Ext.getCmp('main_tab')){
-                					tabPanel = Ext.getCmp('main_tab');
-                					tabPanel.setLoading(true);
+                				if (tabPanel){
                 					tabPanel.removeAll();
                 					tabPanel.add(buildQueryTab());
                 					tabPanel.setActiveTab(0);
-                                    tabPanel.setLoading(false);
                 				}
-                			}else if (record.data.key == ""){
-                				
+                			}else if (record.data.key == "accounting/realtimereport"){
+                				if (tabPanel){
+                                    tabPanel.removeAll();
+                                    tabPanel.add(buildRealtimeReportTab());
+                                    tabPanel.setActiveTab(0);
+                                }
+                			}else if (record.data.key == "accounting/historyreport"){
+                				if (tabPanel){
+                                    //tabPanel.removeAll();
+                                    //tabPanel.add(buildRealtimeReportTab());
+                                    //tabPanel.setActiveTab(0);
+                                }
                 			}
+                            tabPanel.setLoading(false);
                 		}
                 	}
                 }
@@ -108,5 +112,10 @@ Ext.onReady(function() {
     <input type="hidden" id="x-history-field" />
     <iframe id="x-history-frame"></iframe>
 </form>
+<script type="text/javascript" src="js/msgtool.js"></script>
+<script type="text/javascript" src="js/stores.js"></script>
+<%@include file="accounting-input.jsp" %>
+<%@include file="accounting-query.jsp" %>
+<%@include file="realtime-report.jsp" %>
 </body>
 </html>

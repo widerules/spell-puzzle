@@ -13,6 +13,8 @@ title.navigator=导航栏
 menu.accounting=财务
 menu.accounting.input=输入信息
 menu.accounting.query=历史查询
+menu.accounting.report.realtime=实时报表
+menu.accounting.report.history=历史报表
 menu.accounting.report=总结报表
 
 #common
@@ -21,6 +23,10 @@ accounting.common.type=类型
 accounting.common.type.credit=支出
 accounting.common.type.debit=收入
 accounting.common.all=全部
+accounting.common.msg.title.success=成 功
+accounting.common.msg.title.faliure=失 败
+accounting.common.msg.unknown=未知异常
+
 
 #home
 accounting.home.title=欢迎您
@@ -37,6 +43,7 @@ accounting.input.target=使用对象
 accounting.input.amount=金额
 accounting.input.record=记录
 accounting.input.desc=描述
+accounting.input.save.msg.success=记录保存成功！
 
 # query
 accounting.query.type=类型
@@ -50,6 +57,10 @@ accounting.query.label.amount.range=金额范围
 accounting.query.label.amount.range.start=最小
 accounting.query.label.amount.range.end=最大
 accounting.query.label.desc=描述
+accounting.query.modify.msg.success=记录保存成功！
+
+# realtime report
+accounting.realtime.report.label.month=请选择统计月数
 
 
 #input error
