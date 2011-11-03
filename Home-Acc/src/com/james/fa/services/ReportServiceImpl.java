@@ -25,6 +25,9 @@ public class ReportServiceImpl implements ReportService {
 		if (!reportList.isEmpty()){
 			// fix empty data
 			
+			List<String> last = reportList.get(reportList.size() - 1);
+			String lastCatalog = last.get(0);
+			Date end = DateUtils.string2Date(lastCatalog, "yyyy-MM");
 			
 		}
 		
@@ -33,5 +36,11 @@ public class ReportServiceImpl implements ReportService {
 
 	public void setReportDao(ReportDao reportDao) {
 		this.reportDao = reportDao;
+	}
+	
+	public static void main(String[] args) {
+		String str = "2011-11";
+		System.out.println();
+		
 	}
 }

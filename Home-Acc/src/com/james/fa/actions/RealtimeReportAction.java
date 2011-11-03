@@ -14,10 +14,13 @@ public class RealtimeReportAction extends BasicAction {
 	public String execute() {
 		ReportCondition condition = new ReportCondition();
 		Calendar now = Calendar.getInstance();
-		now.set(Calendar.DATE, 1);
+		// 当月 最后一天
 		now.add(Calendar.MONTH, 1);
+		now.add(Calendar.DATE, -1);
 		condition.setEndDate(DateUtils.date2StringByDay(now.getTime()));
-		now.add(Calendar.MONTH, 2 - month);
+		
+		// 查询 month - 1 个月之前的数据
+		now.add(Calendar.MONTH, 1 - month);
 		now.set(Calendar.DATE, 1);
 		condition.setStartDate(DateUtils.date2StringByDay(now.getTime()));
 
