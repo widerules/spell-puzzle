@@ -41,7 +41,7 @@ public class ReportDaoImpl extends BasicDao implements ReportDao {
 	private static final String YEAR_MONTH_REPORT = "SELECT SUBSTRING(consume_date, 1, 7) AS date, SUM(type * amount) AS amount FROM records";
 
 	public List<List<String>> findYearMonthReport(ReportCondition condition) {
-		SqlHandler handler = new SqlHandler(YEAR_MONTH_REPORT);
+		SqlHandler handler = new SqlHandler(YEAR_MONTH_REPORT, false);
 		handler.and("consume_date >= ?", condition.getStartDate(),
 				!Validators.isEmpty(condition.getStartDate()));
 		handler.and("consume_date <= ?", condition.getEndDate(),
@@ -65,7 +65,7 @@ public class ReportDaoImpl extends BasicDao implements ReportDao {
 	}
 
 	public List<ReportUnitVo> findUnitByCondition(ReportCondition condition) {
-		SqlHandler handler = new SqlHandler(BASE);
+		SqlHandler handler = new SqlHandler(BASE, false);
 		handler.and("consume_date >= ?", condition.getStartDate(),
 				!Validators.isEmpty(condition.getStartDate()));
 		handler.and("consume_date <= ?", condition.getEndDate(),

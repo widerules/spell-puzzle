@@ -166,6 +166,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <bean id="tagService" class="com.james.fa.services.TagServiceImpl">
         <property name="tagDao" ref="tagDao" />
     </bean>
+    <bean id="reportService" class="com.james.fa.services.ReportServiceImpl">
+        <property name="reportDao" ref="reportDao" />
+    </bean>
     
 
 	<!-- Daos -->
@@ -181,6 +184,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
         <property name="dataSource" ref="c3p0DS" />
     </bean>
     <bean id="recordDao" class="com.james.fa.daos.RecordDaoImpl">
+        <property name="dataSource" ref="c3p0DS" />
+    </bean>
+    <bean id="reportDao" class="com.james.fa.daos.ReportDaoImpl">
         <property name="dataSource" ref="c3p0DS" />
     </bean>
 </beans>

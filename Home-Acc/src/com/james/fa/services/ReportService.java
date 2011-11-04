@@ -9,4 +9,6 @@ public interface ReportService {
 
 	List<ReportUnitVo> getAllReportUnitByCondition(ReportCondition condition);
 
+	List<List<String>> getYearMonthReportByCondition(ReportCondition condition);
+
 }
