@@ -1,16 +1,16 @@
 package com.james.fa.vo.report;
 
-public class YearMonthVo {
+public class KeyAmountVo {
 
-	private String yearMonth;
+	private String key;
 	private float amount;
 
-	public String getYearMonth() {
-		return yearMonth;
+	public String getKey() {
+		return key;
 	}
 
-	public void setYearMonth(String yearMonth) {
-		this.yearMonth = yearMonth;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public float getAmount() {

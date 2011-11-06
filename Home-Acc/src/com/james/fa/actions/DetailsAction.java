@@ -1,7 +1,6 @@
 package com.james.fa.actions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +80,7 @@ public class DetailsAction extends BasicAction {
 
 			getReply().setValue(resultList);
 		} else {
-			getReply().setValue(Collections.emptyList());
+			getReply().setValue(searchRecords);
 		}
 
 		return ajaxReturn();

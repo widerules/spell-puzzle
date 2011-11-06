@@ -11,4 +11,9 @@ public interface ReportDao {
 
 	List<List<String>> findYearMonthReport(ReportCondition condition);
 
+	List<List<String>> findTypeAndConsumeTypeByCondition(
+			ReportCondition condition);
+
+	List<List<String>> findDailyByCondition(ReportCondition condition);
+
 }

@@ -62,8 +62,12 @@ accounting.query.modify.msg.success=记录保存成功！
 # realtime report
 accounting.realtime.report.label.month=请选择统计月数
 accounting.realtime.report.full.reload=加 载
-accounting.realtime.report.full.axes.y.title=金额
-accounting.realtime.report.full.axes.x.title=月份
+accounting.realtime.report.pie.title.unselect=请选择月份
+accounting.realtime.report.list.title=列 表
+accounting.realtime.report.full.axes.y.title=金 额
+accounting.realtime.report.full.axes.x.title=月 份
+accounting.realtime.report.daily.axes.x.title=日 期
+accounting.realtime.report.daily.axes.y.title=金 额
 
 
 

@@ -52,6 +52,9 @@
         <action name="modifyRecord" class="com.james.fa.actions.DetailsAction" method="modifyRecord"><result name="ajax">index.jsp</result></action>
         <action name="queryRecord" class="com.james.fa.actions.DetailsAction" method="queryRecord"><result name="json">index.jsp</result></action>
         <action name="realtimeReport" class="com.james.fa.actions.RealtimeReportAction"><result name="json">index.jsp</result></action>
+        <action name="realtimeConsumeTypeReport" class="com.james.fa.actions.RealtimeReportAction" method="consumeTypeReport"><result name="json">index.jsp</result></action>
+        <action name="realtimeDailyReport" class="com.james.fa.actions.RealtimeReportAction" method="dailyReport"><result name="json">index.jsp</result></action>
+        <action name="realtimeDetailReport" class="com.james.fa.actions.RealtimeReportAction" method="detailReport"><result name="json">index.jsp</result></action>
 	</package>
 <!--	<include file="./xwork_ccp_act_fee.xml"></include>-->
 </xwork>

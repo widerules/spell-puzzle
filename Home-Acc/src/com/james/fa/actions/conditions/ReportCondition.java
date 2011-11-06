@@ -2,6 +2,8 @@ package com.james.fa.actions.conditions;
 
 public class ReportCondition {
 
+	private String dateLike;
+	
 	private String startDate;
 	private String endDate;
 
@@ -38,5 +40,13 @@ public class ReportCondition {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public String getDateLike() {
+		return dateLike;
+	}
+
+	public void setDateLike(String dateLike) {
+		this.dateLike = dateLike;
 	}
 }
