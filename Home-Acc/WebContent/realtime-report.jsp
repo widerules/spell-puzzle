@@ -46,11 +46,10 @@ function buildRealtimeReportTab() {
 	};
 	
 	pieChart = Ext.create('Ext.chart.Chart', {
+		id: 'pieChart',
         store: pieStore,
         animate: true,
         //shadow: true,
-        height: 300,
-        width: 300,
         theme: 'Base:gradients',
         legend: {
             position: 'right'
@@ -82,6 +81,18 @@ function buildRealtimeReportTab() {
                 display: 'rotate',
                 contrast: true,
                 font: '18px Arial'
+            },
+            clickedItem: null,
+            listeners: {
+                itemmousedown: function(item){
+                    this.clickedItem = item;
+                },
+                itemmouseup: function(item) {
+                    if (this.clickedItem == item){
+                          console.log(item);
+                    }
+                    this.clickedItem = null;
+               }
             }
         }]
     });
@@ -227,7 +238,7 @@ function buildRealtimeReportTab() {
           },
           items: [{
         	  region: 'north',
-              height: 300,
+              height: '40%',
               layout: 'fit',
               defaults : {
                   border: false,
@@ -351,11 +362,11 @@ function buildRealtimeReportTab() {
                 items: [{
                     region: 'west',
                     id: 'piePanel',
-                    layout: 'anchor',
+                    layout: 'fit',
                     title: '<%= i18n.getI18nText("accounting.realtime.report.pie.title.unselect") %>',
                     border: false,
                     split: true,
-                    width: 300,
+                    width: '40%',
                     tbar: [{
                     	xtype: 'combo',
                         fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.label.month") %>',
