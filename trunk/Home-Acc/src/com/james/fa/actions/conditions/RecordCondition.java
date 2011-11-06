@@ -6,8 +6,8 @@ public class RecordCondition {
 	private int type;
 	private String startDate;
 	private String endDate;
-	private int startAmount;
-	private int endAmount;
+	private int startAmount = -1;
+	private int endAmount = -1;
 
 	private String consumeTypeId;
 	private String target;

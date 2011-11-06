@@ -9,3 +9,4 @@ Ext.create('Ext.data.Store', {
 		return result;
 	})()
 });
+

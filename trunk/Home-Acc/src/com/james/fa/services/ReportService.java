@@ -11,4 +11,8 @@ public interface ReportService {
 
 	List<List<String>> getYearMonthReportByCondition(ReportCondition condition);
 
+	List<List<String>> getConsumeTypeReportByConditon(ReportCondition condition);
+
+	List<List<String>> getDailyReportByCondition(ReportCondition condition);
+
 }
