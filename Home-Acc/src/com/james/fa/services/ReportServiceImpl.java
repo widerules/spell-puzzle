@@ -68,6 +68,11 @@ public class ReportServiceImpl implements ReportService {
 		return reportDao.findTypeAndConsumeTypeByCondition(condition);
 	}
 
+	public List<List<String>> getTargetReportByCondition(
+			ReportCondition condition) {
+		return reportDao.findTypeAndTargetByCondition(condition);
+	}
+
 	public List<List<String>> getDailyReportByCondition(
 			ReportCondition condition) {
 		List<List<String>> resultList = new ArrayList<List<String>>();
@@ -87,11 +92,12 @@ public class ReportServiceImpl implements ReportService {
 
 			String dateLike = condition.getDateLike();
 			Calendar c = Calendar.getInstance();
-			c.setTime(DateUtils.string2Date(dateLike, "yyyy-MM"));
+			c.setTime(DateUtils.string2Date(dateLike + "-01", catalogKeyFormat));
 			c.add(Calendar.MONTH, 1);
 			Date end = c.getTime();
 			Calendar cursor = Calendar.getInstance();
-			cursor.setTime(DateUtils.string2Date(dateLike, "yyyy-MM"));
+			cursor.setTime(DateUtils.string2Date(dateLike + "-01",
+					catalogKeyFormat));
 			while (!cursor.getTime().after(end)) {
 				String catalogKey = DateUtils.date2String(cursor.getTime(),
 						catalogKeyFormat);

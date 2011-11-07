@@ -21,6 +21,70 @@
 <script type="text/javascript">
 Ext.onReady(function() {
 
+    Ext.History.init();
+    
+    Ext.History.on('change', function(token) {
+        if (token) {
+            refreshPage(token);
+            tree = Ext.getCmp('navigatorTree');
+            item = tree.getRootNode().findChildBy(function(n) {
+                return token === n.raw.key;
+            }, this, true);
+            tree.getSelectionModel().select(item);
+        }
+    });
+
+    directPage = function(key){
+    	refreshPage(key);
+        
+    	// history
+        newToken = key;
+        oldToken = Ext.History.getToken();
+        if (oldToken === null || oldToken.search(newToken) === -1) {
+            Ext.History.add(newToken);
+        }
+    };
+    
+    refreshPage = function(key){
+    	tabPanel = Ext.getCmp('main_tab');
+        tabPanel.setLoading(true);
+
+        if (key == "accounting"){
+        	if (tabPanel && tabPanel.items.items[0].id == "homePage"){
+        		tabPanel.items.items[0].hide();
+                // tabPanel.removeAll();
+                // tabPanel.add(homePanel);
+                tabPanel.setActiveTab(0);
+            }
+        }else if (key == "accounting/input"){
+            if (tabPanel){
+                tabPanel.removeAll();
+                tabPanel.add(buildInputTab());
+                tabPanel.setActiveTab(1);
+            }
+        }else if (key == "accounting/query"){
+            if (tabPanel){
+                tabPanel.removeAll();
+                tabPanel.add(buildQueryTab());
+                tabPanel.setActiveTab(0);
+            }
+        }else if (key == "accounting/realtimereport"){
+            if (tabPanel){
+                tabPanel.removeAll();
+                tabPanel.add(buildRealtimeReportTab());
+                tabPanel.setActiveTab(0);
+            }
+        }else if (key == "accounting/historyreport"){
+            if (tabPanel){
+                //tabPanel.removeAll();
+                //tabPanel.add(buildRealtimeReportTab());
+                //tabPanel.setActiveTab(0);
+            }
+        }
+        tabPanel.setLoading(false);
+
+    };
+
     Ext.create('Ext.Viewport', {
         layout: {
             type: 'border',
@@ -38,6 +102,7 @@ Ext.onReady(function() {
             layout: 'fit',
             items: [{
                 xtype: 'treepanel',
+                id: 'navigatorTree',
                 store: Ext.create('Ext.data.TreeStore', {
                     proxy: {
                         type: 'ajax',
@@ -53,34 +118,7 @@ Ext.onReady(function() {
                 listeners : {
                 	itemclick: {
                 		fn: function (view, record, item, index, e){
-                			tabPanel = Ext.getCmp('main_tab');
-        					tabPanel.setLoading(true);
-                			if (record.data.key == "accounting/input"){
-                				if (tabPanel){
-                					tabPanel.removeAll();
-                                    tabPanel.add(buildInputTab());
-                                    tabPanel.setActiveTab(0);
-                                }
-                			}else if (record.data.key == "accounting/query"){
-                				if (tabPanel){
-                					tabPanel.removeAll();
-                					tabPanel.add(buildQueryTab());
-                					tabPanel.setActiveTab(0);
-                				}
-                			}else if (record.data.key == "accounting/realtimereport"){
-                				if (tabPanel){
-                                    tabPanel.removeAll();
-                                    tabPanel.add(buildRealtimeReportTab());
-                                    tabPanel.setActiveTab(0);
-                                }
-                			}else if (record.data.key == "accounting/historyreport"){
-                				if (tabPanel){
-                                    //tabPanel.removeAll();
-                                    //tabPanel.add(buildRealtimeReportTab());
-                                    //tabPanel.setActiveTab(0);
-                                }
-                			}
-                            tabPanel.setLoading(false);
+                			directPage(record.data.key);
                 		}
                 	}
                 }
@@ -89,19 +127,19 @@ Ext.onReady(function() {
             region: 'center',
             layout: 'fit',
             border: false,
-            items: [{
-                id: 'main_tab',
-                xtype: 'tabpanel',
-                items: [{
-                    title: '<%= i18n.getI18nText("accounting.home.title") %>',
-                    html: '<%= i18n.getI18nText("accounting.home.title") %>'
-                }]
-            }]
+            items: [homePanel]
         }],
         renderTo: 'mainContain'
     });
 });
 
+homePanel = Ext.create('Ext.tab.Panel', {
+    id: 'main_tab',
+    items: [{
+    	title: '<%= i18n.getI18nText("accounting.home.title") %>',
+        html: '<%= i18n.getI18nText("accounting.home.title") %>'
+    }]
+});
 
 </script>
 </head>

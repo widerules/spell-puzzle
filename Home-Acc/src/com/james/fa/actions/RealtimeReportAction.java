@@ -24,6 +24,7 @@ public class RealtimeReportAction extends BasicAction {
 	private int month;
 	private int type;
 	private String dateLike;
+	private String by;
 
 	private ReportService reportService;
 	private ConsumeTypeService consumeTypeService;
@@ -64,23 +65,42 @@ public class RealtimeReportAction extends BasicAction {
 		ReportCondition condition = new ReportCondition();
 		condition.setDateLike(dateLike);
 		condition.setType(type);
-		List<List<String>> consumeReport = reportService
-				.getConsumeTypeReportByConditon(condition);
 
 		List<KeyAmountVo> jsonList = new ArrayList<KeyAmountVo>();
-		if (!consumeReport.isEmpty()) {
-			List<ConsumeType> cyList = consumeTypeService.getAll();
-			Map<String, String> cyMap = new HashMap<String, String>();
-			for (ConsumeType cy : cyList) {
-				cyMap.put(cy.getId(), cy.getText());
-			}
+		List<List<String>> consumeReport = null;
+		if ("target".equals(by)) {
+			consumeReport = reportService.getTargetReportByCondition(condition);
 
 			for (List<String> catalog : consumeReport) {
 				KeyAmountVo vo = new KeyAmountVo();
-				vo.setKey(cyMap.get(catalog.get(0)));
+				vo.setKey(catalog.get(0));
 				vo.setAmount(Float.parseFloat(catalog.get(1)) / 100);
 				jsonList.add(vo);
 			}
+		} else {
+			consumeReport = reportService
+					.getConsumeTypeReportByConditon(condition);
+			if (!consumeReport.isEmpty()) {
+				List<ConsumeType> cyList = consumeTypeService.getAll();
+				Map<String, String> cyMap = new HashMap<String, String>();
+				for (ConsumeType cy : cyList) {
+					cyMap.put(cy.getId(), cy.getText());
+				}
+
+				for (List<String> catalog : consumeReport) {
+					KeyAmountVo vo = new KeyAmountVo();
+					vo.setKey(cyMap.get(catalog.get(0)));
+					vo.setAmount(Float.parseFloat(catalog.get(1)) / 100);
+					jsonList.add(vo);
+				}
+			}
+		}
+
+		if (jsonList.isEmpty()) {
+			KeyAmountVo vo = new KeyAmountVo();
+			vo.setKey("N/A");
+			vo.setAmount(0);
+			jsonList.add(vo);
 		}
 
 		setJsonObj(jsonList);
@@ -117,11 +137,7 @@ public class RealtimeReportAction extends BasicAction {
 		condition.setType(type);
 
 		Calendar c = Calendar.getInstance();
-		try {
-			c.setTime(DateUtils.string2Date(dateLike, "yyyy-MM"));
-		} catch (Exception e) {
-			c.setTime(DateUtils.string2Date(dateLike, "yyyy-MM"));
-		}
+		c.setTime(DateUtils.string2Date(dateLike + "-01", "yyyy-MM-dd"));
 		String startDate = DateUtils.date2StringByDay(c.getTime());
 		c.add(Calendar.MONTH, 1);
 		String endDate = DateUtils.date2StringByDay(c.getTime());
@@ -176,6 +192,14 @@ public class RealtimeReportAction extends BasicAction {
 
 	public void setDateLike(String dateLike) {
 		this.dateLike = dateLike;
+	}
+
+	public String getBy() {
+		return by;
+	}
+
+	public void setBy(String by) {
+		this.by = by;
 	}
 
 	public void setReportService(ReportService reportService) {

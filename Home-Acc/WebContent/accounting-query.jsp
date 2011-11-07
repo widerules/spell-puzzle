@@ -11,6 +11,8 @@ function buildQueryTab(){
         items: [{
         	region: 'north',
         	height: 270,
+        	hideCollapseTool: true,
+        	collapsible: true,
         	bodyStyle: 'padding:10px',
         	items:[{
         		xtype: 'form',

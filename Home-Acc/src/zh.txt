@@ -68,6 +68,10 @@ accounting.realtime.report.full.axes.y.title=金 额
 accounting.realtime.report.full.axes.x.title=月 份
 accounting.realtime.report.daily.axes.x.title=日 期
 accounting.realtime.report.daily.axes.y.title=金 额
+accounting.realtime.report.pie.type=类 型
+accounting.realtime.report.pie.by=根 据
+accounting.realtime.report.pie.by.options.consume.type=消费归类
+accounting.realtime.report.pie.by.options.target=使用对象
 
 
 

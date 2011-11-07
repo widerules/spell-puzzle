@@ -1,12 +1,16 @@
 <script type="text/javascript">
 <!--
+selectedStoreItem = false;
+
 function buildRealtimeReportTab() {
-	
+
 	dateLike = '';
+    type = -1;
+    by = 'consumeType';
 	
 	pieStore = Ext.create('Ext.data.Store', {
 		fields: [ {name: 'key', type: 'string'}, {name: 'amount',  type: 'float'}],
-		data: [{key: 'Empty', amount: 1}],
+		data: [{key: 'N/A', amount: 0}],
 		pageSize: 100,
         autoLoad: true
 	});
@@ -21,16 +25,21 @@ function buildRealtimeReportTab() {
     gridStore = Ext.create('Ext.data.Store', {
         model: 'RecordModel',
         data: [],
+        pageSize: 100,
         autoLoad: false
     });
+
+    refreshPie = function(type, dateLike, by){
+    	pieStore.setProxy({
+            type: 'ajax',
+            url: 'realtimeConsumeTypeReport.action?dateLike=' + dateLike + '&type=' + type + '&by=' + by
+        });
+        pieStore.load();
+    };
 	
 	refreshData = function(type, dateLike){
 		 Ext.getCmp('piePanel').setTitle(dateLike);
-		 pieStore.setProxy({
-             type: 'ajax',
-             url: 'realtimeConsumeTypeReport.action?dateLike=' + dateLike + '&type=' + type
-         });
-         pieStore.load();
+		 refreshPie(type, dateLike, by);
          
          lineStore.setProxy({
              type: 'ajax',
@@ -225,6 +234,25 @@ function buildRealtimeReportTab() {
                   ]
         } ]
 	});
+
+    selectBarchartItem = function(storeItem){
+
+    	var series = Ext.getCmp('fullBarChart').series.get(0);
+
+        var items, i, l;
+        var dateLike = storeItem.get('key');
+
+        for (i = 0, items = series.items, l = items.length; i < l; i++) {
+            if (dateLike == items[i].storeItem.get('key')) {
+            	selectedStoreItem = items[i].storeItem;
+                console.log(items[i]);
+                series.highlightItem(items[i]);
+                break;
+            }
+        }
+    };
+
+    var timer = false;
 		
 		
     return Ext.create('Ext.panel.Panel', {
@@ -240,6 +268,8 @@ function buildRealtimeReportTab() {
         	  region: 'north',
               height: '40%',
               layout: 'fit',
+              hideCollapseTool: true,
+              collapsible: true,
               defaults : {
                   border: false,
                   split : true
@@ -266,6 +296,7 @@ function buildRealtimeReportTab() {
               }],
               items: [{
                       xtype: 'chart',
+                      id: 'fullBarChart',
                       height: 250,
                       width: '100%',
                       animate: true,
@@ -280,6 +311,16 @@ function buildRealtimeReportTab() {
                           },
                           autoLoad: true
                       }),
+                      listeners:{
+                    	  beforerefresh: function(){
+                	            //clearTimeout(timer);
+                	            if (selectedStoreItem) {
+                	            //    timer = setTimeout(function() {
+                	                	selectBarchartItem(selectedStoreItem);
+                	            //    }, 900);
+                	            }
+                          }
+                      },
                       axes: [{
                           type: 'Numeric',
                           position: 'left',
@@ -305,25 +346,23 @@ function buildRealtimeReportTab() {
                       series: [{
                           type: 'column',
                           axis: 'left',
-                          clickedItem: null,
+                          clickedItem: false,
+                          
                           listeners: {
                               itemmousedown: function(item){
                                   this.clickedItem = item;
                               },
                               itemmouseup: function(item) {
                                   if (this.clickedItem == item){
-                                        item.series.highlight = true;
-                                        item.series.unHighlightItem();
-                                        item.series.cleanHighlights();
-                                        item.series.highlightItem(item);
-                                        item.series.highlight = false;
                                         dateLike = item.storeItem.get('key');
-                                        refreshData(-1 , dateLike);
+                                        refreshData(type , dateLike);
+                                        selectedStoreItem = item.storeItem;
+                                        selectBarchartItem(selectedStoreItem);
                                   }
                             	  this.clickedItem = null;
                              }
                           },
-                          highlight: false,
+                          highlight: true,
                           highlightCfg: {
                               opacity : 0.5,
                               fill: '#a2b5ca'
@@ -359,17 +398,24 @@ function buildRealtimeReportTab() {
           },{
                 region: 'center',
                 layout: 'border',
+                defaults:{
+                	hideCollapseTool: true,
+                    collapsible: true,
+                },
                 items: [{
                     region: 'west',
                     id: 'piePanel',
                     layout: 'fit',
                     title: '<%= i18n.getI18nText("accounting.realtime.report.pie.title.unselect") %>',
                     border: false,
+                    hideCollapseTool: false,
                     split: true,
                     width: '40%',
                     tbar: [{
                     	xtype: 'combo',
-                        fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.label.month") %>',
+                    	labelWidth: 50,
+                    	flex: 1,
+                        fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.type") %>',
                         store: Ext.create('Ext.data.ArrayStore', {
                             storeId : 'TypeStore',
                             fields : [ 'key', 'value' ],
@@ -381,8 +427,30 @@ function buildRealtimeReportTab() {
                         queryMode: 'local',
                         listeners: {
                         	change: function(scope, newValue, oldValue){
-                        		refreshData(newValue, dateLike);
+                        		type = newValue;
+                        		refreshData(type, dateLike);
                         	}
+                        }
+                    }, {
+                        xtype: 'combo',
+                        id: 'pieReportBy',
+                        labelWidth: 50,
+                        flex: 1,
+                        fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.by") %>',
+                        store: Ext.create('Ext.data.ArrayStore', {
+                            storeId : 'TypeStore',
+                            fields : [ 'key', 'value' ],
+                            data : [ [ 'consumeType', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.consume.type") %>' ], [ 'target', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.target") %>' ] ]
+                        }),
+                        value: 'consumeType',
+                        valueField : 'key',
+                        displayField : 'value',
+                        queryMode: 'local',
+                        listeners: {
+                            change: function(scope, newValue, oldValue){
+                                by = newValue;
+                                refreshPie(type, dateLike, by);
+                            }
                         }
                     }],
                     items :[pieChart]

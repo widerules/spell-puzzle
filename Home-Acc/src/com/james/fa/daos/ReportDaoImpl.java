@@ -40,6 +40,7 @@ public class ReportDaoImpl extends BasicDao implements ReportDao {
 	private static final String BASE = "SELECT consume_date, consume_type_id, type, target, SUM(type * amount) AS amount FROM records";
 	private static final String YEAR_MONTH_REPORT = "SELECT SUBSTRING(consume_date, 1, 7) AS date, SUM(type * amount) AS amount FROM records";
 	private static final String CONSUME_TYPE_SUM = "SELECT consume_type_id, SUM(amount) AS amount FROM records ";
+	private static final String TARGET_SUM = "SELECT target, SUM(amount) AS amount FROM records ";
 	private static final String DAILY_SUM = "SELECT consume_date, SUM(amount) AS amount FROM records ";
 
 	public List<List<String>> findYearMonthReport(ReportCondition condition) {
@@ -93,6 +94,26 @@ public class ReportDaoImpl extends BasicDao implements ReportDao {
 							throws SQLException {
 						List<String> list = new ArrayList<String>();
 						list.add(rs.getString("consume_type_id"));
+						list.add(String.valueOf(rs.getInt("amount")));
+						return list;
+					}
+				});
+	}
+
+	public List<List<String>> findTypeAndTargetByCondition(
+			ReportCondition condition) {
+		SqlHandler handler = new SqlHandler(TARGET_SUM, false);
+		handler.and("consume_date like ?", condition.getDateLike() + "%",
+				!Validators.isEmpty(condition.getDateLike()));
+		handler.and("type = ?", condition.getType(), condition.getType() != 0);
+		return query(handler.getSQL() + " GROUP BY target", handler.getArgs(),
+				new MultiRowMapper<List<String>>() {
+
+					@Override
+					public List<String> mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						List<String> list = new ArrayList<String>();
+						list.add(rs.getString("target"));
 						list.add(String.valueOf(rs.getInt("amount")));
 						return list;
 					}
