@@ -111,9 +111,9 @@ public class RecordDaoImpl extends BasicDao<Record> implements RecordDao {
 	public List<Record> findByCondition(RecordCondition condition) {
 		SqlHandler handler = new SqlHandler(SQL_FIND_ALL, false);
 		handler.and("consume_date >= ?", condition.getStartDate(),
-				condition.getStartDate() != null);
+				!Validators.isEmpty(condition.getStartDate()));
 		handler.and("consume_date <= ?", condition.getEndDate(),
-				condition.getEndDate() != null);
+				!Validators.isEmpty(condition.getEndDate()));
 		handler.and("type = ?", condition.getType(), condition.getType() != 0);
 		handler.and("amount >= ?", condition.getStartAmount(),
 				condition.getStartAmount() != -1);

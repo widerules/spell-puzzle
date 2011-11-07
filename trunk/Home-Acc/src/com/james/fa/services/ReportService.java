@@ -15,4 +15,6 @@ public interface ReportService {
 
 	List<List<String>> getDailyReportByCondition(ReportCondition condition);
 
+	List<List<String>> getTargetReportByCondition(ReportCondition condition);
+
 }

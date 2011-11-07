@@ -8,11 +8,13 @@ function buildInputTab() {
           padding : 5
         },
         defaults : {
-            split : false
+            split : true
         },
         items : [ {
         	region: 'north',
-        	height: 300,
+        	height: 280,
+            collapsible: true,
+            hideCollapseTool: true,
         	layout: 'border',
         	items: [ {
                 region : 'west',

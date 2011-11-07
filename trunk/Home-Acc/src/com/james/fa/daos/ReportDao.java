@@ -16,4 +16,6 @@ public interface ReportDao {
 
 	List<List<String>> findDailyByCondition(ReportCondition condition);
 
+	List<List<String>> findTypeAndTargetByCondition(ReportCondition condition);
+
 }
