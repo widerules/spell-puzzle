@@ -48,7 +48,7 @@ public class Config {
 		MenuItem root = new MenuItem();
 		root.setRoot(true);
 
-		MenuItem node1 = new MenuItem("menu.accounting", "accounting", "/app/test.action");
+		MenuItem node1 = new MenuItem("menu.accounting", "accounting/home", "/app/test.action");
 		node1.setExpanded(true);
 		node1.addChild(new MenuItem("menu.accounting.input", "accounting/input", "app/test.action"));
 		node1.addChild(new MenuItem("menu.accounting.query", "accounting/query", "app/test.action"));

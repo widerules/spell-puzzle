@@ -49,11 +49,10 @@ Ext.onReady(function() {
     	tabPanel = Ext.getCmp('main_tab');
         tabPanel.setLoading(true);
 
-        if (key == "accounting"){
-        	if (tabPanel && tabPanel.items.items[0].id == "homePage"){
-        		tabPanel.items.items[0].hide();
-                // tabPanel.removeAll();
-                // tabPanel.add(homePanel);
+        if (key == "accounting/home"){
+        	if (tabPanel){
+                tabPanel.removeAll();
+                tabPanel.add(buildHomeTab());
                 tabPanel.setActiveTab(0);
             }
         }else if (key == "accounting/input"){
@@ -127,19 +126,18 @@ Ext.onReady(function() {
             region: 'center',
             layout: 'fit',
             border: false,
-            items: [homePanel]
+            items: [{
+                xtype: 'tabpanel',
+            	id: 'main_tab',
+                items:[
+                    buildHomeTab()
+                ]
+            }]
         }],
         renderTo: 'mainContain'
     });
 });
 
-homePanel = Ext.create('Ext.tab.Panel', {
-    id: 'main_tab',
-    items: [{
-    	title: '<%= i18n.getI18nText("accounting.home.title") %>',
-        html: '<%= i18n.getI18nText("accounting.home.title") %>'
-    }]
-});
 
 </script>
 </head>
@@ -152,8 +150,9 @@ homePanel = Ext.create('Ext.tab.Panel', {
 </form>
 <script type="text/javascript" src="js/msgtool.js"></script>
 <script type="text/javascript" src="js/stores.js"></script>
+<%@include file="accounting-home.jsp" %>
 <%@include file="accounting-input.jsp" %>
 <%@include file="accounting-query.jsp" %>
-<%@include file="realtime-report.jsp" %>
+<%@include file="accounting-realtime-report.jsp" %>
 </body>
 </html>
