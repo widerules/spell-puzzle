@@ -5,14 +5,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Redirect Page</title>
-<script type="text/javascript" src="extjs/ext.js"></script>
+<script type="text/javascript" src="../touchjs/sencha-touch.js"></script>
 <script type="text/javascript">
 Ext.onReady(function(){
-    console.log(Ext.is);
-    if (Ext.is.Desktop){
-        location.href = "desktop.action";
-    }else{// if(Ext.is.Phone){
-        location.href = "./touch/index.action";
+    console.log(Ext.os);
+    if (Ext.os.is.iOS || Ext.os.is.Android){
+        // location.href = "./touch/index.action";
+    }else{
+    	// location.href = "desctop.action";
     };
 });
 </script>
