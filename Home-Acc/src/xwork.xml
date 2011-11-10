@@ -36,6 +36,11 @@
             <interceptor-ref name="params"></interceptor-ref>
         </action>
         
+        <action name="desktop" class="com.james.fa.actions.BasicAction" >
+            <result name="success">desktop.jsp</result>
+            <interceptor-ref name="params"></interceptor-ref>
+        </action>
+        
         <!-- redirect request -->
         <action name="app" class="com.james.fa.actions.BasicAction" >
             <result name="success">application.jsp</result>
@@ -56,5 +61,5 @@
         <action name="realtimeDailyReport" class="com.james.fa.actions.RealtimeReportAction" method="dailyReport"><result name="json">index.jsp</result></action>
         <action name="realtimeDetailReport" class="com.james.fa.actions.RealtimeReportAction" method="detailReport"><result name="json">index.jsp</result></action>
 	</package>
-<!--	<include file="./xwork_ccp_act_fee.xml"></include>-->
+	<include file="./xwork_touch.xml"></include>
 </xwork>
