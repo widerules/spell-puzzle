@@ -5,4 +5,7 @@
             <result name="success">index.jsp</result>
         </action>
     </package>
+    
+   
+    
 </xwork>

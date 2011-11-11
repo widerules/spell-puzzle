@@ -3,6 +3,7 @@ package com.james.fa.actions;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +26,13 @@ public class BasicAction extends ActionSupport {
 	private Reply reply = new Reply();
 	private Object jsonObj;
 
+	public String execute() {
+		System.out.println("Basic empty execute");
+		return SUCCESS;
+	}
+
 	public String ajaxReturn() {
+
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setIntHeader("Expires", -1);
 		response.setHeader("Cache-Control", "no-cache, must-revalidate");
@@ -59,10 +66,10 @@ public class BasicAction extends ActionSupport {
 		PrintWriter outer;
 		try {
 			outer = response.getWriter();
-			if (jsonObj instanceof List){
+			if (jsonObj instanceof List) {
 				outer.print(JSONArray.fromObject(jsonObj, Config.JSON_CONFIG)
 						.toString());
-			}else{
+			} else {
 				outer.print(JSONObject.fromObject(jsonObj, Config.JSON_CONFIG)
 						.toString());
 			}
@@ -138,10 +145,14 @@ public class BasicAction extends ActionSupport {
 	public void setJsonObj(Object jsonObj) {
 		this.jsonObj = jsonObj;
 	}
-	
+
 	public class I18N {
 		public String getI18nText(String key) {
 			return getText(key);
+		}
+
+		public PropertyResourceBundle getBundle() {
+			return (PropertyResourceBundle) getTexts("message");
 		}
 	}
 
