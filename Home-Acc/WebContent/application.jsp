@@ -47,6 +47,7 @@ Ext.onReady(function() {
     
     refreshPage = function(key){
     	tabPanel = Ext.getCmp('main_tab');
+    	console.log(tabPanel);
         tabPanel.setLoading(true);
 
         if (key == "accounting/home"){
@@ -59,7 +60,7 @@ Ext.onReady(function() {
             if (tabPanel){
                 tabPanel.removeAll();
                 tabPanel.add(buildInputTab());
-                tabPanel.setActiveTab(1);
+                tabPanel.setActiveTab(0);
             }
         }else if (key == "accounting/query"){
             if (tabPanel){

@@ -166,6 +166,10 @@ public class BasicAction extends ActionSupport {
 			return getText(key);
 		}
 
+		public String getI18nText(String key, String... args) {
+			return getText(key, args);
+		}
+
 		public PropertyResourceBundle getBundle() {
 			return (PropertyResourceBundle) getTexts("message");
 		}
