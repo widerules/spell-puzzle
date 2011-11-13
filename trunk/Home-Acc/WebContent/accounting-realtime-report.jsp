@@ -1,9 +1,10 @@
 <script type="text/javascript">
 <!--
-selectedStoreItem = false;
+
 
 function buildRealtimeReportTab() {
-
+	selectedStoreItem = false;
+	
 	dateLike = '';
     type = -1;
     by = 'consumeType';
@@ -155,7 +156,7 @@ function buildRealtimeReportTab() {
 		            yField: 'amount',
 		            tips: {
                         trackMouse: false,
-                        width: 140,
+                        width: 160,
                         height: 28,
                         renderer: function(storeItem, item) {
                           this.setTitle(storeItem.get('key') + ': ¥ ' + storeItem.get('amount'));
@@ -245,7 +246,6 @@ function buildRealtimeReportTab() {
         for (i = 0, items = series.items, l = items.length; i < l; i++) {
             if (dateLike == items[i].storeItem.get('key')) {
             	selectedStoreItem = items[i].storeItem;
-                console.log(items[i]);
                 series.highlightItem(items[i]);
                 break;
             }
@@ -313,11 +313,11 @@ function buildRealtimeReportTab() {
                       }),
                       listeners:{
                     	  beforerefresh: function(){
-                	            //clearTimeout(timer);
+                	            clearTimeout(timer);
                 	            if (selectedStoreItem) {
-                	            //    timer = setTimeout(function() {
+                	                timer = setTimeout(function() {
                 	                	selectBarchartItem(selectedStoreItem);
-                	            //    }, 900);
+                	                }, 900);
                 	            }
                           }
                       },

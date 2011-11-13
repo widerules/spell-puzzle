@@ -7,6 +7,8 @@ import java.util.PropertyResourceBundle;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -23,11 +25,12 @@ public class BasicAction extends ActionSupport {
 	public static final String JSON = "json"; // return json;
 	public static final String AJAX = "ajax"; // return reply object;
 
+	public static Logger logger = Logger.getLogger(BasicAction.class);
+
 	private Reply reply = new Reply();
 	private Object jsonObj;
 
 	public String execute() {
-		System.out.println("Basic empty execute");
 		return SUCCESS;
 	}
 
@@ -42,6 +45,10 @@ public class BasicAction extends ActionSupport {
 		PrintWriter outer;
 		try {
 			outer = response.getWriter();
+			if (logger.isDebugEnabled()) {
+				logger.debug(JSONObject.fromObject(reply, Config.JSON_CONFIG)
+						.toString());
+			}
 			outer.print(JSONObject.fromObject(reply, Config.JSON_CONFIG)
 					.toString());
 			outer.flush();
@@ -67,9 +74,17 @@ public class BasicAction extends ActionSupport {
 		try {
 			outer = response.getWriter();
 			if (jsonObj instanceof List) {
+				if (logger.isDebugEnabled()) {
+					logger.debug(JSONArray.fromObject(jsonObj,
+							Config.JSON_CONFIG).toString());
+				}
 				outer.print(JSONArray.fromObject(jsonObj, Config.JSON_CONFIG)
 						.toString());
 			} else {
+				if (logger.isDebugEnabled()) {
+					logger.debug(JSONObject.fromObject(jsonObj,
+							Config.JSON_CONFIG).toString());
+				}
 				outer.print(JSONObject.fromObject(jsonObj, Config.JSON_CONFIG)
 						.toString());
 			}
