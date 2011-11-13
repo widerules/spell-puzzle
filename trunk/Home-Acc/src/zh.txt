@@ -30,6 +30,7 @@ accounting.common.msg.unknown=未知异常
 
 #home
 accounting.home.title=欢迎您
+accounting.home.h1=当月结算：{0}月
 
 # input
 accounting.input.consume.type=消费归类
