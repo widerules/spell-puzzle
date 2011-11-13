@@ -45,6 +45,10 @@
         <action name="app" class="com.james.fa.actions.BasicAction" >
             <result name="success">application.jsp</result>
         </action>
+        <action name="home" class="com.james.fa.actions.BasicAction" >
+            <result name="success">home.jsp</result>
+        </action>
+        
 
         <!-- ajax json request -->
 		<action name="login" class="com.james.fa.actions.LoginAction" ><result name="ajax">index.jsp</result><interceptor-ref name="params"></interceptor-ref></action>

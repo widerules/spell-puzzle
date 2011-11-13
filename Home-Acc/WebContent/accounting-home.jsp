@@ -1,4 +1,7 @@
 <script type="text/javascript">
+
+
+
 function buildHomeTab(){
     var d = new Date(),
 	dateLike = d.getFullYear() + "-" + (d.getMonth() + 1  < 10 ? "0" + d.getMonth() + 1 : d.getMonth() + 1),
@@ -12,7 +15,7 @@ function buildHomeTab(){
             url: 'realtimeConsumeTypeReport.action?dateLike=' + dateLike + '&type=' + type + '&by=' + by
         },
         pageSize: 100,
-        autoLoad: true
+        autoLoad: false
     });
     
     lineStore = Ext.create('Ext.data.Store', {
@@ -22,7 +25,7 @@ function buildHomeTab(){
             url: 'realtimeDailyReport.action?dateLike=' + dateLike + '&type=' + type
         },
         pageSize: 100,
-        autoLoad: true
+        autoLoad: false
     });
     
     gridStore = Ext.create('Ext.data.Store', {
@@ -31,7 +34,7 @@ function buildHomeTab(){
         	type: 'ajax',
             url: 'realtimeDetailReport.action?dateLike=' + dateLike + '&type=' + type
         },
-        pageSize: 100,
+        pageSize: 1000,
         autoLoad: false
     });
 
@@ -44,7 +47,6 @@ function buildHomeTab(){
     };
     
     refreshData = function(type, dateLike){
-         Ext.getCmp('piePanel').setTitle(dateLike);
          refreshPie(type, dateLike, by);
          
          lineStore.setProxy({
@@ -60,57 +62,66 @@ function buildHomeTab(){
          gridStore.load();
     };
     
-    pieChart = Ext.create('Ext.chart.Chart', {
-        id: 'pieChart',
-        store: pieStore,
-        animate: true,
-        //shadow: true,
-        theme: 'Base:gradients',
-        legend: {
-            position: 'right'
-        },
-        series: [{
-            type: 'pie',
-            field: 'amount',
-            showInLegend: true,
-            tips: {
-              trackMouse: true,
-              width: 140,
-              height: 28,
-              renderer: function(storeItem, item) {
-                //calculate percentage.
-                var total = 0;
-                pieStore.each(function(rec) {
-                    total += rec.get('amount');
-                });
-                this.setTitle(storeItem.get('key') + ': ' + storeItem.get('amount') + '(' + Math.round(storeItem.get('amount') / total * 100) + '%)');
-              }
+    refreshData(type, dateLike);
+    
+    pieChart = Ext.create(Ext.panel.Panel, {
+    	width: '100%',
+    	height: '100%',
+    	layout: 'fit',
+    	items: [{
+    		xtype: 'chart',
+    		store: pieStore,
+            animate: true,
+            //shadow: true,
+            theme: 'Base:gradients',
+            legend: {
+                position: 'right'
             },
-            highlight: {
-              segment: {
-                margin: 20
-              }
-            },
-            label: {
-                field: 'key',
-                display: 'rotate',
-                contrast: true,
-                font: '18px Arial'
-            },
-            clickedItem: null,
-            listeners: {
-                itemmousedown: function(item){
-                    this.clickedItem = item;
+            series: [{
+                type: 'pie',
+                field: 'amount',
+                showInLegend: true,
+                tips: {
+                  trackMouse: true,
+                  width: 140,
+                  height: 28,
+                  renderer: function(storeItem, item) {
+                    //calculate percentage.
+                    var total = 0;
+                    pieStore.each(function(rec) {
+                        total += rec.get('amount');
+                    });
+                    this.setTitle(storeItem.get('key') + ': ' + storeItem.get('amount') + '(' + Math.round(storeItem.get('amount') / total * 100) + '%)');
+                  }
                 },
-                itemmouseup: function(item) {
-                    if (this.clickedItem == item){
-                          console.log(item);
-                    }
-                    this.clickedItem = null;
-               }
-            }
-        }]
-    });
+                highlight: {
+                  segment: {
+                    margin: 20
+                  }
+                },
+                label: {
+                    field: 'key',
+                    display: 'rotate',
+                    contrast: true,
+                    font: '18px Arial'
+                },
+                clickedItem: null,
+                listeners: {
+                    itemmousedown: function(item){
+                        this.clickedItem = item;
+                    },
+                    itemmouseup: function(item) {
+                        if (this.clickedItem == item){
+                              console.log(item);
+                        }
+                        this.clickedItem = null;
+                   }
+                }
+            }]
+    	}]
+    }); 
+    	
+    	
     
     lineChart = Ext.create('Ext.panel.Panel', {
         border: false,
@@ -161,7 +172,7 @@ function buildHomeTab(){
                     yField: 'amount',
                     tips: {
                         trackMouse: false,
-                        width: 140,
+                        width: 160,
                         height: 28,
                         renderer: function(storeItem, item) {
                           this.setTitle(storeItem.get('key') + ': ¥ ' + storeItem.get('amount'));
@@ -180,7 +191,7 @@ function buildHomeTab(){
     detailGrid = Ext.create('Ext.panel.Panel', {
         border: false,
         width: '100%',
-        height: '50%',
+        height: '100%',
         layout: 'fit',
         defaults: {
             padding: 4
@@ -242,76 +253,84 @@ function buildHomeTab(){
     });
     
 	return Ext.create('Ext.panel.Panel', {
+		loader: {
+	        url: 'home.action',
+	        contentType: 'html',
+	        loadMask: true,
+	        autoLoad: true,
+	        scripts: true,
+	    },
 		title: '<%= i18n.getI18nText("accounting.home.title") %>',
-	    layout : {
-          type : 'border'
-        },
-        defaults : {
-          split : true
-        },
-        items: [
-             {region: 'north', height: '40%',layout: 'fit', border: false, items:[lineChart]},
-            {
-                region: 'west',
-                id: 'piePanel',
-                layout: 'fit',
-                title: '<%= i18n.getI18nText("accounting.realtime.report.pie.title.unselect") %>',
-                border: false,
-                hideCollapseTool: false,
-                split: true,
-                width: '40%',
-                tbar: [{
-                    xtype: 'combo',
-                    labelWidth: 50,
-                    flex: 1,
-                    fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.type") %>',
-                    store: Ext.create('Ext.data.ArrayStore', {
-                        storeId : 'TypeStore',
-                        fields : [ 'key', 'value' ],
-                        data : [ [ -1, '<%= i18n.getI18nText("accounting.common.type.credit") %>' ], [ 1, '<%= i18n.getI18nText("accounting.common.type.debit") %>' ] ]
-                    }),
-                    value: -1,
-                    valueField : 'key',
-                    displayField : 'value',
-                    queryMode: 'local',
-                    listeners: {
-                        change: function(scope, newValue, oldValue){
-                            type = newValue;
-                            refreshData(type, dateLike);
-                        }
-                    }
-                }, {
-                    xtype: 'combo',
-                    id: 'pieReportBy',
-                    labelWidth: 50,
-                    flex: 1,
-                    fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.by") %>',
-                    store: Ext.create('Ext.data.ArrayStore', {
-                        storeId : 'TypeStore',
-                        fields : [ 'key', 'value' ],
-                        data : [ [ 'consumeType', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.consume.type") %>' ], [ 'target', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.target") %>' ] ]
-                    }),
-                    value: 'consumeType',
-                    valueField : 'key',
-                    displayField : 'value',
-                    queryMode: 'local',
-                    listeners: {
-                        change: function(scope, newValue, oldValue){
-                            by = newValue;
-                            refreshPie(type, dateLike, by);
-                        }
-                    }
-                }],
-                items :[pieChart]
-            },{
-                region: 'center',
-                layout: 'anchor',
-               // title: '<%= i18n.getI18nText("accounting.realtime.report.list.title") %>',
-                border: false,
-                items: [detailGrid]
-            }
-        ]
+		padding : 10
+// 	    layout : {
+//           type : 'border'
+//         },
+//         defaults : {
+//           collapsible: true,
+//           split : true
+//         },
+//         items: [
+//              {region: 'north', height: '40%',layout: 'fit', hideCollapseTool: true, border: false, items:[lineChart]},
+//             {
+//                 region: 'west',
+//                 layout: 'fit',
+//                 border: false,
+//                 hideCollapseTool: true,
+//                 split: true,
+//                 width: '40%',
+//                 tbar: [{
+//                     xtype: 'combo',
+//                     labelWidth: 50,
+//                     flex: 1,
+<%--                     fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.type") %>', --%>
+//                     store: Ext.create('Ext.data.ArrayStore', {
+//                         storeId : 'TypeStore',
+//                         fields : [ 'key', 'value' ],
+<%--                         data : [ [ -1, '<%= i18n.getI18nText("accounting.common.type.credit") %>' ], [ 1, '<%= i18n.getI18nText("accounting.common.type.debit") %>' ] ] --%>
+//                     }),
+//                     value: -1,
+//                     valueField : 'key',
+//                     displayField : 'value',
+//                     queryMode: 'local',
+//                     listeners: {
+//                         change: function(scope, newValue, oldValue){
+//                             type = newValue;
+//                             refreshData(type, dateLike);
+//                         }
+//                     }
+//                 }, {
+//                     xtype: 'combo',
+//                     labelWidth: 50,
+//                     flex: 1,
+<%--                     fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.by") %>', --%>
+//                     store: Ext.create('Ext.data.ArrayStore', {
+//                         storeId : 'TypeStore',
+//                         fields : [ 'key', 'value' ],
+<%--                         data : [ [ 'consumeType', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.consume.type") %>' ], [ 'target', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.target") %>' ] ] --%>
+//                     }),
+//                     value: 'consumeType',
+//                     valueField : 'key',
+//                     displayField : 'value',
+//                     queryMode: 'local',
+//                     listeners: {
+//                         change: function(scope, newValue, oldValue){
+//                             by = newValue;
+//                             refreshPie(type, dateLike, by);
+//                         }
+//                     }
+//                 }],
+//                 items :[pieChart]
+//             },{
+//                 region: 'center',
+//                 layout: 'anchor',
+<%--                // title: '<%= i18n.getI18nText("accounting.realtime.report.list.title") %>', --%>
+//                 border: false,
+//                 items: [detailGrid]
+//             }
+//         ]
 	});
+	
+	
 }
 
 </script>
