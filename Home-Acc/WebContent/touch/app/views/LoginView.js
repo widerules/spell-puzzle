@@ -56,8 +56,8 @@ AccountingApp.views.LoginView = Ext.extend(Ext.form.FormPanel, {
                 	success : function(form, action) {
                         // location.href = 'app.action';
                 		loadMask.destroy();
-                		console.log(action);
-                        Ext.Msg.alert('Success', action);
+                		AccountingApp.views.viewport = new AccountingApp.views.Viewport();
+                        // Ext.Msg.alert('Success', action);
 					},
 					failure : function(form, action) {
 						loadMask.destroy();
