@@ -1,5 +1,4 @@
 AccountingApp.views.LoginView = Ext.extend(Ext.form.FormPanel, {
-	scroll: 'vertical',
     url: '../login.action',
     standardSubmit: false,
     fullscreen: Ext.is.Phone,
@@ -7,6 +6,8 @@ AccountingApp.views.LoginView = Ext.extend(Ext.form.FormPanel, {
     floating: true,
     modal: true,
     centered: true,
+    scroll: false,
+    showAnimation: 'fade',
     hideOnMaskTap: false,
     height: 385,
     width: 480,
@@ -47,22 +48,27 @@ AccountingApp.views.LoginView = Ext.extend(Ext.form.FormPanel, {
             text: 'Save',
             ui: 'confirm',
             handler: function() {
-                var loadMask = new Ext.LoadMask(this.up('form').el, {
+                var form = this.up('form');
+                
+                var loadMask = new Ext.LoadMask(form.el, {
                     msg: 'Loading...'
                 });
                 loadMask.show();
+
+                // form.showMask('Loading...');
                 
-                this.up('form').submit({
+                form.submit({
                 	success : function(form, action) {
                         // location.href = 'app.action';
+                		// form.hideMask();
                 		loadMask.destroy();
+                		this.hide();
                 		AccountingApp.views.viewport = new AccountingApp.views.Viewport();
-                        // Ext.Msg.alert('Success', action);
 					},
 					failure : function(form, action) {
+						// form.hideMask();
+						Ext.Msg.alert('Failed', action.msg);
 						loadMask.destroy();
-						console.log(action);
-						Ext.Msg.alert('Failed', action);
 					}
                 	// waitMsg : {message:'Submitting'}
                 });
