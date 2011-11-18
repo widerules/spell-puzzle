@@ -47,6 +47,7 @@ public class Config {
 	private static MenuItem retriveMenuItemStore() {
 		MenuItem root = new MenuItem();
 		root.setRoot(true);
+		root.setId("root");
 
 		MenuItem node1 = new MenuItem("menu.accounting", "accounting/home", "/app/test.action");
 		node1.setExpanded(true);
