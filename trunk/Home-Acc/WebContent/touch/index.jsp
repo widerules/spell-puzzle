@@ -36,6 +36,9 @@ bundle.getText = function(key){
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/views/LoginView.js"></script>
 <script type="text/javascript" src="app/views/Viewport.js"></script>
+
+<script type="text/javascript" src="app/stores/NavigationStore.js"></script>
+
 </head>
 <body>
  

@@ -6,7 +6,7 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
 	// autoRender: true,
     initComponent: function() {
     	this.navigationPanel = new Ext.NestedList({
-            store: sink.StructureStore,
+            store: AccountingApp.stores.NavigationStore,
             useToolbar: Ext.is.Phone ? false : true,
             updateTitleText: false,
             dock: 'left',
@@ -17,8 +17,6 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
                 scope: this
             }
         });
-    	
-    	
     	
     	AccountingApp.views.Viewport.superclass.initComponent.call(this);
     	// this.show();
