@@ -8,17 +8,13 @@ Ext.regModel('NavigationModel', {
 
 AccountingApp.stores.NavigationStore = new Ext.data.TreeStore({
     model: 'NavigationModel',
-    root: {
-        text: 'ROOT',
-        expanded: true
-    },
     proxy: {
         type: 'ajax',
         url: '../loadNavigator.action',
-        autoLoad: true,
+        noCache: false,
         reader: {
-            type: 'tree',
-            root: 'children'
+        	type: 'tree',
+        	root: 'children'
         }
     }
 });

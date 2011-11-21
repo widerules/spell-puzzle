@@ -13,8 +13,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="../touchjs/resources/css/touch-charts-full.css" type="text/css">
 <link rel="stylesheet" href="../touchjs/resources/css/touch-charts-demo.css" type="text/css">
-<script type="text/javascript" src="../touchjs/sencha-touch.js"></script>
-<script type="text/javascript" src="../touchjs/touch-charts.js"></script>
+<link rel="stylesheet" href="app/css/style.css" type="text/css">
+<script type="text/javascript" src="../touchjs/sencha-touch-debug.js"></script>
+<script type="text/javascript" src="../touchjs/touch-charts-debug.js"></script>
 <script type="text/javascript">
 bundle = (function(){
     var resourcesBundle = {};
