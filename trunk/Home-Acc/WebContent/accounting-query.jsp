@@ -284,7 +284,7 @@ function buildQueryTab(){
 	                    	xtype: 'combobox',
 	                        store : Ext.create('Ext.data.ArrayStore', {
 	                        	storeId: 'temp-consume-type',
-	                            fields: [ {name: 'id',  type: 'string'}, {name: 'text', type: 'string'}, {name: 'originValue', type: 'string'}],
+	                            fields: [ {name: 'key',  type: 'string'}, {name: 'value', type: 'string'}, {name: 'originValue', type: 'string'}],
 	                            proxy: {
 	                                type: 'ajax',
 	                                url : 'loadCascadeConsumeType.action'
@@ -292,8 +292,8 @@ function buildQueryTab(){
 	                            autoLoad: true
 	                        }),
 	                        fieldLabel: '<%= i18n.getI18nText("accounting.query.label.consume.type") %>',
-	                        valueField : 'id',
-	                        displayField : 'text',
+	                        valueField : 'key',
+	                        displayField : 'value',
 	                        editable : false,
 	                        allowBlank: true
 	                    }
