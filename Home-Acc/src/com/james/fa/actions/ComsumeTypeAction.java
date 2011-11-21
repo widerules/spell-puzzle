@@ -72,9 +72,9 @@ public class ComsumeTypeAction extends BasicAction {
 
 		String tab = "--";
 
-		List<IdTextJson> typeList = new ArrayList<IdTextJson>();
+		List<KeyValueJson> typeList = new ArrayList<KeyValueJson>();
 
-		typeList.add(new IdTextJson("", getText("accounting.common.all"), ""));
+		typeList.add(new KeyValueJson("", getText("accounting.common.all"), ""));
 		if (t.hasChild()) {
 			typeList = buildObj(t.getChildren(), tab, 0);
 		}
@@ -83,9 +83,9 @@ public class ComsumeTypeAction extends BasicAction {
 		return jsonReturn();
 	}
 
-	private List<IdTextJson> buildObj(List<TreeNode> typeList, String sep,
+	private List<KeyValueJson> buildObj(List<TreeNode> typeList, String sep,
 			int repeat) {
-		List<IdTextJson> valueList = new ArrayList<IdTextJson>();
+		List<KeyValueJson> valueList = new ArrayList<KeyValueJson>();
 
 		String fullSep = "";
 		for (int i = 1; i <= repeat; i++) {
@@ -93,8 +93,9 @@ public class ComsumeTypeAction extends BasicAction {
 		}
 
 		for (TreeNode type : typeList) {
-			IdTextJson json = new IdTextJson(type.getId(), fullSep
-					+ ((ConsumeType) type).getText(), ((ConsumeType) type).getText());
+			KeyValueJson json = new KeyValueJson(type.getId(), fullSep
+					+ ((ConsumeType) type).getText(),
+					((ConsumeType) type).getText());
 			valueList.add(json);
 			if (type.hasChild()) {
 				valueList.addAll(buildObj(type.getChildren(), sep, repeat + 1));
@@ -102,6 +103,43 @@ public class ComsumeTypeAction extends BasicAction {
 		}
 
 		return valueList;
+	}
+
+	public static class KeyValueJson {
+		private String key;
+		private String value;
+		private String originValue;
+
+		public KeyValueJson(String key, String value, String originValue) {
+			this.key = key;
+			this.value = value;
+			this.originValue = originValue;
+		}
+
+		public String getKey() {
+			return key;
+		}
+
+		public void setKey(String key) {
+			this.key = key;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public void setValue(String value) {
+			this.value = value;
+		}
+
+		public String getOriginValue() {
+			return originValue;
+		}
+
+		public void setOriginValue(String originValue) {
+			this.originValue = originValue;
+		}
+
 	}
 
 	public static class IdTextJson {

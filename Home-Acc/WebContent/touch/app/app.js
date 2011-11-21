@@ -1,3 +1,4 @@
+
 AccountingApp = new Ext.Application({
     name: 'FamilyAccounting',
     tabletStartupScreen: 'tablet_startup.jpg',
@@ -10,3 +11,5 @@ AccountingApp = new Ext.Application({
     	this.views.viewport = new AccountingApp.views.Viewport({title: 'Family Accounting'});
     }
 });
+
+Ext.ns('AccountingApp.frames', 'AccountingApp.utils');

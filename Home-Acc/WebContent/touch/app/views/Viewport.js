@@ -5,7 +5,7 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
 	layout: 'card',
 	items: [{
 		cls: 'launchscreen',
-		html: '<div><img src="../images/splash.png" /><h1>Welcome to Family Accounting</h1><p><br /><br /><span>&copy;Offline studio, 2011</span></p></div>'
+		html: '<div><img src="../images/offline-logo.png" /><br /><br /><h1>Welcome to Family Accounting</h1><p><br /><br /><span>&copy;Offline studio, 2011</span></p></div>'
 	}],
 	// autoRender: true,
     initComponent: function() {
@@ -47,7 +47,8 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         }
         
         if (key == "accounting/input"){
-        	
+        	this.setActiveItem(AccountingApp.frames.InputCard, 'slide');
+        	this.currentCard = AccountingApp.frames.InputCard;
         }else if (key == "accounting/query"){
         	
         }else if (key == "accounting/realtimereport"){
