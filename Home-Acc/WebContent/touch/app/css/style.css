@@ -1,0 +1,27 @@
+.launchscreen > .x-panel-body {
+  background-color: #eee;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+}
+
+.launchscreen > .x-panel-body > div {
+  width: 530px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 28px;
+  color: #666;
+  text-shadow: #fff 0 0 25px;
+}
+
+.launchscreen > .x-panel-body h1 {
+  letter-spacing: -1px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #000;
+}
+
+.launchscreen .x-panel-body span {
+  color: #999;
+}
