@@ -41,9 +41,11 @@ bundle.getText = function(key){
 
 <script type="text/javascript" src="app/views/LoginView.js"></script>
 <script type="text/javascript" src="app/views/Viewport.js"></script>
+
 <!-- stores -->
 <script type="text/javascript" src="app/stores/NavigationStore.js"></script>
 <script type="text/javascript" src="app/stores/TypeStore.js"></script>
+<script type="text/javascript" src="app/stores/ConsumeTypeStore.js"></script>
 
 <!-- frames -->
 <script type="text/javascript" src="app/frames/InputCard.js"></script>

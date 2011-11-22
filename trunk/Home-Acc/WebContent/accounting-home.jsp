@@ -74,7 +74,6 @@ function buildHomeTab(){
          flex: 1,
                     fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.type") %>',
          store: Ext.create('Ext.data.ArrayStore', {
-             storeId : 'TypeStore',
              fields : [ 'key', 'value' ],
                         data : [ [ -1, '<%= i18n.getI18nText("accounting.common.type.credit") %>' ], [ 1, '<%= i18n.getI18nText("accounting.common.type.debit") %>' ] ]
          }),
@@ -95,7 +94,6 @@ function buildHomeTab(){
          flex: 1,
                     fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.by") %>',
          store: Ext.create('Ext.data.ArrayStore', {
-             storeId : 'TypeStore',
              fields : [ 'key', 'value' ],
                         data : [ [ 'consumeType', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.consume.type") %>' ], [ 'target', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.target") %>' ] ]
          }),
@@ -307,7 +305,6 @@ function buildHomeTab(){
             flex: 1,
                        fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.type") %>',
             store: Ext.create('Ext.data.ArrayStore', {
-                storeId : 'TypeStore',
                 fields : [ 'key', 'value' ],
                            data : [ [ -1, '<%= i18n.getI18nText("accounting.common.type.credit") %>' ], [ 1, '<%= i18n.getI18nText("accounting.common.type.debit") %>' ] ]
             }),
@@ -327,7 +324,6 @@ function buildHomeTab(){
             flex: 1,
                        fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.by") %>',
             store: Ext.create('Ext.data.ArrayStore', {
-                storeId : 'TypeStore',
                 fields : [ 'key', 'value' ],
                            data : [ [ 'consumeType', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.consume.type") %>' ], [ 'target', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.target") %>' ] ]
             }),
@@ -377,7 +373,6 @@ function buildHomeTab(){
 //                     flex: 1,
 <%--                     fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.type") %>', --%>
 //                     store: Ext.create('Ext.data.ArrayStore', {
-//                         storeId : 'TypeStore',
 //                         fields : [ 'key', 'value' ],
 <%--                         data : [ [ -1, '<%= i18n.getI18nText("accounting.common.type.credit") %>' ], [ 1, '<%= i18n.getI18nText("accounting.common.type.debit") %>' ] ] --%>
 //                     }),
@@ -398,7 +393,6 @@ function buildHomeTab(){
 //                     flex: 1,
 <%--                     fieldLabel: '<%= i18n.getI18nText("accounting.realtime.report.pie.by") %>', --%>
 //                     store: Ext.create('Ext.data.ArrayStore', {
-//                         storeId : 'TypeStore',
 //                         fields : [ 'key', 'value' ],
 <%--                         data : [ [ 'consumeType', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.consume.type") %>' ], [ 'target', '<%= i18n.getI18nText("accounting.realtime.report.pie.by.options.target") %>' ] ] --%>
 //                     }),
