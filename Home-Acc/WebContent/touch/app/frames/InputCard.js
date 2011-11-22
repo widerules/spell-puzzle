@@ -23,12 +23,15 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
         items: [{
         	xtype: 'selectfield',
         	name: 'consumeTypeId',
+//        	store: AccountingApp.stores.NavigationStore,
+//        	valueField : 'key',
+//            displayField : 'text',
             store : AccountingApp.stores.ConsumeTypeStore,
-            fieldLabel: bundle.getText("accounting.query.label.consume.type"),
             valueField : 'key',
             displayField : 'value',
+            fieldLabel: bundle.getText("accounting.query.label.consume.type"),
             placeHolder: bundle.getText("accounting.input.type.tips")
-        },{
+        }, {
             xtype : 'selectfield',
             fieldLabel : bundle.getText("accounting.input.type"),
             name : 'type',

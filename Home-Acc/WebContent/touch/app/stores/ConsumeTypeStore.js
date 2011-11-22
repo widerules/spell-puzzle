@@ -12,5 +12,7 @@ AccountingApp.stores.ConsumeTypeStore = new Ext.data.Store({
         type: 'ajax',
         url: '../loadCascadeConsumeType.action',
         noCache: false,
+        autoLoad: true,
+        reader: 'json'
     }
 });
