@@ -106,14 +106,24 @@ public class ComsumeTypeAction extends BasicAction {
 	}
 
 	public static class KeyValueJson {
+		private String id;
 		private String key;
 		private String value;
 		private String originValue;
 
 		public KeyValueJson(String key, String value, String originValue) {
+			this.id = key;
 			this.key = key;
 			this.value = value;
 			this.originValue = originValue;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
 		}
 
 		public String getKey() {
