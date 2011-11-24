@@ -5,7 +5,6 @@
             <result name="success">index.jsp</result>
         </action>
         
-        <action name="loadCascadeConsumeType" class="com.james.fa.actions.ComsumeTypeAction" method="buildTouchCascadeList"><result name="json">index.jsp</result></action>
     </package>
     
    

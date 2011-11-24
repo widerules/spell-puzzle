@@ -76,45 +76,10 @@ public class ComsumeTypeAction extends BasicAction {
 
 		typeList.add(new KeyValueJson("", getText("accounting.common.all"), ""));
 		if (t.hasChild()) {
-			typeList = buildObj(t.getChildren(), t.getText() + tab, 0);
+			typeList = buildObj(t.getChildren(), "", 0);
 		}
 
 		setJsonObj(typeList);
-		return jsonReturn();
-	}
-
-	public String buildTouchCascadeList() {
-		List<ConsumeType> types = consumeTypeService.getAll();
-
-		ConsumeType t = new ConsumeType();
-		t.setId(TreeNode.ROOT_ID);
-		t.setText("ROOT");
-		t.setRoot(true);
-		types.add(t);
-
-		Map<String, ConsumeType> map = new HashMap<String, ConsumeType>();
-		for (ConsumeType type : types) {
-			map.put(type.getId(), type);
-		}
-
-		for (Entry<String, ConsumeType> entry : map.entrySet()) {
-			if (entry.getKey().equals(TreeNode.ROOT_ID)) {
-				continue;
-			}
-
-			if (map.containsKey(entry.getValue().getParentId())) {
-				map.get(entry.getValue().getParentId()).addChild(
-						entry.getValue());
-			}
-		}
-
-		List<KeyValueJson> typeList = new ArrayList<KeyValueJson>();
-
-		typeList.add(new KeyValueJson("", getText("accounting.common.all"), ""));
-		if (t.hasChild()) {
-			typeList = buildObj(t.getChildren(), t.getText() + tab, 0);
-		}
-		setJsonObj(new RootValue(typeList));
 		return jsonReturn();
 	}
 
