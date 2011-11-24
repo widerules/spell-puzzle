@@ -1,3 +1,4 @@
+
 Ext.regModel('ConsumeTypeModel', {
     fields: [
         {name: 'key',  type: 'string'}, 
@@ -10,9 +11,8 @@ AccountingApp.stores.ConsumeTypeStore = new Ext.data.Store({
     model: 'ConsumeTypeModel',
     proxy: {
         type: 'ajax',
-        url: '../loadCascadeConsumeType.action',
-        noCache: false,
-        autoLoad: true,
-        reader: 'json'
+        url: '../loadCascadeConsumeType.action'
     }
 });
+
+AccountingApp.stores.ConsumeTypeStore.load();

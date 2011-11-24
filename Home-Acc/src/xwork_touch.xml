@@ -1,9 +1,11 @@
 <!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN" "http://www.opensymphony.com/xwork/xwork-1.0.dtd">
 <xwork>
-    <package name="touch" extends="default">
+    <package name="touch" namespace="/touch" extends="default">
         <action name="index" class="com.james.fa.actions.BasicAction">
             <result name="success">index.jsp</result>
         </action>
+        
+        <action name="loadCascadeConsumeType" class="com.james.fa.actions.ComsumeTypeAction" method="buildTouchCascadeList"><result name="json">index.jsp</result></action>
     </package>
     
    

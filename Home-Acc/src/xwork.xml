@@ -17,7 +17,7 @@
 	</global-results>
 
 	</package>
-	<package name="basic" extends="default">
+	<package name="basic" namespace="/" extends="default">
 		<interceptors>
 			<interceptor name="auth" class="com.james.fa.interceptors.AuthInterceptor" />
             <interceptor name="i18n" class="com.james.fa.interceptors.I18nInterceptor" />
