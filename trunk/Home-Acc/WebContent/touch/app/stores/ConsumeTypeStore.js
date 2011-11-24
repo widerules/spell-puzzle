@@ -9,10 +9,10 @@ Ext.regModel('ConsumeTypeModel', {
 
 AccountingApp.stores.ConsumeTypeStore = new Ext.data.Store({
     model: 'ConsumeTypeModel',
+    autoLoad: true,
     proxy: {
         type: 'ajax',
         url: '../loadCascadeConsumeType.action'
     }
 });
 
-AccountingApp.stores.ConsumeTypeStore.load();
