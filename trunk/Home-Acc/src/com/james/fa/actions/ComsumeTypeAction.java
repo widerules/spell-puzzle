@@ -83,6 +83,43 @@ public class ComsumeTypeAction extends BasicAction {
 		return jsonReturn();
 	}
 
+	public String buildTouchCascadeList() {
+		List<ConsumeType> types = consumeTypeService.getAll();
+
+		ConsumeType t = new ConsumeType();
+		t.setId(TreeNode.ROOT_ID);
+		t.setText("ROOT");
+		t.setRoot(true);
+		types.add(t);
+
+		Map<String, ConsumeType> map = new HashMap<String, ConsumeType>();
+		for (ConsumeType type : types) {
+			map.put(type.getId(), type);
+		}
+
+		for (Entry<String, ConsumeType> entry : map.entrySet()) {
+			if (entry.getKey().equals(TreeNode.ROOT_ID)) {
+				continue;
+			}
+
+			if (map.containsKey(entry.getValue().getParentId())) {
+				map.get(entry.getValue().getParentId()).addChild(
+						entry.getValue());
+			}
+		}
+
+		String tab = "--";
+
+		List<KeyValueJson> typeList = new ArrayList<KeyValueJson>();
+
+		typeList.add(new KeyValueJson("", getText("accounting.common.all"), ""));
+		if (t.hasChild()) {
+			typeList = buildObj(t.getChildren(), tab, 0);
+		}
+		setJsonObj(new RootValue(typeList));
+		return jsonReturn();
+	}
+
 	private List<KeyValueJson> buildObj(List<TreeNode> typeList, String sep,
 			int repeat) {
 		List<KeyValueJson> valueList = new ArrayList<KeyValueJson>();
@@ -103,6 +140,31 @@ public class ComsumeTypeAction extends BasicAction {
 		}
 
 		return valueList;
+	}
+
+	public static class RootValue {
+		private String name = "root";
+		private Object value = null;
+		
+		public RootValue(Object value){
+			this.value = value;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public Object getValue() {
+			return value;
+		}
+
+		public void setValue(Object value) {
+			this.value = value;
+		}
 	}
 
 	public static class KeyValueJson {

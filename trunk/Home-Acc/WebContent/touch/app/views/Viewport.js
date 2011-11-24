@@ -30,6 +30,8 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
     	
     	if (!Ext.is.Phone && Ext.Viewport.orientation == 'landscape') {
             this.dockedItems.unshift(this.navigationPanel);
+        }else{
+        	this.items.unshift(this.navigationPanel);
         }
     	
     	AccountingApp.views.Viewport.superclass.initComponent.call(this);

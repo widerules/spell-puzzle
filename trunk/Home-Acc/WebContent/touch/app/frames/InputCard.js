@@ -29,11 +29,11 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
             store : AccountingApp.stores.ConsumeTypeStore,
             valueField : 'key',
             displayField : 'value',
-            fieldLabel: bundle.getText("accounting.query.label.consume.type"),
+            label: bundle.getText("accounting.query.label.consume.type"),
             placeHolder: bundle.getText("accounting.input.type.tips")
         }, {
             xtype : 'selectfield',
-            fieldLabel : bundle.getText("accounting.input.type"),
+            label : bundle.getText("accounting.input.type"),
             name : 'type',
             store : AccountingApp.stores.TypeStore,
             valueField : 'key',
@@ -42,7 +42,7 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
         },{
         	xtype: 'datepickerfield',
         	name: 'consumeDate',
-        	fieldLabel: bundle.getText("accounting.input.date"),
+        	label: bundle.getText("accounting.input.date"),
         	value: new Date()
         }]
     }],
