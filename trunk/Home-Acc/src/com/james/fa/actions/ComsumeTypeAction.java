@@ -16,6 +16,8 @@ public class ComsumeTypeAction extends BasicAction {
 
 	private ConsumeTypeService consumeTypeService;
 
+	private static String tab = "--";
+
 	public String execute() {
 		List<ConsumeType> types = consumeTypeService.getAll();
 
@@ -70,13 +72,11 @@ public class ComsumeTypeAction extends BasicAction {
 			}
 		}
 
-		String tab = "--";
-
 		List<KeyValueJson> typeList = new ArrayList<KeyValueJson>();
 
 		typeList.add(new KeyValueJson("", getText("accounting.common.all"), ""));
 		if (t.hasChild()) {
-			typeList = buildObj(t.getChildren(), tab, 0);
+			typeList = buildObj(t.getChildren(), t.getText() + tab, 0);
 		}
 
 		setJsonObj(typeList);
@@ -108,34 +108,33 @@ public class ComsumeTypeAction extends BasicAction {
 			}
 		}
 
-		String tab = "--";
-
 		List<KeyValueJson> typeList = new ArrayList<KeyValueJson>();
 
 		typeList.add(new KeyValueJson("", getText("accounting.common.all"), ""));
 		if (t.hasChild()) {
-			typeList = buildObj(t.getChildren(), tab, 0);
+			typeList = buildObj(t.getChildren(), t.getText() + tab, 0);
 		}
 		setJsonObj(new RootValue(typeList));
 		return jsonReturn();
 	}
 
-	private List<KeyValueJson> buildObj(List<TreeNode> typeList, String sep,
+	private List<KeyValueJson> buildObj(List<TreeNode> typeList, String prefix,
 			int repeat) {
 		List<KeyValueJson> valueList = new ArrayList<KeyValueJson>();
 
-		String fullSep = "";
-		for (int i = 1; i <= repeat; i++) {
-			fullSep += sep;
-		}
+		// String fullSep = "";
+		// for (int i = 1; i <= repeat; i++) {
+		// fullSep += sep;
+		// }
 
 		for (TreeNode type : typeList) {
-			KeyValueJson json = new KeyValueJson(type.getId(), fullSep
-					+ ((ConsumeType) type).getText(),
-					((ConsumeType) type).getText());
+			ConsumeType t = ((ConsumeType) type);
+			KeyValueJson json = new KeyValueJson(type.getId(), prefix
+					+ t.getText(), t.getText());
 			valueList.add(json);
 			if (type.hasChild()) {
-				valueList.addAll(buildObj(type.getChildren(), sep, repeat + 1));
+				valueList.addAll(buildObj(type.getChildren(),
+						prefix + t.getText() + tab, repeat + 1));
 			}
 		}
 
@@ -145,8 +144,8 @@ public class ComsumeTypeAction extends BasicAction {
 	public static class RootValue {
 		private String name = "root";
 		private Object value = null;
-		
-		public RootValue(Object value){
+
+		public RootValue(Object value) {
 			this.value = value;
 		}
 
