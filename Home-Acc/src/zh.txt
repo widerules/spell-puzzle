@@ -26,6 +26,8 @@ accounting.common.all=全部
 accounting.common.msg.title.success=成 功
 accounting.common.msg.title.faliure=失 败
 accounting.common.msg.unknown=未知异常
+accounting.common.title.navigator=菜 单
+accounting.common.title.back=后 退
 
 
 #home
@@ -73,8 +75,6 @@ accounting.realtime.report.pie.type=类 型
 accounting.realtime.report.pie.by=根 据
 accounting.realtime.report.pie.by.options.consume.type=消费归类
 accounting.realtime.report.pie.by.options.target=使用对象
-
-
 
 #input error
 accounting.input.type.err.required=请选择“消费归类”

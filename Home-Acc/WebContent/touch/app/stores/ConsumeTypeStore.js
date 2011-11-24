@@ -1,4 +1,3 @@
-
 Ext.regModel('ConsumeTypeModel', {
     fields: [
         {name: 'key',  type: 'string'}, 
@@ -15,4 +14,3 @@ AccountingApp.stores.ConsumeTypeStore = new Ext.data.Store({
         url: '../loadCascadeConsumeType.action'
     }
 });
-

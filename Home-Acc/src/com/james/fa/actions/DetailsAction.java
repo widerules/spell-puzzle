@@ -121,7 +121,7 @@ public class DetailsAction extends BasicAction {
 	}
 
 	public void setConsumeDate(String consumeDate) {
-		this.consumeDate = consumeDate;
+		this.consumeDate = consumeDate.substring(0, 10);
 	}
 
 	public String getTarget() {

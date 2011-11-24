@@ -6,7 +6,7 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
 //    floating: true,
 //    modal: true,
 //    centered: true,
-    scroll: false,
+    scroll: true,
 //    showAnimation: 'fade',
     hideOnMaskTap: true,
 //    height: 385,
@@ -44,6 +44,24 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
         	name: 'consumeDate',
         	label: bundle.getText("accounting.input.date"),
         	value: new Date()
+        },{
+        	xtype: 'selectfield',
+        	name: 'target',
+            store : AccountingApp.stores.TargetStore,
+            label: bundle.getText("accounting.query.label.target"),
+            value: '',
+            valueField : 'name',
+            displayField : 'name',
+        },{
+        	xtype: 'spinnerfield',
+            name : 'amount',
+            label: bundle.getText("accounting.input.amount")
+        },{
+            xtype : 'textareafield',
+            name  : 'desc',
+            label : bundle.getText("accounting.input.desc"),
+            maxLength : 60,
+            maxRows : 8
         }]
     }],
 	dockedItems: [{
@@ -52,13 +70,13 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
 	    items: [
         {xtype: 'spacer'},
         {
-            text: 'Reset',
+            text: bundle.getText("button.reset"),
             handler: function() {
                 this.reset();
             }
         },
         {
-            text: 'Save',
+            text: bundle.getText("button.submit"),
             ui: 'confirm',
             handler: function() {
                 var form = this.up('form');
@@ -71,15 +89,20 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
                 // form.showMask('Loading...');
                 
                 form.submit({
+                	params: form.getValues(true),
+                	method: 'POST',
                 	success : function(form, action) {
                         // location.href = 'app.action';
                 		// form.hideMask();
+                		console.log(form.getValues(true));
                 		loadMask.destroy();
-                		this.hide();
+                		Ext.Msg.alert(bundle.getText("accounting.common.msg.title.success"), bundle.getText("accounting.input.save.msg.success"), function(){form.reset();});
+                		// this.hide();
 					},
 					failure : function(form, action) {
 						// form.hideMask();
-						Ext.Msg.alert('Failed', action.msg);
+						console.log(form.getValues(true));
+						Ext.Msg.alert(bundle.getText("accounting.common.msg.title.failure"), action.msg);
 						loadMask.destroy();
 					}
                 	// waitMsg : {message:'Submitting'}

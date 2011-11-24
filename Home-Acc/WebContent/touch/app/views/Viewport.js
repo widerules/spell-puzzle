@@ -1,6 +1,7 @@
 AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
 	showAnimation: 'fade',
 	//html: 'Test Page',
+	title: Ext.is.Phone ? 'Accounting' : 'Family Accounting',
 	fullscreen: true,
 	layout: 'card',
 	items: [{
@@ -9,6 +10,33 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
 	}],
 	// autoRender: true,
     initComponent: function() {
+    	
+    	this.navigationButton = new Ext.Button({
+            hidden: Ext.is.Phone || Ext.Viewport.orientation == 'landscape',
+            text: bundle.getText("accounting.common.title.navigator"),
+            handler: this.onNavButtonTap,
+            scope: this
+        });
+
+        this.backButton = new Ext.Button({
+            text: bundle.getText("accounting.common.title.back"),
+            ui: 'back',
+//            handler: this.onUiBack,
+            hidden: true,
+            scope: this
+        });
+        var btns = [this.navigationButton];
+        if (Ext.is.Phone) {
+            btns.unshift(this.backButton);
+        }
+        
+        this.navigationBar = new Ext.Toolbar({
+            ui: 'dark',
+            dock: 'top',
+            title: this.title,
+            items: btns.concat(this.buttons || [])
+        });
+    	
     	this.navigationPanel = new Ext.NestedList({
             store: AccountingApp.stores.NavigationStore,
             useToolbar: !Ext.is.Phone,
@@ -27,10 +55,12 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
     	}
     	
     	this.dockedItems = this.dockedItems || [];
+    	this.dockedItems.unshift(this.navigationBar);
     	
     	if (!Ext.is.Phone && Ext.Viewport.orientation == 'landscape') {
             this.dockedItems.unshift(this.navigationPanel);
-        }else{
+        }else if (Ext.is.Phone){
+        	this.items = this.items || [];
         	this.items.unshift(this.navigationPanel);
         }
     	
@@ -69,5 +99,27 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
 //        }
 //        this.toggleUiBackButton();
 //        this.fireEvent('navigate', this, record);
-    }
+    },
+    
+    onNavButtonTap: function(){
+    	
+    },
+    
+    onUiBack: function() {
+        var navPnl = this.navigationPanel;
+
+        // if we already in the nested list
+        if (this.getActiveItem() === navPnl) {
+            navPnl.onBackTap();
+        // we were on a demo, slide back into
+        // navigation
+        } else {
+            this.setActiveItem(navPnl, {
+                type: 'slide',
+                reverse: true
+            });
+        }
+        this.toggleUiBackButton();
+        this.fireEvent('navigate', this, {});
+    },
 });
