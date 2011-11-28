@@ -64,13 +64,14 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         	this.items.unshift(this.navigationPanel);
         }
     	
+    	
+    	
     	AccountingApp.views.Viewport.superclass.initComponent.call(this);
     	// this.show();
     },
     
     onNavPanelItemTap: function(list, index, el, e) {
     	var record = list.getStore().getAt(index); 
-    	console.log(record);
     	
     	var key = record.get('key');
     	
@@ -81,7 +82,6 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         if (key == "accounting/input"){
         	this.setActiveItem(AccountingApp.frames.InputCard, 'slide');
         	this.currentCard = AccountingApp.frames.InputCard;
-        	this.title = this.currentCard.title || '';
         }else if (key == "accounting/query"){
         	
         }else if (key == "accounting/realtimereport"){
@@ -89,6 +89,10 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         }else if (key == "accounting/historyreport"){
         	
         }
+        
+        if (Ext.is.Phone){
+    		this.navigationBar.setTitle(this.currentCard.title || '');
+    	}
 //
 //        if (card) {
 //            this.setActiveItem(card, anim || 'slide');
@@ -103,7 +107,8 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
     },
     
     onNavButtonTap: function(){
-    	
+    	console.log(this.navigationPanel);
+    	this.navigationPanel.showBy(this.navigationButton, 'fade');
     },
     
     onUiBack: function() {
@@ -164,5 +169,29 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
             this.navigationBar.doLayout();
         }
 
+    },
+    
+    layoutOrientation : function(orientation, w, h) {
+        if (!Ext.is.Phone) {
+            if (orientation == 'portrait') {
+                this.navigationPanel.hide(false);
+                this.removeDocked(this.navigationPanel, false);
+                if (this.navigationPanel.rendered) {
+                    this.navigationPanel.el.appendTo(document.body);
+                }
+                this.navigationPanel.setFloating(true);
+                this.navigationPanel.setHeight(400);
+                this.navigationButton.show(false);
+            }
+            else {
+                this.navigationPanel.setFloating(false);
+                this.navigationPanel.show(false);
+                this.navigationButton.hide(false);
+                this.insertDocked(0, this.navigationPanel);
+            }
+            this.navigationBar.doComponentLayout();
+        }
+
+        AccountingApp.views.Viewport.superclass.layoutOrientation.call(this, orientation, w, h);
     }
 });
