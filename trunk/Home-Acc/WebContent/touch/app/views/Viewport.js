@@ -21,7 +21,7 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         this.backButton = new Ext.Button({
             text: bundle.getText("accounting.common.title.back"),
             ui: 'back',
-//            handler: this.onUiBack,
+            handler: this.onUiBack,
             hidden: true,
             scope: this
         });
@@ -81,6 +81,7 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         if (key == "accounting/input"){
         	this.setActiveItem(AccountingApp.frames.InputCard, 'slide');
         	this.currentCard = AccountingApp.frames.InputCard;
+        	this.title = this.currentCard.title || '';
         }else if (key == "accounting/query"){
         	
         }else if (key == "accounting/realtimereport"){
@@ -97,7 +98,7 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
 //        if (title) {
 //            this.navigationBar.setTitle(title);
 //        }
-//        this.toggleUiBackButton();
+        this.toggleUiBackButton();
 //        this.fireEvent('navigate', this, record);
     },
     
@@ -122,4 +123,46 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         this.toggleUiBackButton();
         this.fireEvent('navigate', this, {});
     },
+    
+    toggleUiBackButton: function() {
+        var navPnl = this.navigationPanel;
+
+        if (Ext.is.Phone) {
+            if (this.getActiveItem() === navPnl) {
+
+                var currList      = navPnl.getActiveItem(),
+                    currIdx       = navPnl.items.indexOf(currList),
+                    recordNode    = currList.recordNode,
+                    title         = navPnl.renderTitleText(recordNode),
+                    parentNode    = recordNode ? recordNode.parentNode : null,
+                    backTxt       = (parentNode && !parentNode.isRoot) ? navPnl.renderTitleText(parentNode) : this.title || '',
+                    activeItem;
+
+
+                if (currIdx <= 0) {
+                    this.navigationBar.setTitle(this.title || '');
+                    this.backButton.hide();
+                } else {
+                    this.navigationBar.setTitle(title);
+                    if (this.useTitleAsBackText) {
+                        this.backButton.setText(backTxt);
+                    }
+
+                    this.backButton.show();
+                }
+            // on a frame
+            } else {
+                activeItem = navPnl.getActiveItem();
+                recordNode = activeItem.recordNode;
+                backTxt    = (recordNode && !recordNode.isRoot) ? navPnl.renderTitleText(recordNode) : this.title || '';
+
+                if (this.useTitleAsBackText) {
+                    this.backButton.setText(backTxt);
+                }
+                this.backButton.show();
+            }
+            this.navigationBar.doLayout();
+        }
+
+    }
 });
