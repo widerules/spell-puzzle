@@ -14,14 +14,26 @@
 <link rel="stylesheet" href="../touchjs/resources/css/touch-charts-full.css" type="text/css">
 <link rel="stylesheet" href="../touchjs/resources/css/touch-charts-demo.css" type="text/css">
 <link rel="stylesheet" href="app/css/style.css" type="text/css">
-<script type="text/javascript" src="../touchjs/sencha-touch-debug.js"></script>
-<script type="text/javascript" src="../touchjs/touch-charts-debug.js"></script>
+<style type="text/css">
+#loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
+#loading .title {position: absolute; display: block; top: 0; left: 0px; width: 180px; height: 27px; }
+#loading .logo { background: url(../images/loading.gif) no-repeat; position: absolute; display: block; top: 25px; left: 22px; width: 120px; height: 120px; }
+
+</style>
+
+
+</head>
+<body>
+<div id="loading"><span class="title">Accounting Loading...</span><span class="logo"></span></div>
+
+<script type="text/javascript" src="../touchjs/sencha-touch.js"></script>
+<!--<script type="text/javascript" src="../touchjs/touch-charts.js"></script>-->
 <script type="text/javascript">
 bundle = (function(){
     var resourcesBundle = {};
-	<% PropertyResourceBundle b = i18n.getBundle();
+    <% PropertyResourceBundle b = i18n.getBundle();
        Enumeration<String> keys = b.getKeys();
-	   while (keys.hasMoreElements()){
+       while (keys.hasMoreElements()){
             String key = keys.nextElement(); %>
     resourcesBundle["<%= key %>"] = "<%=b.getString(key)%>"; <%
        }
@@ -47,13 +59,10 @@ bundle.getText = function(key){
 <script type="text/javascript" src="app/stores/TypeStore.js"></script>
 <script type="text/javascript" src="app/stores/ConsumeTypeStore.js"></script>
 <script type="text/javascript" src="app/stores/TargetStore.js"></script>
+<script type="text/javascript" src="app/stores/DetailsStore.js"></script>
 
 <!-- frames -->
 <script type="text/javascript" src="app/frames/InputCard.js"></script>
-
-
-</head>
-<body>
- 
+<script type="text/javascript" src="app/frames/QueryCard.js"></script>
 </body>
 </html>
