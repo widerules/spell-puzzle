@@ -53,10 +53,27 @@ public class DetailsAction extends BasicAction {
 		condition.setConsumeTypeId(consumeTypeId);
 		condition.setTarget(target);
 		condition.setDesc(desc);
-		condition.setStartAmount(Validators.isEmpty(startAmount) ? -1
-				: (int) (Float.parseFloat(startAmount) * 100));
-		condition.setEndAmount(Validators.isEmpty(endAmount) ? -1
-				: (int) (Float.parseFloat(endAmount) * 100));
+		int sa = -1, ea = -1;
+		if (!Validators.isEmpty(startAmount)) {
+			if (Validators.isNumeric(startAmount)) {
+				float _temp = Float.parseFloat(startAmount);
+				if (_temp != 0) {
+					sa = (int) (_temp * 100);
+				}
+			}
+		}
+
+		if (!Validators.isEmpty(endAmount)) {
+			if (Validators.isNumeric(endAmount)) {
+				float _temp = Float.parseFloat(endAmount);
+				if (_temp != 0) {
+					ea = (int) (_temp * 100);
+				}
+			}
+		}
+
+		condition.setStartAmount(sa);
+		condition.setEndAmount(ea);
 		condition.setStartDate(startDate);
 		condition.setEndDate(endDate);
 
@@ -85,8 +102,8 @@ public class DetailsAction extends BasicAction {
 
 		return ajaxReturn();
 	}
-	
-	public String modifyRecord(){
+
+	public String modifyRecord() {
 		Record record = new Record();
 		record.setId(id);
 		record.setType(Integer.parseInt(type));
@@ -177,7 +194,7 @@ public class DetailsAction extends BasicAction {
 	}
 
 	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+		this.startDate = startDate.substring(0, 10);
 	}
 
 	public String getEndDate() {
@@ -185,7 +202,7 @@ public class DetailsAction extends BasicAction {
 	}
 
 	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+		this.endDate = endDate.substring(0, 10);
 	}
 
 	public String getId() {

@@ -78,7 +78,7 @@ function buildQueryTab(){
                         allowBlank: true
                     },{
         				xtype: 'fieldcontainer',
-        				fieldLabel: '<%= i18n.getI18nText("accounting.query.label.data.range") %>',
+        				fieldLabel: '<%= i18n.getI18nText("accounting.query.label.date.range") %>',
         				layout: 'hbox',
                         defaults: {
                             hideLabel: true
@@ -86,7 +86,7 @@ function buildQueryTab(){
         				items:[{
         					xtype     : 'datefield',
                             name      : 'startDate',
-                            fieldLabel: '<%= i18n.getI18nText("accounting.query.label.data.range.start") %>',
+                            fieldLabel: '<%= i18n.getI18nText("accounting.query.label.date.range.start") %>',
                             margin: '0 5 0 0',
                             allowBlank: false,
                             format: 'Y-m-d',
@@ -96,7 +96,7 @@ function buildQueryTab(){
         				},{
         					xtype     : 'datefield',
                             name      : 'endDate',
-                            fieldLabel: '<%= i18n.getI18nText("accounting.query.label.data.range.end") %>',
+                            fieldLabel: '<%= i18n.getI18nText("accounting.query.label.date.range.end") %>',
                             allowBlank: false,
                             margin: '0 0 0 5',
                             format: 'Y-m-d',
