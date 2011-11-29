@@ -83,6 +83,7 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
         	this.setActiveItem(AccountingApp.frames.InputCard, 'slide');
         	this.currentCard = AccountingApp.frames.InputCard;
         }else if (key == "accounting/query"){
+        	console.log(this);
         	this.setActiveItem(AccountingApp.frames.QueryCard, 'slide');
         	this.currentCard = AccountingApp.frames.QueryCard;
         }else if (key == "accounting/realtimereport"){

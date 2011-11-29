@@ -150,8 +150,8 @@ AccountingApp.frames.QueryCard = new Ext.form.FormPanel(
 													Ext.Msg.alert(bundle.getText("accounting.common.msg.title.failure"), "Empty Records");
 												}else{
 													var queryList = new AccountingApp.frames.QueryList({'data': action.value});
-													this.setActiveItem(queryList, 'slide');
-										        	this.currentCard = queryList;
+													AccountingApp.views.viewport.setActiveItem(queryList, 'slide');
+													AccountingApp.views.viewport.currentCard = queryList;
 												}
 												
 												// Ext.Msg.alert(bundle.getText("accounting.common.msg.title.success"), bundle.getText("accounting.input.save.msg.success"));
@@ -176,6 +176,7 @@ AccountingApp.frames.QueryCard = new Ext.form.FormPanel(
 AccountingApp.frames.QueryList = Ext.extend(Ext.Panel, {
 	data: [],
 	title: 'List',
+	scroll: 'vertical',
 	items:[{
 		
 	}],
@@ -198,22 +199,23 @@ AccountingApp.frames.QueryList = Ext.extend(Ext.Panel, {
             cls: 'htmlcontent'
         });
 		
-		console.log("init cmp");
-		console.log(this.data);
 		AccountingApp.stores.DetailsStore.loadData(this.data, false);
 		
-		var list = new Ext.List({
-//			fullscreen: true,
-		    itemTpl : '{consumeDate}  {amount}',
+		var itemList = new Ext.List({
+		    itemTpl : '<div style="float:left;">{consumeDate}</div> <div style="position: relative; float:left; left: 40%;">{consumeTypeValue}</div> <div style="float:right; padding-right: 20px; <tpl if="type === -1">color: red;</tpl>">{[values.type * values.amount]}</div>',
 		    // grouped : true,
 		    //indexBar: true,
+		    scroll: 'vertical',
 		    store: AccountingApp.stores.DetailsStore,
-		    listener: {
+		    listeners: {
 		    	itemtap: function(list, index, item, event ){
 		    		console.log(list);
 		    	}
 		    }
 		});
+		
+		this.items = this.items || [];
+		this.items.unshift(itemList);
 		
 		AccountingApp.frames.QueryList.superclass.initComponent.call(this, arguments);
 	}

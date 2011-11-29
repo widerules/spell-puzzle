@@ -4,8 +4,7 @@ Ext.regModel('DetailsModel', {
 		type : 'int'
 	}, 'consumeTypeId', {
 		name : 'consumeDate',
-		type : 'date',
-		dateFormat : 'Y-m-d'
+		type : 'string'
 	}, 'target', {
 		name : 'amount',
 		type : 'float'
