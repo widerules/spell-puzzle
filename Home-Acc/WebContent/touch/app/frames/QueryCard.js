@@ -22,51 +22,42 @@ AccountingApp.frames.QueryCard = new Ext.form.FormPanel(
 							labelAlign : 'left',
 							labelWidth : '40%'
 						},
-						items : [
-								{
-									xtype : 'selectfield',
-									name : 'consumeTypeId',
-									// store:
-									// AccountingApp.stores.NavigationStore,
-									// valueField : 'key',
-									// displayField : 'text',
-									store : AccountingApp.stores.ConsumeTypeStore,
-									valueField : 'key',
-									displayField : 'value',
-									label : bundle
-											.getText("accounting.query.label.consume.type"),
-									placeHolder : bundle
-											.getText("accounting.input.type.tips")
-								},
-								{
-									xtype : 'selectfield',
-									label : bundle
-											.getText("accounting.input.type"),
-									name : 'type',
-									store : AccountingApp.stores.TypeStore,
-									valueField : 'key',
-									displayField : 'value',
-									placeHolder : bundle
-											.getText("accounting.input.type.tips")
-								},
-								{
-									xtype : 'selectfield',
-									name : 'target',
-									store : AccountingApp.stores.TargetStore,
-									label : bundle
-											.getText("accounting.query.label.target"),
-									value : '',
-									valueField : 'name',
-									displayField : 'name'
-								},
-								{
-									xtype : 'textfield',
-									name : 'desc',
-									label : bundle
-											.getText("accounting.input.desc"),
-									maxLength : 60,
-									maxRows : 8
-								} ]
+						items : [{
+							xtype : 'selectfield',
+							label : bundle.getText("accounting.input.type"),
+							name : 'type',
+							store : AccountingApp.stores.TypeStoreWithAll,
+							valueField : 'key',
+							displayField : 'value'
+						},{
+							xtype : 'selectfield',
+							name : 'consumeTypeId',
+							// store:
+							// AccountingApp.stores.NavigationStore,
+							// valueField : 'key',
+							// displayField : 'text',
+							store : AccountingApp.stores.ConsumeTypeStore,
+							valueField : 'key',
+							displayField : 'value',
+							label : bundle.getText("accounting.query.label.consume.type"),
+							placeHolder : bundle.getText("accounting.input.type.tips")
+						},{
+							xtype : 'selectfield',
+							name : 'target',
+							store : AccountingApp.stores.TargetStore,
+							label : bundle
+									.getText("accounting.query.label.target"),
+							value : '',
+							valueField : 'name',
+							displayField : 'name'
+						},{
+							xtype : 'textfield',
+							name : 'desc',
+							label : bundle
+									.getText("accounting.input.desc"),
+							maxLength : 60,
+							maxRows : 8
+						} ]
 					},
 					{
 						xtype : 'fieldset',
@@ -181,12 +172,11 @@ AccountingApp.frames.QueryList = Ext.extend(Ext.Panel, {
 		
 	}],
 	initComponent: function(){
-		
 		var overlayTb = new Ext.Toolbar({
             dock: 'top'
         });
 		
-		var overlay = new Ext.Panel({
+		this.overlay = new Ext.Panel({
             floating: true,
             modal: true,
             centered: false,
@@ -195,16 +185,19 @@ AccountingApp.frames.QueryList = Ext.extend(Ext.Panel, {
             styleHtmlContent: true,
             dockedItems: overlayTb,
             scroll: 'vertical',
-            contentEl: 'lipsum',
+//            contentEl: 'lipsum',
             cls: 'htmlcontent'
         });
 		
 		AccountingApp.stores.DetailsStore.loadData(this.data, false);
 		
-		var itemList = new Ext.List({
-		    itemTpl : '<div style="float:left;">{consumeDate}</div> <div style="position: relative; float:left; left: 40%;">{consumeTypeValue}</div> <div style="float:right; padding-right: 20px; <tpl if="type === -1">color: red;</tpl>">{[values.type * values.amount]}</div>',
+		this.itemList = new Ext.List({
+//		    itemTpl : Ext.is.Phone? '<div style="float:left;">{consumeDate}</div> <div style="position: relative; float:left; left: 40%;">{consumeTypeValue}</div> <div style="float:right; padding-right: 20px; <tpl if="type === -1">color: red;</tpl>">{[values.type * values.amount]}</div>' 
+//		    		: '<div style="float:left;">{consumeDate}</div> <div style="position: relative; float:left; left: 20%;">{consumeTypeValue}</div> <div style="float:right; padding-right: 20px; <tpl if="type === -1">color: red;</tpl>">{[values.type * values.amount]}</div>',
 		    // grouped : true,
 		    //indexBar: true,
+//		    fullscreen: true,
+		    
 		    scroll: 'vertical',
 		    store: AccountingApp.stores.DetailsStore,
 		    listeners: {
@@ -215,7 +208,7 @@ AccountingApp.frames.QueryList = Ext.extend(Ext.Panel, {
 		});
 		
 		this.items = this.items || [];
-		this.items.unshift(itemList);
+		this.items.unshift(this.itemList);
 		
 		AccountingApp.frames.QueryList.superclass.initComponent.call(this, arguments);
 	}

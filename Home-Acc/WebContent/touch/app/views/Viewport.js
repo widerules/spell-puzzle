@@ -193,7 +193,7 @@ AccountingApp.views.Viewport = Ext.extend(Ext.Panel, {
             }
             this.navigationBar.doComponentLayout();
         }
-
+        
         AccountingApp.views.Viewport.superclass.layoutOrientation.call(this, orientation, w, h);
     }
 });

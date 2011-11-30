@@ -95,14 +95,14 @@ AccountingApp.frames.InputCard = new Ext.form.FormPanel({
                 	success : function(form, action) {
                         // location.href = 'app.action';
                 		// form.hideMask();
-                		console.log(form.getValues(true));
+//                		console.log(form.getValues(true));
                 		loadMask.destroy();
                 		Ext.Msg.alert(bundle.getText("accounting.common.msg.title.success"), bundle.getText("accounting.input.save.msg.success"), function(){form.reset();});
                 		// this.hide();
 					},
 					failure : function(form, action) {
 						// form.hideMask();
-						console.log(form.getValues(true));
+//						console.log(form.getValues(true));
 						Ext.Msg.alert(bundle.getText("accounting.common.msg.title.failure"), action.msg);
 						loadMask.destroy();
 					}

@@ -18,6 +18,8 @@ public class ComsumeTypeAction extends BasicAction {
 
 	private static String tab = "--";
 
+	private boolean withAll = false;
+
 	public String execute() {
 		List<ConsumeType> types = consumeTypeService.getAll();
 
@@ -76,7 +78,7 @@ public class ComsumeTypeAction extends BasicAction {
 
 		typeList.add(new KeyValueJson("", getText("accounting.common.all"), ""));
 		if (t.hasChild()) {
-			typeList = buildObj(t.getChildren(), "", 0);
+			typeList.addAll(buildObj(t.getChildren(), "", 0));
 		}
 
 		setJsonObj(typeList);
@@ -104,6 +106,14 @@ public class ComsumeTypeAction extends BasicAction {
 		}
 
 		return valueList;
+	}
+
+	public boolean isWithAll() {
+		return withAll;
+	}
+
+	public void setWithAll(boolean withAll) {
+		this.withAll = withAll;
 	}
 
 	public static class RootValue {

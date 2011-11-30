@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="../touchjs/resources/css/touch-charts-demo.css" type="text/css">
 <link rel="stylesheet" href="app/css/style.css" type="text/css">
 <style type="text/css">
+
 #loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
 #loading .title {position: absolute; display: block; top: 0; left: 0px; width: 180px; height: 27px; }
 #loading .logo { background: url(../images/loading.gif) no-repeat; position: absolute; display: block; top: 25px; left: 22px; width: 120px; height: 120px; }
@@ -60,6 +61,7 @@ bundle.getText = function(key){
 <script type="text/javascript" src="app/stores/ConsumeTypeStore.js"></script>
 <script type="text/javascript" src="app/stores/TargetStore.js"></script>
 <script type="text/javascript" src="app/stores/DetailsStore.js"></script>
+<script type="text/javascript" src="app/stores/TypeStoreWith.js"></script>
 
 <!-- frames -->
 <script type="text/javascript" src="app/frames/InputCard.js"></script>
